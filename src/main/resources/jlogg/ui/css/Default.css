@@ -1,0 +1,63 @@
+.hoverableButton:hover {
+  -fx-background-color:#dae7f3;
+  -fx-cursor: hand;
+}
+
+.searchRowPadding{
+	-fx-padding: 0 5 0 5;
+}
+.optionRowPadding{
+	-fx-padding: 5;
+}
+
+.resize:hover{
+	-fx-cursor: v-resize
+}
+
+.searchButton{
+	-fx-padding: 3px;
+}
+
+.searchCloseButton{
+	-fx-padding: 3px;
+}
+
+.lineim{
+	-fx-background-color: rgb(128,128,128);
+	-fx-alignment: center;
+	-fx-border-color: rgb(128,128,128) rgb(0,0,0) rgb(128,128,128) rgb(128,128,128);
+}
+
+.lineim:selected{
+	-fx-border-color: rgb(128,128,128) rgb(0,0,0) rgb(128,128,128) rgb(128,128,128);
+}
+
+.lineim:hover{
+	-fx-cursor: hand;
+}
+
+.table-row-cell {
+    -fx-padding: 0px;
+}
+
+.table-cell{
+	-fx-padding: 0px;
+	-fx-border-width: 0px;
+	-fx-border-style: none;
+}
+
+.logfileview:focused{
+	-fx-padding: 0px;
+}
+
+.logfileview{
+	-fx-padding: 0px;
+}
+
+
+.selectedText{
+	-fx-font-family: "Arial";
+    -fx-font-size: 15px;
+    -fx-background-color: #328ffe;
+	-fx-alignment: center-left;
+}
