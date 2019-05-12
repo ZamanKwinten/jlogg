@@ -18,7 +18,7 @@ public class ToolsMenu extends Menu {
 		filterMenuItem = new MenuItem("Filters...");
 		filterMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCodeCombination.CONTROL_DOWN));
 		filterMenuItem.setOnAction((event) -> {
-			FilterPopup popup = new FilterPopup(mainPane.getSingleLineSelection());
+			FilterPopup popup = new FilterPopup(mainPane.getCurrentSelectedTab().getSingleLineSelection());
 			popup.showAndWait();
 		});
 

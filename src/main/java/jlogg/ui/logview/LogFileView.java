@@ -9,7 +9,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import jlogg.shared.LogLine;
-import jlogg.ui.MainPane;
+import jlogg.ui.FileTab;
 import jlogg.ui.interfaces.DragSelectableContent;
 
 /**
@@ -20,7 +20,7 @@ import jlogg.ui.interfaces.DragSelectableContent;
  */
 public class LogFileView extends TableView<LogLine> implements DragSelectableContent {
 
-	private final MainPane mainPane;
+	private final FileTab mainPane;
 
 	private final BookMarkColumn bookmarkColumn;
 	private final LineNumberColumn lineNumberColumn;
@@ -33,7 +33,7 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 	private final SimpleDoubleProperty maxTextColumnWidth = new SimpleDoubleProperty();
 	private final SimpleDoubleProperty maxLineNumberColumnWidth = new SimpleDoubleProperty();
 
-	public LogFileView(MainPane mainPane, ObservableList<LogLine> lines) {
+	public LogFileView(FileTab mainPane, ObservableList<LogLine> lines) {
 		super(lines);
 		this.mainPane = mainPane;
 

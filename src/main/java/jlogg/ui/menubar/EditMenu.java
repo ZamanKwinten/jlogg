@@ -20,7 +20,7 @@ public class EditMenu extends Menu {
 		copyMenuItem = new MenuItem("Copy");
 		copyMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCodeCombination.CONTROL_DOWN));
 		copyMenuItem.setOnAction((event) -> {
-			mainPane.getSelection().ifPresent((selection) -> {
+			mainPane.getCurrentSelectedTab().getSelection().ifPresent((selection) -> {
 				final ClipboardContent content = new ClipboardContent();
 				content.putString(selection);
 				Clipboard.getSystemClipboard().setContent(content);
@@ -34,7 +34,7 @@ public class EditMenu extends Menu {
 		findMenuItem = new MenuItem("Find...");
 		findMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F, KeyCodeCombination.CONTROL_DOWN));
 		findMenuItem.setOnAction((event) -> {
-			mainPane.showFilteredView();
+			mainPane.getCurrentSelectedTab().showFilteredView();
 		});
 
 		getItems().addAll(copyMenuItem, selectAllMenuItem, new SeparatorMenuItem(), findMenuItem);
