@@ -70,7 +70,8 @@ class LineTextDragCell extends DragSelectionCell {
 			setText(null);
 			textfield.setText(null);
 		} else {
-			textfield.setText(value);
+			// replace tabs with 4 spaces
+			textfield.setText(value.replace("\t", "    "));
 			setPrefWidth();
 		}
 		applyDefaultStyle();

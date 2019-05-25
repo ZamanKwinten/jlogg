@@ -1,11 +1,13 @@
 package jlogg.ui;
 
+import java.io.File;
 import java.util.Optional;
 
-import aaatemporary.LoremIpsum;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import jlogg.shared.LogLine;
 import jlogg.ui.custom.FilteredView;
 import jlogg.ui.logview.LogFileView;
 
@@ -20,12 +22,17 @@ public class FileTab extends Tab {
 	 */
 	private LogFileView lastSelection;
 
-	public FileTab(String title) {
-		super(title);
+	/**
+	 * Keep track of the file that is represented by this tab
+	 */
+	private final File file;
 
+	public FileTab(File file, ObservableList<LogLine> lines) {
+		super(file.getName());
+		this.file = file;
 		VBox content = new VBox();
 
-		mainView = new LogFileView(this, LoremIpsum.getLogLines());
+		mainView = new LogFileView(this, lines);
 
 		filteredView = new FilteredView(this);
 		// initialize it to something
@@ -59,5 +66,9 @@ public class FileTab extends Tab {
 
 	public void applyFilters() {
 		mainView.refresh();
+	}
+
+	public File getFile() {
+		return file;
 	}
 }

@@ -17,7 +17,7 @@ public class FilteredView extends VBox implements HideableNode {
 	private final Node resizer;
 
 	public FilteredView(FileTab fileTab) {
-		searchRow = new SearchRow(this);
+		searchRow = new SearchRow(fileTab, this);
 		optionRow = new OptionRow();
 
 		filteredView = new LogFileView(fileTab, GlobalConstants.searchResults);

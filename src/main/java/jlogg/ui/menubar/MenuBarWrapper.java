@@ -14,7 +14,7 @@ public class MenuBarWrapper extends MenuBar {
 	private final Menu helpMenu;
 
 	public MenuBarWrapper(MainPane mainPane) {
-		fileMenu = new FileMenu();
+		fileMenu = new FileMenu(mainPane);
 		editMenu = new EditMenu(mainPane);
 		viewMenu = new ViewMenu();
 		toolsMenu = new ToolsMenu(mainPane);

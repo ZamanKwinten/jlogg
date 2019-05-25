@@ -9,6 +9,7 @@ import javafx.scene.layout.Priority;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.SearchEvent;
 import jlogg.shared.SearchCriteria;
+import jlogg.ui.FileTab;
 
 public class SearchRow extends HBox {
 
@@ -18,10 +19,12 @@ public class SearchRow extends HBox {
 	private final Label closeButton;
 
 	private final FilteredView parent;
+	private final FileTab filetab;
 
-	public SearchRow(FilteredView parent) {
+	public SearchRow(FileTab filetab, FilteredView parent) {
 		super(5);
 		this.parent = parent;
+		this.filetab = filetab;
 		textLabel = new Label("Text: ");
 		textInput = new TextField();
 		textInput.setOnAction(this::fireSearch);
@@ -54,7 +57,7 @@ public class SearchRow extends HBox {
 	}
 
 	private void fireSearch(Event event) {
-		EventBusFactory.getInstance().getEventBus()
-				.post(new SearchEvent(new SearchCriteria(textInput.getText(), parent.getOptionRow().isIgnoreCase())));
+		EventBusFactory.getInstance().getEventBus().post(new SearchEvent(filetab.getFile(),
+				new SearchCriteria(textInput.getText(), parent.getOptionRow().isIgnoreCase())));
 	}
 }
