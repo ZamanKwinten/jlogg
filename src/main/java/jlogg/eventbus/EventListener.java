@@ -1,31 +1,41 @@
 package jlogg.eventbus;
 
+import java.util.Arrays;
+
 import com.google.common.eventbus.Subscribe;
 
-import aaatemporary.LoremIpsum;
+import javafx.collections.ObservableList;
+import jlogg.datahandlers.FileIndexer;
+import jlogg.datahandlers.FileSearcher;
 import jlogg.shared.LogLine;
-import jlogg.shared.SearchCriteria;
 import jlogg.ui.GlobalConstants;
 
 public class EventListener {
 	@Subscribe
-	private void onSearchRequest(SearchEvent searchEvent) {
+	private void onSearchEvent(SearchEvent searchEvent) {
 		GlobalConstants.searchResults.clear();
-
-		// Should go to the back end but for now we will create a very dumb
-		// implementation using what we've got
-
-		SearchCriteria criteria = searchEvent.getCriteria();
-
-		for (int i = 0; i < LoremIpsum.getLines().size(); i++) {
-			if (criteria.matches(LoremIpsum.getLines().get(i))) {
-				EventBusFactory.getInstance().getEventBus().post(new SearchResultEvent(new LogLine(i)));
-			}
-		}
+		new FileSearcher(Arrays.asList(searchEvent.getFile()), searchEvent.getCriteria()).doIt();
 	}
 
 	@Subscribe
-	private void onSearchResult(SearchResultEvent searchResult) {
-		GlobalConstants.searchResults.add(searchResult.getLogLine());
+	private void onSearchResultEvent(SearchResultEvent searchResult) {
+		GlobalConstants.searchResults.addAll(searchResult.getLogLines());
+	}
+
+	@Subscribe
+	public void onIndexEvent(IndexStartEvent event) {
+		GlobalConstants.fileLogLines.get(event.getFile()).clear();
+		new FileIndexer(event.getFile()).doIt();
+	}
+
+	@Subscribe
+	public void onIndexDoneEvent(IndexDoneEvent event) {
+		if (GlobalConstants.fileLogLines.containsKey(event.getFile())) {
+			ObservableList<LogLine> logLines = GlobalConstants.fileLogLines.get(event.getFile());
+			logLines.clear();
+			logLines.addAll(event.getLogLines());
+		} else {
+			// ignore for now
+		}
 	}
 }

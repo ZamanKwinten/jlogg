@@ -1,16 +1,18 @@
 package jlogg.eventbus;
 
+import java.util.List;
+
 import jlogg.shared.LogLine;
 
 public class SearchResultEvent {
 
-	private final LogLine logline;
+	private final List<LogLine> logLines;
 
-	public SearchResultEvent(LogLine logline) {
-		this.logline = logline;
+	public SearchResultEvent(List<LogLine> logLines) {
+		this.logLines = logLines;
 	}
 
-	public LogLine getLogLine() {
-		return logline;
+	public List<LogLine> getLogLines() {
+		return logLines;
 	}
 }
