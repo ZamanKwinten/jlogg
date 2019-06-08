@@ -61,3 +61,27 @@
     -fx-background-color: #328ffe;
 	-fx-alignment: center-left;
 }
+
+.index-progress{
+	-fx-background-color: rgb(128,128,128);
+}	
+
+.index-progress .track{
+	-fx-background-color: rgb(128,128,128);
+}
+
+.index-progress .bar{
+	-fx-background-color: #D3D3D3;
+}
+ 
+.search-progress{
+	-fx-background-color: rgb(244,244,244);
+}	
+
+.search-progress .track{
+	-fx-background-color: rgb(244,244,244);
+}
+
+.search-progress .bar{
+	-fx-background-color: #D3D3D3;
+}

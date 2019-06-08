@@ -25,6 +25,11 @@ public class GlobalConstants {
 	public static final Map<File, ObservableList<LogLine>> fileLogLines = new HashMap<>();
 
 	/**
+	 * A map of <full file path, indexing progress>
+	 */
+	public static final Map<File, SimpleDoubleProperty> fileIndexProgress = new HashMap<>();
+
+	/**
 	 * All known filters
 	 */
 	public static final ObservableList<Filter> filters = FXCollections.observableArrayList();
@@ -34,6 +39,9 @@ public class GlobalConstants {
 	 */
 	public static final ObservableList<LogLine> searchResults = FXCollections.observableArrayList();
 
+	/**
+	 * Progress of the current search
+	 */
 	public static final SimpleDoubleProperty searchProgress = new SimpleDoubleProperty(0.0);
 
 	public static final Font defaultFont = Font.font("Arial", 15);

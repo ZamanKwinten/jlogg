@@ -4,10 +4,8 @@ import java.util.Arrays;
 
 import com.google.common.eventbus.Subscribe;
 
-import javafx.collections.ObservableList;
 import jlogg.datahandlers.FileIndexer;
 import jlogg.datahandlers.FileSearcher;
-import jlogg.shared.LogLine;
 import jlogg.ui.GlobalConstants;
 
 public class EventListener {
@@ -48,17 +46,29 @@ public class EventListener {
 	@Subscribe
 	public void onIndexEvent(IndexStartEvent event) {
 		GlobalConstants.fileLogLines.get(event.getFile()).clear();
+		GlobalConstants.fileIndexProgress.get(event.getFile()).set(0.0);
+
 		new FileIndexer(event.getFile()).doIt();
 	}
 
 	@Subscribe
-	public void onIndexDoneEvent(IndexDoneEvent event) {
-		if (GlobalConstants.fileLogLines.containsKey(event.getFile())) {
-			ObservableList<LogLine> logLines = GlobalConstants.fileLogLines.get(event.getFile());
-			logLines.clear();
-			logLines.addAll(event.getLogLines());
+	public void onIndexResultEvent(IndexResultEvent event) {
+		handleIndexEvent(event);
+	}
+
+	@Subscribe
+	public void onIndexDoneEvent(IndexFinishedEvent event) {
+		handleIndexEvent(event);
+	}
+
+	private void handleIndexEvent(IndexResultEvent event) {
+		FileIndexer indexer = event.getFileIndexer();
+		if (GlobalConstants.fileLogLines.containsKey(indexer.getFile())) {
+			GlobalConstants.fileLogLines.get(indexer.getFile()).addAll(event.getLogLines());
+			GlobalConstants.fileIndexProgress.get(indexer.getFile()).set(event.getPercentage());
 		} else {
-			// ignore for now
+			// stop the indexer! (safety measure)
+			indexer.stop();
 		}
 	}
 }

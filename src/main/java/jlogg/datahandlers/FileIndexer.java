@@ -13,7 +13,8 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import jlogg.ConstantMgr;
 import jlogg.eventbus.EventBusFactory;
-import jlogg.eventbus.IndexDoneEvent;
+import jlogg.eventbus.IndexFinishedEvent;
+import jlogg.eventbus.IndexResultEvent;
 import jlogg.shared.LogLine;
 
 public class FileIndexer extends FileIterator {
@@ -26,6 +27,11 @@ public class FileIndexer extends FileIterator {
 			ConstantMgr.instance().indexServiceThreadCount,
 			new ThreadFactoryBuilder().setDaemon(true).setNameFormat("index-thread-%d").build());
 
+	/**
+	 * File indexer can only run on 1 file at a time
+	 * 
+	 * @param file
+	 */
 	public FileIndexer(File file) {
 		super(Arrays.asList(file));
 	}
@@ -57,11 +63,20 @@ public class FileIndexer extends FileIterator {
 
 	@Override
 	protected void submitPercentEvent(File file, List<LogLine> lines, double percentage) {
-		// no support for percent events yet
+		EventBusFactory.getInstance().getEventBus().post(new IndexResultEvent(this, lines, percentage));
 	}
 
 	@Override
 	protected void submitFinishedEvent(File file, List<LogLine> lines) {
-		EventBusFactory.getInstance().getEventBus().post(new IndexDoneEvent(file, lines));
+		EventBusFactory.getInstance().getEventBus().post(new IndexFinishedEvent(this, lines));
+	}
+
+	/**
+	 * Get the file on which this indexer is running
+	 * 
+	 * @return
+	 */
+	public File getFile() {
+		return files.get(0).getFile();
 	}
 }

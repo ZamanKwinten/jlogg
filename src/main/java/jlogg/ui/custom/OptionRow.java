@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import jlogg.ui.GlobalConstants;
 
 public class OptionRow extends HBox {
 
@@ -18,7 +19,7 @@ public class OptionRow extends HBox {
 
 	public OptionRow() {
 		super(5);
-		progressBar = new ProgressBar();
+		progressBar = new ProgressBar(GlobalConstants.searchProgress, "search-progress");
 
 		ignoreCaseCheck = new CheckBox("Ignore Case");
 		ignoreCaseCheck.setSelected(true);

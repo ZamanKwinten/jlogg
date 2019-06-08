@@ -3,18 +3,21 @@ package jlogg.ui;
 import java.io.File;
 import java.util.Optional;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import jlogg.shared.LogLine;
 import jlogg.ui.custom.FilteredView;
+import jlogg.ui.custom.ProgressBar;
 import jlogg.ui.logview.LogFileView;
 
 public class FileTab extends Tab {
 
 	private final LogFileView mainView;
 	private final FilteredView filteredView;
+	private final ProgressBar progressBar;
 
 	/**
 	 * Keep track of the LogFileView on which the last selection was done => needed
@@ -27,10 +30,12 @@ public class FileTab extends Tab {
 	 */
 	private final File file;
 
-	public FileTab(File file, ObservableList<LogLine> lines) {
+	public FileTab(File file, ObservableList<LogLine> lines, SimpleDoubleProperty progress) {
 		super(file.getName());
 		this.file = file;
 		VBox content = new VBox();
+
+		progressBar = new ProgressBar(progress, "index-progress");
 
 		mainView = new LogFileView(this, lines);
 
@@ -41,7 +46,7 @@ public class FileTab extends Tab {
 		VBox.setVgrow(mainView, Priority.ALWAYS);
 		VBox.setVgrow(filteredView, Priority.ALWAYS);
 
-		content.getChildren().addAll(mainView, filteredView);
+		content.getChildren().addAll(progressBar, mainView, filteredView);
 		filteredView.hide();
 
 		setContent(content);

@@ -3,7 +3,6 @@ package jlogg.ui.menubar;
 import java.io.File;
 import java.util.List;
 
-import javafx.collections.FXCollections;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
@@ -13,7 +12,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.FileChooser;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.IndexStartEvent;
-import jlogg.ui.GlobalConstants;
 import jlogg.ui.MainPane;
 
 public class FileMenu extends Menu {
@@ -35,10 +33,8 @@ public class FileMenu extends Menu {
 			if (files != null) {
 				// user selected something => we need to open at least 1 file
 				for (File file : files) {
-					GlobalConstants.fileLogLines.put(file, FXCollections.observableArrayList());
+					mainPane.addTab(file);
 					EventBusFactory.getInstance().getEventBus().post(new IndexStartEvent(file));
-
-					mainPane.addTab(file, GlobalConstants.fileLogLines.get(file));
 				}
 			}
 		});
