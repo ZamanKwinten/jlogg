@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.text.Font;
@@ -32,6 +33,8 @@ public class GlobalConstants {
 	 * Results of the current search
 	 */
 	public static final ObservableList<LogLine> searchResults = FXCollections.observableArrayList();
+
+	public static final SimpleDoubleProperty searchProgress = new SimpleDoubleProperty(0.0);
 
 	public static final Font defaultFont = Font.font("Arial", 15);
 }

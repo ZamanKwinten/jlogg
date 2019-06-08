@@ -1,33 +1,39 @@
 package jlogg.ui.custom;
 
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
 public class OptionRow extends HBox {
 
-	private final Button filterTypeButton;
-	private final ProgressBar progressLabel;
+	// private final Button filterTypeButton; -> maybe in the future (search vs
+	// bookmarks)
+	private final ProgressBar progressBar;
 	private CheckBox ignoreCaseCheck;
-	private CheckBox autoRefreshCheck;
+	private CheckBox searchAllFiles;
+
+	// private CheckBox autoRefreshCheck; -> maybe in the future currently no auto
+	// refresh support
 
 	public OptionRow() {
 		super(5);
-		filterTypeButton = new Button();
-		progressLabel = new ProgressBar();
+		progressBar = new ProgressBar();
 
 		ignoreCaseCheck = new CheckBox("Ignore Case");
 		ignoreCaseCheck.setSelected(true);
+		ignoreCaseCheck.setMinWidth(85);
 
-		autoRefreshCheck = new CheckBox("Auto-refresh");
+		// by default off since this will/should open another window (extra click)
+		searchAllFiles = new CheckBox("Search all files");
+		searchAllFiles.setSelected(false);
+		searchAllFiles.setMinWidth(110);
 
-		setHgrow(progressLabel, Priority.ALWAYS);
+		setHgrow(progressBar, Priority.ALWAYS);
 		getStyleClass().add("optionRowPadding");
 		setAlignment(Pos.CENTER_LEFT);
 
-		getChildren().addAll(filterTypeButton, progressLabel, ignoreCaseCheck, autoRefreshCheck);
+		getChildren().addAll(progressBar, ignoreCaseCheck, searchAllFiles);
 	}
 
 	public boolean isIgnoreCase() {

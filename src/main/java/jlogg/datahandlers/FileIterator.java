@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import jlogg.shared.LogLine;
@@ -20,7 +23,11 @@ import jlogg.shared.LogLine;
  */
 public abstract class FileIterator {
 
+	private final Logger logger = Logger.getLogger(FileIterator.class.getName());
+
 	protected final List<FileMetaData> files;
+
+	private Future<Void> future;
 
 	public FileIterator(Collection<File> files) {
 		this.files = new ArrayList<>();
@@ -32,7 +39,7 @@ public abstract class FileIterator {
 	/** Perform the logic on the content of the file */
 
 	public void doIt() {
-		getExecutorService().execute(() -> {
+		future = getExecutorService().submit(() -> {
 			for (FileMetaData fileMetaData : files) {
 				File file = fileMetaData.getFile();
 				try (Stream<JLoggReaderLine> lines = JLoggReader.lines(file.toPath(), StandardCharsets.ISO_8859_1)) {
@@ -42,6 +49,10 @@ public abstract class FileIterator {
 
 					List<LogLine> logLines = new ArrayList<>();
 					lines.forEach((jloggline) -> {
+						if (Thread.interrupted()) {
+							throw new FileIteratorInterruptedException();
+						}
+
 						// Gather the needed information for the LogLine object
 						String text = jloggline.lineText();
 						int lineNumber = fileMetaData.getCurrentLineNumber();
@@ -51,8 +62,10 @@ public abstract class FileIterator {
 						if (shouldAddToTempResult(text)) {
 							logLines.add(new LogLine(lineNumber, start, size, file));
 						}
-						if (fileMetaData.readNewLine(size, jloggline.amountOfDelimiterCharacters())) {
-							submitPercentEvent(file, logLines);
+
+						double percentage = fileMetaData.readNewLine(size, jloggline.amountOfDelimiterCharacters());
+						if (percentage > 0) {
+							submitPercentEvent(file, logLines, percentage);
 						}
 
 					});
@@ -61,9 +74,11 @@ public abstract class FileIterator {
 					submitFinishedEvent(file, logLines);
 				} catch (IOException e) {
 					handleIOException(e);
+				} catch (FileIteratorInterruptedException e) {
+					logger.log(Level.INFO, "Execution of fileiterator: " + this + " was interrupted");
 				}
 			}
-
+			return null;
 		});
 	}
 
@@ -77,8 +92,13 @@ public abstract class FileIterator {
 
 	protected abstract boolean shouldAddToTempResult(String s);
 
-	protected abstract void submitPercentEvent(File file, List<LogLine> lines);
+	protected abstract void submitPercentEvent(File file, List<LogLine> lines, double percentage);
 
 	protected abstract void submitFinishedEvent(File file, List<LogLine> lines);
+
+	// Stop executing this iterator
+	public void stop() {
+		future.cancel(true);
+	}
 
 }

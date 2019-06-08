@@ -11,15 +11,38 @@ import jlogg.shared.LogLine;
 import jlogg.ui.GlobalConstants;
 
 public class EventListener {
+	private FileSearcher currentSearch;
+
 	@Subscribe
 	private void onSearchEvent(SearchEvent searchEvent) {
+		if (currentSearch != null) {
+			currentSearch.stop();
+		}
+
 		GlobalConstants.searchResults.clear();
-		new FileSearcher(Arrays.asList(searchEvent.getFile()), searchEvent.getCriteria()).doIt();
+		GlobalConstants.searchProgress.setValue(0.0);
+		currentSearch = new FileSearcher(Arrays.asList(searchEvent.getFile()), searchEvent.getCriteria());
+		currentSearch.doIt();
 	}
 
 	@Subscribe
 	private void onSearchResultEvent(SearchResultEvent searchResult) {
-		GlobalConstants.searchResults.addAll(searchResult.getLogLines());
+		handleSearchEvent(searchResult);
+	}
+
+	@Subscribe
+	private void onSearchFinishedEvent(SearchFinishedEvent searchResult) {
+		handleSearchEvent(searchResult);
+	}
+
+	/**
+	 * Generic method to handle any kind of search evenets
+	 * 
+	 * @param event
+	 */
+	private void handleSearchEvent(SearchResultEvent event) {
+		GlobalConstants.searchResults.addAll(event.getLogLines());
+		GlobalConstants.searchProgress.set(event.getPrecentage());
 	}
 
 	@Subscribe

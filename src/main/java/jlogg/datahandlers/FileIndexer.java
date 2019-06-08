@@ -37,17 +37,17 @@ public class FileIndexer extends FileIterator {
 
 	@Override
 	protected void logStart(File file) {
-		log.log(Level.INFO, "Indexing of " + file.getAbsolutePath() + " started");
+		log.log(Level.INFO, this + " Indexing of " + file.getAbsolutePath() + " started");
 	}
 
 	@Override
 	protected void logEnd(File file, long duration) {
-		log.log(Level.INFO, "Indexing of " + file.getAbsolutePath() + " finished in " + duration + "ms");
+		log.log(Level.INFO, this + " Indexing of " + file.getAbsolutePath() + " finished in " + duration + "ms");
 	}
 
 	@Override
 	protected void handleIOException(IOException e) {
-		log.log(Level.SEVERE, "FileIndex::doIt", e);
+		log.log(Level.SEVERE, this + " FileIndex::doIt", e);
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class FileIndexer extends FileIterator {
 	}
 
 	@Override
-	protected void submitPercentEvent(File file, List<LogLine> lines) {
+	protected void submitPercentEvent(File file, List<LogLine> lines, double percentage) {
 		// no support for percent events yet
 	}
 

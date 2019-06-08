@@ -1,10 +1,14 @@
 package jlogg.ui.custom;
 
-import javafx.scene.control.TextField;
+import jlogg.ui.GlobalConstants;
 
-public class ProgressBar extends TextField {
+public class ProgressBar extends javafx.scene.control.ProgressBar {
 
 	public ProgressBar() {
-		super("ProgressBar");
+		super();
+		// Bind the progress to the constant
+		progressProperty().bind(GlobalConstants.searchProgress);
+
+		setMaxWidth(Double.MAX_VALUE);
 	}
 }

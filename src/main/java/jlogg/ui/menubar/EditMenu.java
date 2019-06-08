@@ -34,7 +34,9 @@ public class EditMenu extends Menu {
 		findMenuItem = new MenuItem("Find...");
 		findMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F, KeyCodeCombination.CONTROL_DOWN));
 		findMenuItem.setOnAction((event) -> {
-			mainPane.getCurrentSelectedTab().showFilteredView();
+			if (mainPane.getCurrentSelectedTab() != null) {
+				mainPane.getCurrentSelectedTab().showFilteredView();
+			}
 		});
 
 		getItems().addAll(copyMenuItem, selectAllMenuItem, new SeparatorMenuItem(), findMenuItem);

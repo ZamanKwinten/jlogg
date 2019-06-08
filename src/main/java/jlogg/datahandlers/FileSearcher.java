@@ -13,6 +13,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import jlogg.ConstantMgr;
 import jlogg.eventbus.EventBusFactory;
+import jlogg.eventbus.SearchFinishedEvent;
 import jlogg.eventbus.SearchResultEvent;
 import jlogg.shared.LogLine;
 import jlogg.shared.SearchCriteria;
@@ -43,17 +44,17 @@ public class FileSearcher extends FileIterator {
 
 	@Override
 	protected void logStart(File file) {
-		log.log(Level.INFO, "Searching in " + file.getAbsolutePath() + " started");
+		log.log(Level.INFO, this + " Searching in " + file.getAbsolutePath() + " started");
 	}
 
 	@Override
 	protected void logEnd(File file, long duration) {
-		log.log(Level.INFO, "Searching in " + file.getAbsolutePath() + " finished in " + duration + "ms");
+		log.log(Level.INFO, this + " Searching in " + file.getAbsolutePath() + " finished in " + duration + "ms");
 	}
 
 	@Override
 	protected void handleIOException(IOException e) {
-		log.log(Level.SEVERE, "FileSearcher::doIt", e);
+		log.log(Level.SEVERE, this + " FileSearcher::doIt", e);
 	}
 
 	@Override
@@ -62,14 +63,15 @@ public class FileSearcher extends FileIterator {
 	}
 
 	@Override
-	protected void submitPercentEvent(File file, List<LogLine> lines) {
-		// TODO Auto-generated method stub
-
+	protected void submitPercentEvent(File file, List<LogLine> lines, double percentage) {
+		EventBusFactory.getInstance().getEventBus().post(new SearchResultEvent(lines, percentage));
+		// make sure to clear the list of cached log lines to prevent subsequent submits
+		// to include these
+		lines.clear();
 	}
 
 	@Override
 	protected void submitFinishedEvent(File file, List<LogLine> lines) {
-		EventBusFactory.getInstance().getEventBus().post(new SearchResultEvent(lines));
+		EventBusFactory.getInstance().getEventBus().post(new SearchFinishedEvent(lines));
 	}
-
 }

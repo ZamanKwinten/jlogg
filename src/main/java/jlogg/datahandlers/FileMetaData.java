@@ -24,15 +24,23 @@ public class FileMetaData {
 		currentPercentTarget = percentMark;
 	}
 
-	public boolean readNewLine(int size, int delimCount) {
+	/**
+	 * Will return the percentage value if a threshhold is reached
+	 * 
+	 * @param size
+	 * @param delimCount
+	 * @return
+	 */
+	public double readNewLine(int size, int delimCount) {
 		lineNumber++;
 		read += size + delimCount;
 
 		if (read >= currentPercentTarget) {
 			currentPercentTarget += percentMark;
-			return true;
+			// multiply by a double to handle the value as a double
+			return 1.0 * read / file.length();
 		} else {
-			return false;
+			return -1;
 		}
 	}
 
