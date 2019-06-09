@@ -6,6 +6,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import jlogg.ui.FileTab;
 import jlogg.ui.GlobalConstants;
+import jlogg.ui.MainPane;
 import jlogg.ui.interfaces.HideableNode;
 import jlogg.ui.logview.LogFileView;
 
@@ -16,8 +17,8 @@ public class FilteredView extends VBox implements HideableNode {
 
 	private final Node resizer;
 
-	public FilteredView(FileTab fileTab) {
-		searchRow = new SearchRow(fileTab, this);
+	public FilteredView(MainPane mainPane, FileTab fileTab) {
+		searchRow = new SearchRow(mainPane, fileTab, this);
 		optionRow = new OptionRow();
 
 		filteredView = new LogFileView(fileTab, GlobalConstants.searchResults);

@@ -30,7 +30,7 @@ public class FileTab extends Tab {
 	 */
 	private final File file;
 
-	public FileTab(File file, ObservableList<LogLine> lines, SimpleDoubleProperty progress) {
+	public FileTab(MainPane mainPane, File file, ObservableList<LogLine> lines, SimpleDoubleProperty progress) {
 		super(file.getName());
 		this.file = file;
 		VBox content = new VBox();
@@ -39,7 +39,7 @@ public class FileTab extends Tab {
 
 		mainView = new LogFileView(this, lines);
 
-		filteredView = new FilteredView(this);
+		filteredView = new FilteredView(mainPane, this);
 		// initialize it to something
 		lastSelection = mainView;
 
@@ -48,6 +48,13 @@ public class FileTab extends Tab {
 
 		content.getChildren().addAll(progressBar, mainView, filteredView);
 		filteredView.hide();
+
+		selectedProperty().addListener((event) -> {
+			if (!GlobalConstants.searchResults.isEmpty()) {
+				// TODO this should only display if this file was in the search
+				filteredView.show();
+			}
+		});
 
 		setContent(content);
 	}

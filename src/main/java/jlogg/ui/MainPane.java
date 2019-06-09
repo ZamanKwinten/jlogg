@@ -1,7 +1,9 @@
 package jlogg.ui;
 
 import java.io.File;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
@@ -51,7 +53,7 @@ public class MainPane extends VBox {
 		if (filetab == null) {
 			GlobalConstants.fileLogLines.put(file, FXCollections.observableArrayList());
 			GlobalConstants.fileIndexProgress.put(file, new SimpleDoubleProperty(0.0));
-			filetab = new FileTab(file, GlobalConstants.fileLogLines.get(file),
+			filetab = new FileTab(this, file, GlobalConstants.fileLogLines.get(file),
 					GlobalConstants.fileIndexProgress.get(file));
 			tabPane.getTabs().add(filetab);
 		}
@@ -60,5 +62,10 @@ public class MainPane extends VBox {
 
 	public FileTab getCurrentSelectedTab() {
 		return (FileTab) tabPane.getSelectionModel().getSelectedItem();
+	}
+
+	public List<FileTab> getFileTabs() {
+		return tabPane.getTabs().stream().filter(tab -> tab instanceof FileTab).map(tab -> (FileTab) tab)
+				.collect(Collectors.toList());
 	}
 }

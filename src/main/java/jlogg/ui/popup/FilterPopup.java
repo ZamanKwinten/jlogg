@@ -1,4 +1,4 @@
-package jlogg.ui.menubar;
+package jlogg.ui.popup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.css.ResourceLoader;
+import jlogg.ui.popup.utils.UpDownBox;
 
 public class FilterPopup extends Stage {
 
@@ -184,16 +185,12 @@ public class FilterPopup extends Stage {
 		leftButtonBox.getChildren().addAll(addButton, deleteButton);
 		deleteButton.disableProperty().bind(disabledControls);
 
-		HBox rightButtonBox = new HBox(5.0);
-		Button upButton = new Button("Up");
-		upButton.disableProperty().bind(disabledControls);
-		Button downButton = new Button("Down");
-		downButton.disableProperty().bind(disabledControls);
-		rightButtonBox.getChildren().addAll(upButton, downButton);
+		UpDownBox upDownBox = new UpDownBox(registeredFilters.getSelectionModel(), filterList);
+		upDownBox.bindDisabledProperty(disabledControls);
 
 		AnchorPane.setLeftAnchor(leftButtonBox, 0.0);
-		AnchorPane.setRightAnchor(rightButtonBox, 0.0);
-		anchor.getChildren().addAll(leftButtonBox, rightButtonBox);
+		AnchorPane.setRightAnchor(upDownBox, 0.0);
+		anchor.getChildren().addAll(leftButtonBox, upDownBox);
 
 		VBox.setVgrow(registeredFilters, Priority.ALWAYS);
 		vbox.getChildren().addAll(registeredFilters, anchor);

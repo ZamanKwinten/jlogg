@@ -1,7 +1,5 @@
 package jlogg.eventbus;
 
-import java.util.Arrays;
-
 import com.google.common.eventbus.Subscribe;
 
 import jlogg.datahandlers.FileIndexer;
@@ -19,7 +17,7 @@ public class EventListener {
 
 		GlobalConstants.searchResults.clear();
 		GlobalConstants.searchProgress.setValue(0.0);
-		currentSearch = new FileSearcher(Arrays.asList(searchEvent.getFile()), searchEvent.getCriteria());
+		currentSearch = new FileSearcher(searchEvent.getFiles(), searchEvent.getCriteria());
 		currentSearch.doIt();
 	}
 

@@ -40,4 +40,8 @@ public class OptionRow extends HBox {
 	public boolean isIgnoreCase() {
 		return ignoreCaseCheck.isSelected();
 	}
+
+	public boolean isAllFilesSearch() {
+		return searchAllFiles.isSelected();
+	}
 }
