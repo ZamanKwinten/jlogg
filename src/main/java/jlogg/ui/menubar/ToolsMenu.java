@@ -7,6 +7,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
+import jlogg.ConstantMgr;
 import jlogg.ui.FileTab;
 import jlogg.ui.MainPane;
 import jlogg.ui.popup.FilterPopup;
@@ -32,6 +33,7 @@ public class ToolsMenu extends Menu {
 			}
 
 			popup.showAndWait();
+			ConstantMgr.instance().updateConfigFile();
 		});
 
 		optionMenuItem = new MenuItem("Options...");

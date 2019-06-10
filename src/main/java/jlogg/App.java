@@ -12,7 +12,8 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-
+		// initialize the constant manager
+		ConstantMgr.instance();
 		stage.hide();
 		MainStage mainStage = new MainStage();
 		mainStage.show();

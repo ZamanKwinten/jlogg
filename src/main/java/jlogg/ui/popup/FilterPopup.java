@@ -222,6 +222,7 @@ public class FilterPopup extends Stage {
 				currentFilter.setIgnoreCase(ignoreCase.isSelected());
 			}
 		});
+		ignoreCase.setMaxWidth(Double.MAX_VALUE);
 
 		Text textColor = new Text("Fore Color:");
 		foreColorPicker = new ColorPicker(Color.BLACK);
