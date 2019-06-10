@@ -7,12 +7,15 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
+import jlogg.ui.GlobalConstants;
 import jlogg.ui.MainPane;
+import jlogg.ui.popup.GoToPopup;
 
 public class EditMenu extends Menu {
 	private final MenuItem copyMenuItem;
 	private final MenuItem selectAllMenuItem;
 	private final MenuItem findMenuItem;
+	private final MenuItem goToMenuItem;
 
 	public EditMenu(MainPane mainPane) {
 		super("Edit");
@@ -39,6 +42,18 @@ public class EditMenu extends Menu {
 			}
 		});
 
-		getItems().addAll(copyMenuItem, selectAllMenuItem, new SeparatorMenuItem(), findMenuItem);
+		goToMenuItem = new MenuItem("Go To Line...");
+		goToMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.L, KeyCodeCombination.CONTROL_DOWN));
+		goToMenuItem.setOnAction((event) -> {
+			if (mainPane.getCurrentSelectedTab() != null) {
+
+				new GoToPopup(GlobalConstants.fileLogLines.get(mainPane.getCurrentSelectedTab().getFile()).size() - 1)
+						.open().ifPresent(index -> {
+							mainPane.getCurrentSelectedTab().selectLogLine(index);
+						});
+			}
+		});
+
+		getItems().addAll(copyMenuItem, selectAllMenuItem, new SeparatorMenuItem(), findMenuItem, goToMenuItem);
 	}
 }

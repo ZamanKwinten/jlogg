@@ -37,8 +37,8 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.1</version>
                 <configuration>
-                	<options>
-				        <option>-Djava.library.path=C:\tmp</option>
+                	<options> 
+				        <option>-Djava.library.path=D:\java\__modules\javafx-controls-11.0.2-win.jar</option>
 				    </options>
                     <mainClass>jlogg.App</mainClass>
                 </configuration>

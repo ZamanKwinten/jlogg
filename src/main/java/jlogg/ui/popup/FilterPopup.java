@@ -26,6 +26,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
@@ -115,6 +116,7 @@ public class FilterPopup extends Stage {
 		setScene(s);
 
 		setTitle("Filters");
+		initModality(Modality.APPLICATION_MODAL);
 	}
 
 	private Pane initLeftPane() {

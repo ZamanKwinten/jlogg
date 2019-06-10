@@ -1,5 +1,6 @@
 package jlogg.ui.logview;
 
+import java.util.function.BiConsumer;
 import java.util.regex.PatternSyntaxException;
 
 import javafx.collections.ListChangeListener;
@@ -26,7 +27,7 @@ class LineTextDragCell extends DragSelectionCell {
 
 	private final TextField textfield;
 
-	public LineTextDragCell(LogFileView logFileView) {
+	public LineTextDragCell(LogFileView logFileView, BiConsumer<LogFileView, Integer> clickHandler) {
 		super(logFileView);
 		setOnMouseDragOver(this::onDragOver);
 
@@ -37,6 +38,15 @@ class LineTextDragCell extends DragSelectionCell {
 		textfield.setOnMouseDragOver(this::onDragOver);
 		textfield.setOnKeyPressed(this::onKeyEvent);
 		textfield.setOnKeyReleased(this::onKeyEvent);
+
+		if (clickHandler != null) {
+			textfield.setOnMouseClicked((event) -> {
+				clickHandler.accept(logFileView, getIndex());
+			});
+			setOnMouseClicked((event) -> {
+				clickHandler.accept(logFileView, getIndex());
+			});
+		}
 
 		// Register the listener responsible for managing the selection css
 		selectedProperty().addListener((observable, oldValue, newValue) -> {

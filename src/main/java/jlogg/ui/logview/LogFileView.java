@@ -1,6 +1,7 @@
 package jlogg.ui.logview;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
@@ -34,6 +35,12 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 	private final SimpleDoubleProperty maxLineNumberColumnWidth = new SimpleDoubleProperty();
 
 	public LogFileView(FileTab mainPane, ObservableList<LogLine> lines) {
+		this(mainPane, lines, null);
+
+	}
+
+	public LogFileView(FileTab mainPane, ObservableList<LogLine> lines,
+			BiConsumer<LogFileView, Integer> mouseClickHandler) {
 		super(lines);
 		this.mainPane = mainPane;
 
@@ -46,7 +53,7 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 			return new LineNumberDragCell(this);
 		});
 		lineTextColumn.setCellFactory((param) -> {
-			return new LineTextDragCell(this);
+			return new LineTextDragCell(this, mouseClickHandler);
 		});
 
 		getColumns().add(bookmarkColumn);

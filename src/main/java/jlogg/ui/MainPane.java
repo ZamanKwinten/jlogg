@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import jlogg.shared.LogLine;
 import jlogg.ui.css.ResourceLoader;
 import jlogg.ui.menubar.MenuBarWrapper;
 
@@ -38,17 +38,9 @@ public class MainPane extends VBox {
 	 * @param file
 	 */
 	public void addTab(File file) {
-
-		FileTab filetab = null;
 		// Check to see whether a tab for that file already exists
-		for (Tab tab : tabPane.getTabs()) {
-			if (tab instanceof FileTab) {
-				FileTab tmp = (FileTab) tab;
-				if (Objects.equals(file, tmp.getFile())) {
-					filetab = tmp;
-				}
-			}
-		}
+		int index = findFileTab(file);
+		FileTab filetab = index == -1 ? null : (FileTab) tabPane.getTabs().get(index);
 
 		if (filetab == null) {
 			GlobalConstants.fileLogLines.put(file, FXCollections.observableArrayList());
@@ -67,5 +59,27 @@ public class MainPane extends VBox {
 	public List<FileTab> getFileTabs() {
 		return tabPane.getTabs().stream().filter(tab -> tab instanceof FileTab).map(tab -> (FileTab) tab)
 				.collect(Collectors.toList());
+	}
+
+	public void selectLine(LogLine line) {
+		int index = findFileTab(line.getFile());
+		if (index == -1) {
+			// TODO ignored for now should show some kind of warning
+		} else {
+			tabPane.getSelectionModel().select(index);
+			((FileTab) tabPane.getTabs().get(index)).selectLogLine(line.getLineNumber());
+		}
+	}
+
+	private int findFileTab(File file) {
+		for (int i = 0; i < tabPane.getTabs().size(); i++) {
+			if (tabPane.getTabs().get(i) instanceof FileTab) {
+				FileTab fileTab = (FileTab) tabPane.getTabs().get(i);
+				if (Objects.equals(file, fileTab.getFile())) {
+					return i;
+				}
+			}
+		}
+		return -1;
 	}
 }

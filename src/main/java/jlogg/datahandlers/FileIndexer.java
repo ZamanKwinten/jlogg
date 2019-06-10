@@ -64,6 +64,9 @@ public class FileIndexer extends FileIterator {
 	@Override
 	protected void submitPercentEvent(File file, List<LogLine> lines, double percentage) {
 		EventBusFactory.getInstance().getEventBus().post(new IndexResultEvent(this, lines, percentage));
+		// make sure to clear the list of cached log lines to prevent subsequent submits
+		// to include these
+		lines.clear();
 	}
 
 	@Override

@@ -83,4 +83,9 @@ public class FileTab extends Tab {
 	public File getFile() {
 		return file;
 	}
+
+	public void selectLogLine(int index) {
+		mainView.scrollTo(index);
+		mainView.getSelectionModel().clearAndSelect(index);
+	}
 }
