@@ -65,7 +65,7 @@
 	<!-- JPackager -->
 	<target name="jpackager_windows" if="isWindows">
 		<exec dir="${basedir}" executable="cmd">
-			<arg line="/C ${jpackager} create-installer --output ${build.installer} --input ${build.dir} --files ${jlogg.jar} --name JLogg --main-jar ${jlogg.jar} --description Java log file viewer --runtime-image ${build.jre} --win-dir-chooser"/>
+			<arg line="/C ${jpackager} create-installer --output ${build.installer} --input ${build.dir} --files ${jlogg.jar} --name JLogg --main-jar ${jlogg.jar} --description Java log file viewer --runtime-image ${build.jre} --win-dir-chooser --version ${jlogg.version}"/>
 		</exec>
 	</target>
 	<target name="jpackager_unix" if="isUnix">
