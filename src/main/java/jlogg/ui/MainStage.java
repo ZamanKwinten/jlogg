@@ -25,4 +25,8 @@ public class MainStage extends Stage {
 			}
 		}
 	}
+
+	public MainPane getMainPane() {
+		return root;
+	}
 }

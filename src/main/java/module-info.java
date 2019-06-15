@@ -9,5 +9,7 @@ module jlogg {
 	requires com.google.common;
 	requires org.json;
 
+	opens jlogg.eventbus to com.google.common;
+
 	exports jlogg;
 }

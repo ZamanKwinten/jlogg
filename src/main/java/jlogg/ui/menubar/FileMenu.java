@@ -43,12 +43,8 @@ public class FileMenu extends Menu {
 			List<File> files = fc.showOpenMultipleDialog(null);
 			if (files != null) {
 				// user selected something => we need to open at least 1 file
-				for (File file : files) {
-					mainPane.addTab(file);
-					EventBusFactory.getInstance().getEventBus().post(new IndexStartEvent(file));
-
-					previousDir = file.getParentFile();
-				}
+				mainPane.addTabs(files);
+				previousDir = files.get(0).getParentFile();
 			}
 		});
 

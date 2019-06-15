@@ -1,5 +1,8 @@
 package jlogg;
 
+import java.io.File;
+import java.util.stream.Collectors;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import jlogg.ui.MainStage;
@@ -17,6 +20,9 @@ public class App extends Application {
 		stage.hide();
 		MainStage mainStage = new MainStage();
 		mainStage.show();
+
+		mainStage.getMainPane()
+				.addTabs(getParameters().getRaw().stream().map(path -> new File(path)).collect(Collectors.toList()));
 	}
 
 }

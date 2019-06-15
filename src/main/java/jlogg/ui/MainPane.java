@@ -11,6 +11,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import jlogg.eventbus.EventBusFactory;
+import jlogg.eventbus.IndexStartEvent;
 import jlogg.shared.LogLine;
 import jlogg.ui.css.ResourceLoader;
 import jlogg.ui.menubar.MenuBarWrapper;
@@ -33,11 +35,36 @@ public class MainPane extends VBox {
 	}
 
 	/**
+	 * Add a list of files as tab, will select the first file added as the active
+	 * tab
+	 * 
+	 * @param files
+	 */
+	public void addTabs(List<File> files) {
+		boolean first = true;
+		for (File file : files) {
+			addTab(file, first);
+			EventBusFactory.getInstance().getEventBus().post(new IndexStartEvent(file));
+			first = false;
+		}
+	}
+
+	/**
 	 * Add a tab for the selected file if such a tab doesn't exist yet
 	 * 
 	 * @param file
 	 */
 	public void addTab(File file) {
+		addTab(file, true);
+	}
+
+	/**
+	 * Add a file as a tab + potentially select the new tab
+	 * 
+	 * @param file
+	 * @param shouldSelect
+	 */
+	private void addTab(File file, boolean shouldSelect) {
 		// Check to see whether a tab for that file already exists
 		int index = findFileTab(file);
 		FileTab filetab = index == -1 ? null : (FileTab) tabPane.getTabs().get(index);
@@ -49,7 +76,9 @@ public class MainPane extends VBox {
 					GlobalConstants.fileIndexProgress.get(file));
 			tabPane.getTabs().add(filetab);
 		}
-		tabPane.getSelectionModel().select(filetab);
+		if (shouldSelect) {
+			tabPane.getSelectionModel().select(filetab);
+		}
 	}
 
 	public FileTab getCurrentSelectedTab() {
