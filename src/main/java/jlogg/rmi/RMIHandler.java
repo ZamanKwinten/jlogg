@@ -3,6 +3,7 @@ package jlogg.rmi;
 import java.io.File;
 import java.io.Serializable;
 import java.rmi.AlreadyBoundException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -39,6 +40,14 @@ public class RMIHandler implements RMIInterface, Serializable {
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	public void shutdown() {
+		try {
+			UnicastRemoteObject.unexportObject(this, true);
+		} catch (NoSuchObjectException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private Registry getRegistry() {

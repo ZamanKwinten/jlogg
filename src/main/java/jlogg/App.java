@@ -15,7 +15,7 @@ public class App extends Application {
 		launch(args);
 	}
 
-	private static RMIHandler handler;
+	private static RMIHandler rmiHandler;
 
 	@Override
 	public void start(@SuppressWarnings("exports") Stage stage) throws Exception {
@@ -25,9 +25,14 @@ public class App extends Application {
 		ConstantMgr.instance();
 		stage.hide();
 		MainStage mainStage = new MainStage();
-		handler = new RMIHandler(mainStage, filesToOpen);
+		rmiHandler = new RMIHandler(mainStage, filesToOpen);
 
 		mainStage.show();
+	}
+
+	@Override
+	public void stop() throws Exception {
+		rmiHandler.shutdown();
 	}
 
 	private List<File> getFilesFromParameters() {
