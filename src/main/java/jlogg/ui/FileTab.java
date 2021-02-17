@@ -10,7 +10,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import jlogg.shared.LogLine;
 import jlogg.ui.custom.FilteredView;
-import jlogg.ui.custom.ProgressBar;
+import jlogg.ui.custom.search.ProgressBar;
 import jlogg.ui.logview.LogFileView;
 
 public class FileTab extends Tab {
@@ -72,7 +72,7 @@ public class FileTab extends Tab {
 	}
 
 	public void showFilteredView() {
-		getSingleLineSelection().ifPresent(string -> filteredView.getSearchRow().setSearchText(string));
+		getSingleLineSelection().ifPresent(string -> filteredView.setSearchText(string));
 		filteredView.show();
 	}
 

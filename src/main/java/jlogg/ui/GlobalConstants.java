@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.text.Font;
 import jlogg.shared.Filter;
 import jlogg.shared.LogLine;
+import jlogg.ui.custom.search.SearchHistoryList;
 
 /**
  * Globally accessible lists used throughout the application
@@ -18,6 +19,11 @@ import jlogg.shared.LogLine;
  *
  */
 public class GlobalConstants {
+
+	/**
+	 * A history list of recently searched strings
+	 */
+	public static final SearchHistoryList searchHistory = new SearchHistoryList();
 
 	/**
 	 * A map of <full file path, observable logline list>

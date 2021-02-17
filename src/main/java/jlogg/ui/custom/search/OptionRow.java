@@ -1,4 +1,4 @@
-package jlogg.ui.custom;
+package jlogg.ui.custom.search;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
@@ -35,6 +35,10 @@ public class OptionRow extends HBox {
 		setAlignment(Pos.CENTER_LEFT);
 
 		getChildren().addAll(progressBar, ignoreCaseCheck, searchAllFiles);
+	}
+
+	public void setIgnoreCase(boolean val) {
+		ignoreCaseCheck.setSelected(val);
 	}
 
 	public boolean isIgnoreCase() {

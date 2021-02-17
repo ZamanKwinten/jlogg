@@ -1,4 +1,4 @@
-package jlogg.ui.custom;
+package jlogg.ui.custom.search;
 
 import javafx.beans.property.SimpleDoubleProperty;
 

@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 
 import jlogg.datahandlers.FileIndexer;
 import jlogg.datahandlers.FileSearcher;
+import jlogg.shared.SearchCriteria;
 import jlogg.ui.GlobalConstants;
 
 public class EventListener {
@@ -17,7 +18,10 @@ public class EventListener {
 
 		GlobalConstants.searchResults.clear();
 		GlobalConstants.searchProgress.setValue(0.0);
-		currentSearch = new FileSearcher(searchEvent.getFiles(), searchEvent.getCriteria());
+		SearchCriteria criteria = searchEvent.getCriteria();
+
+		GlobalConstants.searchHistory.add(criteria);
+		currentSearch = new FileSearcher(searchEvent.getFiles(), criteria);
 		currentSearch.doIt();
 	}
 

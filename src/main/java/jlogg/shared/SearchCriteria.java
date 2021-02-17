@@ -1,5 +1,6 @@
 package jlogg.shared;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -51,5 +52,20 @@ public class SearchCriteria {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof SearchCriteria) {
+			SearchCriteria other = (SearchCriteria) obj;
+			return Objects.equals(pattern, other.pattern) && ignoreCase == other.ignoreCase;
+		}
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(pattern, ignoreCase);
 	}
 }

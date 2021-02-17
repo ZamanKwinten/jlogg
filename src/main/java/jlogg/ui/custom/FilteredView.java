@@ -8,19 +8,18 @@ import jlogg.shared.LogLine;
 import jlogg.ui.FileTab;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.MainPane;
+import jlogg.ui.custom.search.SearchBox;
 import jlogg.ui.interfaces.HideableNode;
 import jlogg.ui.logview.LogFileView;
 
 public class FilteredView extends VBox implements HideableNode {
-	private final SearchRow searchRow;
-	private final OptionRow optionRow;
+	private final SearchBox searchBox;
 	private final LogFileView filteredView;
 
 	private final Node resizer;
 
 	public FilteredView(MainPane mainPane, FileTab fileTab) {
-		searchRow = new SearchRow(mainPane, fileTab, this);
-		optionRow = new OptionRow();
+		searchBox = new SearchBox(mainPane, fileTab, this);
 
 		filteredView = new LogFileView(fileTab, GlobalConstants.searchResults, (view, index) -> {
 			LogLine line = view.getItems().get(index);
@@ -31,15 +30,7 @@ public class FilteredView extends VBox implements HideableNode {
 
 		setVgrow(filteredView, Priority.ALWAYS);
 
-		getChildren().addAll(resizer, searchRow, optionRow, filteredView);
-	}
-
-	public OptionRow getOptionRow() {
-		return optionRow;
-	}
-
-	public SearchRow getSearchRow() {
-		return searchRow;
+		getChildren().addAll(resizer, searchBox, filteredView);
 	}
 
 	public LogFileView getLogFileView() {
@@ -54,7 +45,7 @@ public class FilteredView extends VBox implements HideableNode {
 	@Override
 	public void show() {
 		setVisibility(true);
-		searchRow.focusSearchText();
+		searchBox.focusSearchText();
 	}
 
 	private void setVisibility(boolean isVisible) {
@@ -72,6 +63,10 @@ public class FilteredView extends VBox implements HideableNode {
 		}
 		p.setManaged(isVisible);
 		p.setVisible(isVisible);
+	}
+
+	public void setSearchText(String text) {
+		searchBox.setSearchText(text);
 	}
 
 }

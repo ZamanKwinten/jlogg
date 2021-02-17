@@ -8,6 +8,7 @@ module jlogg {
 
 	requires com.google.common;
 	requires org.json;
+	requires javafx.base;
 
 	opens jlogg.rmi to java.rmi;
 	opens jlogg.eventbus to com.google.common;

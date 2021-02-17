@@ -1,0 +1,12 @@
+.content{
+	-fx-background-color: white;
+}
+
+.searchCriteria{
+	-fx-padding:5px;
+}
+
+.searchCriteria:hover{
+	-fx-background-color: #328ffe;
+	-fx-text-fill: white;
+}
