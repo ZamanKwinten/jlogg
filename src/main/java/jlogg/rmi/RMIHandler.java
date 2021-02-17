@@ -11,11 +11,15 @@ import java.rmi.registry.Registry;
 import java.rmi.server.ExportException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Platform;
 import jlogg.ui.MainStage;
 
 public class RMIHandler implements RMIInterface, Serializable {
+	private static final Logger logger = Logger.getLogger(RMIHandler.class.getName());
+
 	private static final long serialVersionUID = 1L;
 	private static final int RMI_PORT = Integer.getInteger("rmi.port", 1099);
 	private static final int RMI_STUB_PORT = Integer.getInteger("stub.port", 0);
@@ -37,6 +41,7 @@ public class RMIHandler implements RMIInterface, Serializable {
 				System.exit(0);
 			}
 		} catch (RemoteException | NotBoundException e) {
+			logger.log(Level.SEVERE, "RMIHandler", e);
 			throw new RuntimeException(e);
 		}
 
@@ -46,7 +51,7 @@ public class RMIHandler implements RMIInterface, Serializable {
 		try {
 			UnicastRemoteObject.unexportObject(this, true);
 		} catch (NoSuchObjectException e) {
-			e.printStackTrace();
+			logger.log(Level.SEVERE, "RMIHandler::shutdown", e);
 		}
 	}
 
