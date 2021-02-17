@@ -1,9 +1,13 @@
 package jlogg.ui.custom.search;
 
+import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import jlogg.shared.LogLine;
 import jlogg.ui.GlobalConstants;
 
 public class OptionRow extends HBox {
@@ -21,6 +25,23 @@ public class OptionRow extends HBox {
 		super(5);
 		progressBar = new ProgressBar(GlobalConstants.searchProgress, "search-progress");
 
+		Label matchesLabel = new Label();
+		GlobalConstants.searchResults.addListener(new ListChangeListener<LogLine>() {
+			@Override
+			public void onChanged(Change<? extends LogLine> c) {
+				Platform.runLater(() -> {
+					int size = c.getList().size();
+					if (size == 0) {
+						matchesLabel.setText("");
+					} else if (size == 1) {
+						matchesLabel.setText("Count: 1 Match");
+					} else {
+						matchesLabel.setText("Count: " + size + " Matches");
+					}
+				});
+			}
+		});
+
 		ignoreCaseCheck = new CheckBox("Ignore Case");
 		ignoreCaseCheck.setSelected(true);
 		ignoreCaseCheck.setMinWidth(85);
@@ -34,7 +55,7 @@ public class OptionRow extends HBox {
 		getStyleClass().add("optionRowPadding");
 		setAlignment(Pos.CENTER_LEFT);
 
-		getChildren().addAll(progressBar, ignoreCaseCheck, searchAllFiles);
+		getChildren().addAll(progressBar, matchesLabel, ignoreCaseCheck, searchAllFiles);
 	}
 
 	public void setIgnoreCase(boolean val) {
