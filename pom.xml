@@ -8,7 +8,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <build.modules.directory>${project.build.directory}\modules</build.modules.directory>
+        <build.modules.directory>${project.build.directory}/modules</build.modules.directory>
     </properties>
     <dependencies>
 		<dependency>
@@ -106,7 +106,7 @@
 						<configuration>
 							<modules>
 								<module>
-									<file>${project.build.directory}\${project.build.finalName}.jar</file>
+									<file>${project.build.directory}/${project.build.finalName}.jar</file>
 									<moduleInfo>
 										<name>jlogg</name>
 									</moduleInfo>
