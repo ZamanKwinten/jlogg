@@ -23,7 +23,7 @@ public class SearchInputField extends TextField {
 		});
 
 		setOnKeyPressed((event) -> {
-			if (event.isControlDown() && event.getCode() == KeyCode.SPACE) {
+			if (event.isShortcutDown() && event.getCode() == KeyCode.SPACE) {
 				popup.open();
 				event.consume();
 			}

@@ -21,7 +21,7 @@ public class ToolsMenu extends Menu {
 		super("Tools");
 
 		filterMenuItem = new MenuItem("Filters...");
-		filterMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCodeCombination.CONTROL_DOWN));
+		filterMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCodeCombination.SHORTCUT_DOWN));
 		filterMenuItem.setOnAction((event) -> {
 			FileTab filetab = mainPane.getCurrentSelectedTab();
 

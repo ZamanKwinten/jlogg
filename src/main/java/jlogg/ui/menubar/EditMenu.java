@@ -21,7 +21,7 @@ public class EditMenu extends Menu {
 		super("Edit");
 
 		copyMenuItem = new MenuItem("Copy");
-		copyMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCodeCombination.CONTROL_DOWN));
+		copyMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.C, KeyCodeCombination.SHORTCUT_DOWN));
 		copyMenuItem.setOnAction((event) -> {
 			mainPane.getCurrentSelectedTab().getSelection().ifPresent((selection) -> {
 				final ClipboardContent content = new ClipboardContent();
@@ -32,10 +32,10 @@ public class EditMenu extends Menu {
 		});
 
 		selectAllMenuItem = new MenuItem("Select All");
-		selectAllMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCodeCombination.CONTROL_DOWN));
+		selectAllMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.A, KeyCodeCombination.SHORTCUT_DOWN));
 
 		findMenuItem = new MenuItem("Find...");
-		findMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F, KeyCodeCombination.CONTROL_DOWN));
+		findMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F, KeyCodeCombination.SHORTCUT_DOWN));
 		findMenuItem.setOnAction((event) -> {
 			if (mainPane.getCurrentSelectedTab() != null) {
 				mainPane.getCurrentSelectedTab().showFilteredView();
@@ -43,7 +43,7 @@ public class EditMenu extends Menu {
 		});
 
 		goToMenuItem = new MenuItem("Go To Line...");
-		goToMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.L, KeyCodeCombination.CONTROL_DOWN));
+		goToMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.L, KeyCodeCombination.SHORTCUT_DOWN));
 		goToMenuItem.setOnAction((event) -> {
 			if (mainPane.getCurrentSelectedTab() != null) {
 

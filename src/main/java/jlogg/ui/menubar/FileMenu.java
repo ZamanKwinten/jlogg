@@ -35,7 +35,7 @@ public class FileMenu extends Menu {
 		super("File");
 		// Creation of the file menu
 		openMenuItem = new MenuItem("Open...");
-		openMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN));
+		openMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN));
 		openMenuItem.setOnAction((event) -> {
 			FileChooser fc = new FileChooser();
 			fc.setInitialDirectory(previousDir);
@@ -49,12 +49,12 @@ public class FileMenu extends Menu {
 		});
 
 		closeMenuItem = new MenuItem("Close");
-		closeMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.W, KeyCombination.CONTROL_DOWN));
+		closeMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN));
 
 		closeAllMenuItem = new MenuItem("Close All");
 
 		saveAsMenuItem = new MenuItem("Save Search Results...");
-		saveAsMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
+		saveAsMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN));
 		saveAsMenuItem.setOnAction((event) -> {
 			// File must be opened + search must have results
 			if (mainPane.getCurrentSelectedTab() != null && !GlobalConstants.searchResults.isEmpty()) {
@@ -82,7 +82,7 @@ public class FileMenu extends Menu {
 		});
 
 		exitMenuItem = new MenuItem("Exit");
-		exitMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.Q, KeyCombination.CONTROL_DOWN));
+		exitMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.Q, KeyCombination.SHORTCUT_DOWN));
 
 		getItems().addAll(openMenuItem, closeMenuItem, closeAllMenuItem, new SeparatorMenuItem(), saveAsMenuItem,
 				new SeparatorMenuItem(), exitMenuItem);
