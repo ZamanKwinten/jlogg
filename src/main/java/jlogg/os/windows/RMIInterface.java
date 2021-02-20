@@ -1,4 +1,4 @@
-package jlogg.rmi;
+package jlogg.os.windows;
 
 import java.io.File;
 import java.rmi.Remote;
