@@ -9,12 +9,14 @@ class LineNumberColumn extends TableColumn<LogLine, String> {
 
 	public LineNumberColumn(ObservableDoubleValue width) {
 		setCellValueFactory((cell) -> {
-			return new SimpleStringProperty(cell.getValue().getLineNumber() + "");
+			return new SimpleStringProperty(" " + cell.getValue().getLineNumber() + "");
 		});
 
 		minWidthProperty().bind(width);
 		maxWidthProperty().bind(width);
 		prefWidthProperty().bind(width);
+
+		setStyle("-fx-alignment: CENTER-LEFT");
 
 		setSortable(false);
 	}
