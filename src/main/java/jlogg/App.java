@@ -1,20 +1,16 @@
 package jlogg;
 
-import java.io.File;
-import java.util.stream.Collectors;
+import java.awt.Desktop;
+import java.awt.desktop.OpenFilesHandler;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
 import jlogg.os.FileOpenHandler;
-import jlogg.os.windows.RMIHandler;
+import jlogg.os.mac.MacFileOpenHandler;
+import jlogg.os.windows.WindowsFileOpenHandler;
 import jlogg.ui.MainStage;
 
 public class App extends Application {
-
-	public static void main(String[] args) {
-		launch(args);
-	}
-
 	private FileOpenHandler handler;
 
 	@Override
@@ -23,15 +19,14 @@ public class App extends Application {
 		ConstantMgr.instance();
 		stage.hide();
 		MainStage mainStage = new MainStage();
-
-		String os = System.getProperty("os.name");
-		if (os.startsWith("Windows")) {
-			handler = new RMIHandler(mainStage);
-			handler.open(getParameters().getRaw().stream().map(path -> new File(path)).collect(Collectors.toList()));
+		if (Launcher.isMac) {
+			handler = new MacFileOpenHandler(mainStage);
+			Desktop.getDesktop().setOpenFileHandler((OpenFilesHandler) handler);
+		} else {
+			handler = new WindowsFileOpenHandler(mainStage);
 		}
-
 		mainStage.show();
-
+		mainStage.getMainPane().addTabs(FileOpenHandler.initialFiles);
 	}
 
 	@Override

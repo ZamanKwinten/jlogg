@@ -3,9 +3,11 @@ package jlogg.os;
 import java.io.File;
 import java.util.List;
 
+import javafx.application.Platform;
 import jlogg.ui.MainStage;
 
 public abstract class FileOpenHandler {
+	public static List<File> initialFiles;
 
 	protected final MainStage stage;
 
@@ -13,7 +15,11 @@ public abstract class FileOpenHandler {
 		this.stage = stage;
 	}
 
-	public abstract void open(List<File> files);
+	protected void addTabs(List<File> files) {
+		Platform.runLater(() -> {
+			stage.getMainPane().addTabs(files);
+		});
+	}
 
 	public abstract void release();
 }
