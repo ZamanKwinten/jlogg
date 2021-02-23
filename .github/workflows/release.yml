@@ -27,7 +27,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v2.2.2
         with:
-          name: JLogg.msi
+          name: windows
           path: JLogg*.msi
         
   macos_build:
@@ -55,7 +55,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v2.2.2
         with:
-          name: JLogg.dmg
+          name: macos
           path: JLogg*.dmg
 
   release:
@@ -64,8 +64,14 @@ jobs:
     steps:
       - name: Download Builds
         uses: actions/download-artifact@v2.0.8
-        
-      - name: Display structure of downloaded files
-        run: ls -R
+      - name: Automatic Release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN}}"
+          automatic_release_tag: "Windows-latest"
+          title: "Build"
+          files: |
+            ./windows/*
+            ./macos/*
         
     
