@@ -10,5 +10,16 @@ jobs:
         uses: actions/setup-java@v1.4.3
         with:
           java-version: 15
+          
+      - name: Restore Maven cache
+        uses: skjolber/maven-cache-github-action@v1
+        with:
+          step: restore
       - name: Maven Build
         run: mvn -B clean package
+      - name: Store Maven cache
+        uses: skjolber/maven-cache-github-action@v1
+        with:
+          step: save
+      - name: JPackage
+        run: jpackage -t msi -n JLogg -p target/modules -m jlogg/jlogg.Launcher --win-dir-chooser --file-associations log.properties
