@@ -27,3 +27,9 @@ hs_err_pid*
 \.classpath
 \.project
 .settings/
+
+dependency-reduced-pom.xml
+
+*.exe
+
+*.msi
