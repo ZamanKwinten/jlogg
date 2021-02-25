@@ -2,7 +2,7 @@ name: Release
 on:
   push:
     branches: 
-    - main
+    - master
 jobs:
   windows_build:
     runs-on: windows-latest
