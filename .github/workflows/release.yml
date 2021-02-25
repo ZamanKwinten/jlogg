@@ -1,6 +1,8 @@
 name: Release
 on:
-  workflow_dispatch:
+  push:
+    branches: 
+    - main
 jobs:
   windows_build:
     runs-on: windows-latest
@@ -68,9 +70,8 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN}}"
-          automatic_release_tag: "Latest Release"
-          prerelease: false
-          title: "Build"
+          automatic_release_tag: "continuous"
+          title: "Continuous Build"
           files: |
             ./windows/*
             ./macos/*
