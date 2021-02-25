@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import jlogg.ConstantMgr;
@@ -15,7 +14,7 @@ import jlogg.ui.popup.FilterPopup;
 public class ToolsMenu extends Menu {
 
 	private final MenuItem filterMenuItem;
-	private final MenuItem optionMenuItem;
+	// private final MenuItem optionMenuItem;
 
 	public ToolsMenu(MainPane mainPane) {
 		super("Tools");
@@ -36,7 +35,7 @@ public class ToolsMenu extends Menu {
 			ConstantMgr.instance().updateConfigFile();
 		});
 
-		optionMenuItem = new MenuItem("Options...");
-		getItems().addAll(filterMenuItem, new SeparatorMenuItem(), optionMenuItem);
+		// optionMenuItem = new MenuItem("Options...");
+		getItems().addAll(filterMenuItem);// new SeparatorMenuItem(), optionMenuItem);
 	}
 }

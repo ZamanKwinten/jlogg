@@ -50,8 +50,14 @@ public class FileMenu extends Menu {
 
 		closeMenuItem = new MenuItem("Close");
 		closeMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN));
+		closeMenuItem.setOnAction(event -> {
+			mainPane.closeCurrentSelectTab();
+		});
 
 		closeAllMenuItem = new MenuItem("Close All");
+		closeAllMenuItem.setOnAction(event -> {
+			mainPane.closeAllTabs();
+		});
 
 		saveAsMenuItem = new MenuItem("Save Search Results...");
 		saveAsMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN));

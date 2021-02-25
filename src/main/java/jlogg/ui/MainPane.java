@@ -81,6 +81,10 @@ public class MainPane extends VBox {
 		}
 	}
 
+	public void closeCurrentSelectTab() {
+		tabPane.getTabs().remove(getCurrentSelectedTab());
+	}
+
 	public FileTab getCurrentSelectedTab() {
 		return (FileTab) tabPane.getSelectionModel().getSelectedItem();
 	}
@@ -110,5 +114,9 @@ public class MainPane extends VBox {
 			}
 		}
 		return -1;
+	}
+
+	public void closeAllTabs() {
+		tabPane.getTabs().clear();
 	}
 }
