@@ -40,6 +40,7 @@ public class GoToPopup extends PopupWithReturn<Integer> {
 		content.getStyleClass().add("content");
 
 		setMinWidth(250);
+		setResizable(false);
 	}
 
 	@Override

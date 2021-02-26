@@ -14,7 +14,6 @@ import jlogg.ui.popup.FilterPopup;
 public class ToolsMenu extends Menu {
 
 	private final MenuItem filterMenuItem;
-	// private final MenuItem optionMenuItem;
 
 	public ToolsMenu(MainPane mainPane) {
 		super("Tools");
@@ -35,7 +34,6 @@ public class ToolsMenu extends Menu {
 			ConstantMgr.instance().updateConfigFile();
 		});
 
-		// optionMenuItem = new MenuItem("Options...");
-		getItems().addAll(filterMenuItem);// new SeparatorMenuItem(), optionMenuItem);
+		getItems().addAll(filterMenuItem);
 	}
 }
