@@ -27,6 +27,7 @@ public class FontSelector extends GridPane {
 		font = new ComboBox<>(FXCollections.observableArrayList(Font.getFamilies()));
 		size = new ComboBox<>(FXCollections
 				.observableArrayList(Arrays.asList(8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72)));
+		preview = new TextField("aaBBcc");
 
 		size.setConverter(new StringConverter<Number>() {
 
@@ -46,7 +47,6 @@ public class FontSelector extends GridPane {
 
 		setFont(GlobalConstants.defaultFont.getValue());
 
-		preview = new TextField("aaBBcc");
 		font.valueProperty().addListener((obs, oldV, newV) -> {
 			updatePreview();
 
@@ -69,6 +69,7 @@ public class FontSelector extends GridPane {
 	public void setFont(Font font) {
 		this.font.setValue(font.getFamily());
 		size.setValue(font.getSize());
+		preview.setFont(font);
 	}
 
 	private void updatePreview() {

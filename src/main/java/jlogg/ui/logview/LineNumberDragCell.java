@@ -12,6 +12,9 @@ class LineNumberDragCell extends DragSelectionCell {
 		super(logFileView);
 
 		fontProperty().bind(GlobalConstants.defaultFont);
+		fontProperty().addListener((o, a, b) -> {
+			setPrefWidth();
+		});
 		setAlignment(Pos.CENTER_RIGHT);
 		setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
 		FXUtils.columnFreezeHack(this);
@@ -30,6 +33,7 @@ class LineNumberDragCell extends DragSelectionCell {
 	public void setPrefWidth() {
 		double width = FXUtils.calculateTextControlWidth(getFont(), " " + getText(), 15);
 
+		((LogFileView) selectableContent).resetLineNumberColumnWidth();
 		((LogFileView) selectableContent).updateLineNumberColumnWidth(width);
 	}
 }

@@ -74,6 +74,10 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 		}
 	}
 
+	void resetLineNumberColumnWidth() {
+		maxLineNumberColumnWidth.set(0);
+	}
+
 	void updateLineNumberColumnWidth(double value) {
 		if (value > maxLineNumberColumnWidth.doubleValue()) {
 			maxLineNumberColumnWidth.set(value);
