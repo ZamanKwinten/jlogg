@@ -3,7 +3,6 @@ package jlogg.ui.popup;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import jlogg.ui.css.ResourceLoader;
 
 public class GoToPopup extends PopupWithReturn<Integer> {
 
@@ -35,9 +34,6 @@ public class GoToPopup extends PopupWithReturn<Integer> {
 		});
 
 		content.getChildren().addAll(l, input, errorLabel, getCancelableFooterBox("Go to Line", actionDisabled));
-
-		content.getStylesheets().add(ResourceLoader.loadResourceFile("GoToPopup.css"));
-		content.getStyleClass().add("content");
 
 		setMinWidth(250);
 		setResizable(false);

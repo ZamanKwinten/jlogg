@@ -14,7 +14,7 @@ public class App extends Application {
 	private FileOpenHandler handler;
 
 	@Override
-	public void start(@SuppressWarnings("exports") Stage stage) throws Exception {
+	public void start(Stage stage) throws Exception {
 		// initialize the constant manager
 		ConstantMgr.instance();
 		stage.hide();

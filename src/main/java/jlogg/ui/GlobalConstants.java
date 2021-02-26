@@ -11,6 +11,7 @@ import javafx.scene.text.Font;
 import jlogg.shared.Filter;
 import jlogg.shared.LogLine;
 import jlogg.ui.custom.search.SearchHistoryList;
+import jlogg.ui.logview.ObservableFont;
 
 /**
  * Globally accessible lists used throughout the application
@@ -50,5 +51,5 @@ public class GlobalConstants {
 	 */
 	public static final SimpleDoubleProperty searchProgress = new SimpleDoubleProperty(0.0);
 
-	public static final Font defaultFont = Font.font("Arial", 15);
+	public static final ObservableFont defaultFont = new ObservableFont(Font.font("Arial", 15));
 }

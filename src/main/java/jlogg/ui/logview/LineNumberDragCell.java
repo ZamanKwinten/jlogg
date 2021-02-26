@@ -10,7 +10,8 @@ import jlogg.ui.utils.FXUtils;
 class LineNumberDragCell extends DragSelectionCell {
 	public LineNumberDragCell(LogFileView logFileView) {
 		super(logFileView);
-		setFont(GlobalConstants.defaultFont);
+
+		fontProperty().bind(GlobalConstants.defaultFont);
 		setAlignment(Pos.CENTER_RIGHT);
 		setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
 		FXUtils.columnFreezeHack(this);
@@ -27,9 +28,8 @@ class LineNumberDragCell extends DragSelectionCell {
 	}
 
 	public void setPrefWidth() {
-		double width = FXUtils.calculateTextControlWidth(getFont(), getText(), 15);
+		double width = FXUtils.calculateTextControlWidth(getFont(), " " + getText(), 15);
 
 		((LogFileView) selectableContent).updateLineNumberColumnWidth(width);
 	}
-
 }

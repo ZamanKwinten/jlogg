@@ -8,18 +8,15 @@ public class MenuBarWrapper extends MenuBar {
 
 	private final Menu fileMenu;
 	private final Menu editMenu;
-	// private final Menu viewMenu;
 	private final Menu toolsMenu;
-	// private final Menu encodingMenu;
-	// private final Menu helpMenu;
+	private final Menu settingsMenu;
 
 	public MenuBarWrapper(MainPane mainPane) {
 		fileMenu = new FileMenu(mainPane);
 		editMenu = new EditMenu(mainPane);
-		// viewMenu = new ViewMenu();
 		toolsMenu = new ToolsMenu(mainPane);
-		// encodingMenu = new EncodingMenu();
-		// helpMenu = new HelpMenu();
-		getMenus().addAll(fileMenu, editMenu, toolsMenu);
+		settingsMenu = new SettingsMenu(mainPane);
+
+		getMenus().addAll(fileMenu, editMenu, toolsMenu, settingsMenu);
 	}
 }

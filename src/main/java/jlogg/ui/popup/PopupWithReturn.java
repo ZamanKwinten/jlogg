@@ -3,6 +3,7 @@ package jlogg.ui.popup;
 import java.util.Optional;
 
 import javafx.beans.value.ObservableBooleanValue;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,6 +19,8 @@ abstract class PopupWithReturn<T> extends Stage {
 
 	public PopupWithReturn() {
 		content = new VBox(5.0);
+
+		content.setPadding(new Insets(15));
 
 		Scene s = new Scene(content);
 		setScene(s);

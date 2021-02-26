@@ -31,7 +31,7 @@ public class ToolsMenu extends Menu {
 			}
 
 			popup.showAndWait();
-			ConstantMgr.instance().updateConfigFile();
+			ConstantMgr.instance().updateFilters();
 		});
 
 		getItems().addAll(filterMenuItem);

@@ -68,7 +68,7 @@ class LineTextDragCell extends DragSelectionCell {
 			}
 		});
 
-		textfield.setFont(GlobalConstants.defaultFont);
+		textfield.fontProperty().bind(GlobalConstants.defaultFont);
 		setAlignment(Pos.CENTER_LEFT);
 
 		setGraphic(textfield);

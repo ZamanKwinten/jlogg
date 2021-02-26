@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
-import jlogg.ui.css.ResourceLoader;
 import jlogg.ui.popup.utils.SearchFileWrapper;
 import jlogg.ui.popup.utils.UpDownBox;
 
@@ -57,8 +56,6 @@ public class SearchPopup extends PopupWithReturn<List<File>> {
 		upDownBox.setAlignment(Pos.CENTER_LEFT);
 
 		content.getChildren().addAll(info, openedFiles, upDownBox, getCancelableFooterBox("Search", null));
-		content.getStylesheets().add(ResourceLoader.loadResourceFile("SearchPopup.css"));
-		content.getStyleClass().add("content");
 
 		setMinWidth(360);
 		setMinHeight(250);
