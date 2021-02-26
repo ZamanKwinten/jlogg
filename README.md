@@ -31,5 +31,6 @@ This pane allows you to add, reorder or remove filters. These filters are persis
 On windows it's just as easy as downloading the msi of one of the releases and running the msi. 
 
 ### MacOS
-On apple devices, you'll have to disable the quaratine flag before installing the dmg (using: xattr -d com.apple.quarantine path_to_file). 
+On apple devices, you'll have to disable the quaratine flag before installing the dmg using: 
+`xattr -d com.apple.quarantine path_to_file`
 I'm not part of the apple developer program nor do I have the intention to sign up for this app. 
