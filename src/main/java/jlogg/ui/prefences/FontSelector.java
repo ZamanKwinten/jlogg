@@ -3,7 +3,6 @@ package jlogg.ui.prefences;
 import java.util.Arrays;
 
 import javafx.collections.FXCollections;
-import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -63,7 +62,6 @@ public class FontSelector extends GridPane {
 		preview.setEditable(false);
 		preview.setDisable(true);
 		add(preview, 0, 2, 2, 1);
-		setPadding(new Insets(15));
 	}
 
 	public void setFont(Font font) {

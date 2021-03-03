@@ -1,23 +1,62 @@
 package jlogg.ui.popup;
 
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import jlogg.Preferences;
 import jlogg.ui.prefences.FontSelector;
+import jlogg.ui.prefences.PreferencesTab;
+import jlogg.ui.prefences.ShortcutSelector;
 
 public class PreferencesPopup extends PopupWithReturn<Preferences> {
 
-	private final FontSelector fontSetup;
+	private final PreferencesTab<FontSelector> fontSetup;
+	private final PreferencesTab<ShortcutSelector> shortcutSetup;
 
 	public PreferencesPopup() {
 		setTitle("Preferences");
 
-		fontSetup = new FontSelector(this);
+		fontSetup = new PreferencesTab<>("Font", new FontSelector(this));
+		shortcutSetup = new PreferencesTab<>("Shortcuts", new ShortcutSelector());
 
-		content.getChildren().addAll(fontSetup, getCancelableFooterBox("Save", null));
+		TreeItem<String> root = new TreeItem<>("Editor");
+		root.setExpanded(true);
+
+		root.getChildren().add(fontSetup);
+		root.getChildren().add(shortcutSetup);
+
+		TreeView<String> tree = new TreeView<>(root);
+
+		StackPane contentPane = new StackPane();
+
+		tree.setMaxWidth(100);
+		tree.setPrefHeight(100);
+
+		GridPane grid = new GridPane();
+		grid.add(tree, 0, 0);
+		grid.add(contentPane, 1, 0);
+
+		contentPane.setPadding(new Insets(0, 0, 15, 15));
+
+		tree.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
+			if (newV instanceof PreferencesTab) {
+				contentPane.getChildren().clear();
+				contentPane.getChildren().add(((PreferencesTab<Node>) newV).node());
+				sizeToScene();
+			}
+		});
+
+		tree.getSelectionModel().select(fontSetup);
+
+		content.getChildren().addAll(grid, getCancelableFooterBox("Save", null));
 		setResizable(false);
 	}
 
 	@Override
 	protected Preferences getReturnValue() {
-		return new Preferences(fontSetup.getFont());
+		return new Preferences(fontSetup.node().getFont(), shortcutSetup.node().getKeyMap());
 	}
 }

@@ -4,10 +4,9 @@ import java.util.Optional;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
 import jlogg.ConstantMgr;
 import jlogg.ui.FileTab;
+import jlogg.ui.GlobalConstants.ShortCut;
 import jlogg.ui.MainPane;
 import jlogg.ui.popup.FilterPopup;
 
@@ -18,8 +17,7 @@ public class ToolsMenu extends Menu {
 	public ToolsMenu(MainPane mainPane) {
 		super("Tools");
 
-		filterMenuItem = new MenuItem("Filters...");
-		filterMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCodeCombination.SHORTCUT_DOWN));
+		filterMenuItem = new MenuItemWithAccelerator(ShortCut.OPEN_FILTERS);
 		filterMenuItem.setOnAction((event) -> {
 			FileTab filetab = mainPane.getCurrentSelectedTab();
 

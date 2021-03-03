@@ -11,8 +11,11 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javafx.scene.input.KeyCombination;
+import javafx.scene.text.Font;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
+import jlogg.ui.GlobalConstants.ShortCut;
 
 /**
  * Class to define some constants used throughout the application TODO =>
@@ -57,8 +60,6 @@ public class ConstantMgr {
 			}
 		}
 
-		readConfigFile();
-
 		indexServiceThreadCount = 1;
 		searchServiceThreadCount = 1;
 	}
@@ -71,7 +72,7 @@ public class ConstantMgr {
 		return Optional.empty();
 	}
 
-	private void readConfigFile() {
+	public void setupGlobalConstants() {
 		try {
 
 			JSONObject jsonConfig = getCurrentJSON().orElseGet(JSONObject::new);
@@ -85,8 +86,22 @@ public class ConstantMgr {
 
 			JSONObject preferencesJSON = jsonConfig.optJSONObject(JSONKeys.PREFERENCES);
 			if (preferencesJSON != null) {
-				Preferences preferences = Preferences.fromJSON(preferencesJSON);
-				GlobalConstants.defaultFont.setFont(preferences.font());
+				JSONObject fontJSON = preferencesJSON.optJSONObject(Preferences.JSON.FONT);
+				if (fontJSON != null) {
+					GlobalConstants.defaultFont.setFont(new Font(fontJSON.getString(Preferences.JSON.FAMILY),
+							fontJSON.getDouble(Preferences.JSON.SIZE)));
+				}
+
+				JSONObject keyMapJSON = preferencesJSON.optJSONObject(Preferences.JSON.SHORTCUTS);
+				if (keyMapJSON != null) {
+					for (ShortCut key : GlobalConstants.ShortCut.values()) {
+						String val = keyMapJSON.optString(key.name(), null);
+						if (val != null) {
+							KeyCombination combo = KeyCombination.valueOf(val);
+							key.update(combo);
+						}
+					}
+				}
 			}
 
 		} catch (IOException e) {

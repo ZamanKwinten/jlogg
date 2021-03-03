@@ -11,13 +11,11 @@ import java.util.logging.Logger;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.stage.FileChooser;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.IndexStartEvent;
 import jlogg.ui.GlobalConstants;
+import jlogg.ui.GlobalConstants.ShortCut;
 import jlogg.ui.MainPane;
 
 public class FileMenu extends Menu {
@@ -28,14 +26,12 @@ public class FileMenu extends Menu {
 	private final MenuItem openMenuItem;
 	private final MenuItem closeMenuItem;
 	private final MenuItem closeAllMenuItem;
-	private final MenuItem exitMenuItem;
 	private final MenuItem saveAsMenuItem;
 
 	public FileMenu(MainPane mainPane) {
 		super("File");
 		// Creation of the file menu
-		openMenuItem = new MenuItem("Open...");
-		openMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN));
+		openMenuItem = new MenuItemWithAccelerator(ShortCut.OPEN_FILES);
 		openMenuItem.setOnAction((event) -> {
 			FileChooser fc = new FileChooser();
 			fc.setInitialDirectory(previousDir);
@@ -48,8 +44,7 @@ public class FileMenu extends Menu {
 			}
 		});
 
-		closeMenuItem = new MenuItem("Close");
-		closeMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN));
+		closeMenuItem = new MenuItemWithAccelerator(ShortCut.CLOSE_TAB);
 		closeMenuItem.setOnAction(event -> {
 			mainPane.closeCurrentSelectTab();
 		});
@@ -59,8 +54,7 @@ public class FileMenu extends Menu {
 			mainPane.closeAllTabs();
 		});
 
-		saveAsMenuItem = new MenuItem("Save Search Results...");
-		saveAsMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN));
+		saveAsMenuItem = new MenuItemWithAccelerator(ShortCut.SAVE_SEARCH_RESULTS);
 		saveAsMenuItem.setOnAction((event) -> {
 			// File must be opened + search must have results
 			if (mainPane.getCurrentSelectedTab() != null && !GlobalConstants.searchResults.isEmpty()) {
@@ -87,11 +81,7 @@ public class FileMenu extends Menu {
 			}
 		});
 
-		exitMenuItem = new MenuItem("Exit");
-		exitMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.Q, KeyCombination.SHORTCUT_DOWN));
-
-		getItems().addAll(openMenuItem, closeMenuItem, closeAllMenuItem, new SeparatorMenuItem(), saveAsMenuItem,
-				new SeparatorMenuItem(), exitMenuItem);
+		getItems().addAll(openMenuItem, closeMenuItem, closeAllMenuItem, new SeparatorMenuItem(), saveAsMenuItem);
 	}
 
 }
