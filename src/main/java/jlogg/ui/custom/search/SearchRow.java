@@ -60,6 +60,10 @@ public class SearchRow extends HBox {
 		searchInput.setText(text);
 	}
 
+	public String getSearch() {
+		return searchInput.getText();
+	}
+
 	public void focusSearchText() {
 		searchInput.requestFocus();
 	}

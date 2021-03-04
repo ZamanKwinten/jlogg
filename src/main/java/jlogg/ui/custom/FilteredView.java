@@ -69,4 +69,8 @@ public class FilteredView extends VBox implements HideableNode {
 		searchBox.setSearchText(text);
 	}
 
+	public String getSearch() {
+		return searchBox.getSearch();
+	}
+
 }

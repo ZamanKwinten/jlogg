@@ -84,6 +84,10 @@ public class FileTab extends Tab {
 		return file;
 	}
 
+	public String getSearch() {
+		return filteredView.getSearch();
+	}
+
 	public void selectLogLine(int index) {
 		mainView.scrollTo(index);
 		mainView.getSelectionModel().clearAndSelect(index);

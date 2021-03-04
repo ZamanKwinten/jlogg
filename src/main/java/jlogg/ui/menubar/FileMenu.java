@@ -1,19 +1,23 @@
 package jlogg.ui.menubar;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.FileWriter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.google.common.collect.Lists;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.stage.FileChooser;
+import jlogg.datahandlers.FileLineReader;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.IndexStartEvent;
+import jlogg.shared.LogLine;
+import jlogg.ui.FileTab;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.GlobalConstants.ShortCut;
 import jlogg.ui.MainPane;
@@ -59,22 +63,33 @@ public class FileMenu extends Menu {
 			// File must be opened + search must have results
 			if (mainPane.getCurrentSelectedTab() != null && !GlobalConstants.searchResults.isEmpty()) {
 				FileChooser fc = new FileChooser();
-				// Probably the most logical thing to try & save it in the same dir as the
-				// parent file?
-				fc.setInitialDirectory(mainPane.getCurrentSelectedTab().getFile().getParentFile());
-				fc.setInitialFileName("jlogg - " + System.currentTimeMillis() + ".log");
+
+				FileTab currentTab = mainPane.getCurrentSelectedTab();
+
+				fc.setInitialDirectory(currentTab.getFile().getParentFile());
+				fc.setInitialFileName(getFileName(currentTab.getSearch()));
 				File file = fc.showSaveDialog(null);
 				if (file != null) {
 					previousDir = file.getParentFile();
 					try {
-						Files.write(Paths.get(file.getAbsolutePath()), ((Iterable<String>) GlobalConstants.searchResults
-								.stream().map(logline -> logline.getLineString())::iterator));
+						LogLine[] lines = GlobalConstants.searchResults.toArray(new LogLine[0]);
+
+						file.delete();
+						file.createNewFile();
+						try (FileWriter fw = new FileWriter(file)) {
+							for (List<LogLine> linesBatch : Lists.partition(Arrays.asList(lines), 100)) {
+								for (String textLines : FileLineReader.readLinesFromFile(linesBatch)) {
+									fw.write(textLines);
+									fw.write(System.lineSeparator());
+								}
+							}
+						}
 
 						// File was successfully written => open it
 						mainPane.addTab(file);
 						EventBusFactory.getInstance().getEventBus().post(new IndexStartEvent(file));
 
-					} catch (IOException e) {
+					} catch (Exception e) {
 						logger.log(Level.SEVERE, "Error during saving", e);
 					}
 				}
@@ -84,4 +99,11 @@ public class FileMenu extends Menu {
 		getItems().addAll(openMenuItem, closeMenuItem, closeAllMenuItem, new SeparatorMenuItem(), saveAsMenuItem);
 	}
 
+	private String getFileName(String search) {
+		String name = search.replaceAll("\\W+", "");
+		if (name.length() == 0) {
+			return "jlogg" + System.currentTimeMillis() + ".log";
+		}
+		return name + ".log";
+	}
 }

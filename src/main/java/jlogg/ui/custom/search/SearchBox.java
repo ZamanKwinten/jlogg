@@ -35,4 +35,8 @@ public class SearchBox extends VBox {
 		return optionRow.isIgnoreCase();
 	}
 
+	public String getSearch() {
+		return searchRow.getSearch();
+	}
+
 }
