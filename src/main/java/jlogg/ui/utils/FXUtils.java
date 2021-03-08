@@ -15,6 +15,12 @@ import javafx.scene.text.Text;
  */
 public class FXUtils {
 
+	public static double caculateTextControlHeight(Font font) {
+		Text tmp = new Text("t");
+		tmp.setFont(font);
+		return tmp.getLayoutBounds().getHeight();
+	}
+
 	public static double calculateTextControlWidth(Font font, String text, double padding) {
 		Text tmp = new Text(text);
 		tmp.setFont(font);

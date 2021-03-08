@@ -38,6 +38,7 @@
 
 .table-row-cell {
     -fx-padding: 0px;
+    -fx-border-style: none;
 }
 
 .table-cell{
@@ -52,14 +53,6 @@
 
 .logfileview{
 	-fx-padding: 0px;
-}
-
-
-.selectedText{
-	-fx-font-family: "Arial";
-    -fx-font-size: 15px;
-    -fx-background-color: #328ffe;
-	-fx-alignment: center-left;
 }
 
 .index-progress{

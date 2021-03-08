@@ -4,7 +4,7 @@ import java.util.function.BiConsumer;
 import java.util.regex.PatternSyntaxException;
 
 import javafx.collections.ListChangeListener;
-import javafx.geometry.Pos;
+import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
@@ -72,7 +72,7 @@ class LineTextDragCell extends DragSelectionCell {
 		textfield.fontProperty().addListener((o, a, b) -> {
 			setPrefWidth();
 		});
-		setAlignment(Pos.CENTER_LEFT);
+		setPadding(Insets.EMPTY);
 
 		setGraphic(textfield);
 	}
@@ -158,8 +158,7 @@ class LineTextDragCell extends DragSelectionCell {
 	private void onDragOver(MouseDragEvent event) {
 		if (getIndex() == selectableContent.getDragStart()) {
 			// we are dragging in the line of the node itself => we are trying to select
-			// something within the
-			// line
+			// something within the line
 			selectableContent.clearSelection();
 			selectableContent.setInternalSelection(textfield.getSelectedText());
 		}

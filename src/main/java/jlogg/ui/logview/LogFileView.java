@@ -6,12 +6,15 @@ import java.util.function.BiConsumer;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import jlogg.shared.LogLine;
 import jlogg.ui.FileTab;
+import jlogg.ui.GlobalConstants;
 import jlogg.ui.interfaces.DragSelectableContent;
+import jlogg.ui.utils.FXUtils;
 
 /**
  * The actual main view in which all the text will be displayed
@@ -20,10 +23,8 @@ import jlogg.ui.interfaces.DragSelectableContent;
  *
  */
 public class LogFileView extends TableView<LogLine> implements DragSelectableContent {
-
 	private final FileTab mainPane;
 
-	private final BookMarkColumn bookmarkColumn;
 	private final LineNumberColumn lineNumberColumn;
 	private final LineTextColumn lineTextColumn;
 
@@ -36,7 +37,6 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 
 	public LogFileView(FileTab mainPane, ObservableList<LogLine> lines) {
 		this(mainPane, lines, null);
-
 	}
 
 	public LogFileView(FileTab mainPane, ObservableList<LogLine> lines,
@@ -44,19 +44,17 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 		super(lines);
 		this.mainPane = mainPane;
 
-		bookmarkColumn = new BookMarkColumn();
 		lineNumberColumn = new LineNumberColumn(maxLineNumberColumnWidth);
-
 		lineTextColumn = new LineTextColumn(maxTextColumnWidth);
 
 		lineNumberColumn.setCellFactory((param) -> {
 			return new LineNumberDragCell(this);
 		});
+
 		lineTextColumn.setCellFactory((param) -> {
 			return new LineTextDragCell(this, mouseClickHandler);
 		});
 
-		getColumns().add(bookmarkColumn);
 		getColumns().add(lineNumberColumn);
 		getColumns().add(lineTextColumn);
 
@@ -64,6 +62,24 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 		getSelectionModel().setCellSelectionEnabled(true);
 
 		getStyleClass().add("logfileview");
+
+		setRowFactory(ts -> {
+			TableRow<LogLine> row = new TableRow<>();
+			row.getStyleClass().clear();
+			double size = FXUtils.caculateTextControlHeight(GlobalConstants.defaultFont.getValue());
+			row.setMaxHeight(size);
+			row.setPrefHeight(size);
+			row.setMinHeight(size);
+
+			GlobalConstants.defaultFont.addListener((obs, o, n) -> {
+				double fontSize = FXUtils.caculateTextControlHeight(n);
+				row.setMaxHeight(fontSize);
+				row.setPrefHeight(fontSize);
+				row.setMinHeight(fontSize);
+			});
+
+			return row;
+		});
 
 		maxTextColumnWidth.set(Screen.getPrimary().getBounds().getWidth());
 	}
