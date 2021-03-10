@@ -35,7 +35,7 @@ public class FileTab extends Tab {
 		this.file = file;
 		VBox content = new VBox();
 
-		progressBar = new ProgressBar(progress, "index-progress");
+		progressBar = new ProgressBar(progress);
 
 		mainView = new LogFileView(this, lines);
 

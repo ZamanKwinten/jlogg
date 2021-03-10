@@ -1,5 +1,4 @@
 .hoverableButton:hover {
-  -fx-background-color:#dae7f3;
   -fx-cursor: hand;
 }
 
@@ -22,20 +21,6 @@
 	-fx-padding: 3px;
 }
 
-.lineim{
-	-fx-background-color: rgb(128,128,128);
-	-fx-alignment: center;
-	-fx-border-color: rgb(128,128,128) rgb(0,0,0) rgb(128,128,128) rgb(128,128,128);
-}
-
-.lineim:selected{
-	-fx-border-color: rgb(128,128,128) rgb(0,0,0) rgb(128,128,128) rgb(128,128,128);
-}
-
-.lineim:hover{
-	-fx-cursor: hand;
-}
-
 .table-row-cell {
     -fx-padding: 0px;
     -fx-border-style: none;
@@ -55,26 +40,10 @@
 	-fx-padding: 0px;
 }
 
-.index-progress{
-	-fx-background-color: rgb(128,128,128);
-}	
-
-.index-progress .track{
-	-fx-background-color: rgb(128,128,128);
-}
-
-.index-progress .bar{
-	-fx-background-color: #D3D3D3;
-}
- 
-.search-progress{
-	-fx-background-color: rgb(244,244,244);
-}	
-
-.search-progress .track{
-	-fx-background-color: rgb(244,244,244);
-}
-
-.search-progress .bar{
-	-fx-background-color: #D3D3D3;
+.progress-bar > .bar {
+     -fx-background-color:ladder(
+        -fx-base,
+        black 49%,
+        #D3D3D3 50%
+     );
 }

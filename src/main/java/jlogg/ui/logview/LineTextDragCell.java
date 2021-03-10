@@ -8,9 +8,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.paint.Color;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.utils.FXUtils;
@@ -107,7 +104,7 @@ class LineTextDragCell extends DragSelectionCell {
 	 * @return boolean value indicating whether the style was applied or not
 	 */
 	private boolean applySelectedStyle() {
-		setBackground(new Background(new BackgroundFill(Color.DODGERBLUE, null, null)));
+		setStyle("-fx-background-color:rgb(30,144,255)");
 		textfield.setStyle("-fx-text-fill:rgb(255,255,255)");
 		return true;
 	}
@@ -120,8 +117,8 @@ class LineTextDragCell extends DragSelectionCell {
 	 */
 	private boolean applyDefaultStyle() {
 		if (!applyFilterStyle()) {
-			setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
-			textfield.setStyle("-fx-text-fill:rgb(0,0,0)");
+			setStyle("-fx-background-color: -fx-base");
+			textfield.setStyle("-fx-text-fill:-fx-text-base-color");
 		}
 		return true;
 	}
@@ -136,7 +133,7 @@ class LineTextDragCell extends DragSelectionCell {
 			for (Filter f : GlobalConstants.filters) {
 				try {
 					if (f.matches(textfield.getText())) {
-						setBackground(new Background(new BackgroundFill(f.getBackGroundColor(), null, null)));
+						setStyle("-fx-background-color:" + f.getBackGroundRGB());
 						textfield.setStyle("-fx-text-fill:" + f.getForeGroundRGB());
 						return true;
 					}

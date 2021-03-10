@@ -1,9 +1,6 @@
 package jlogg.ui.logview;
 
 import javafx.geometry.Pos;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.paint.Color;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.utils.FXUtils;
 
@@ -16,8 +13,10 @@ class LineNumberDragCell extends DragSelectionCell {
 			((LogFileView) selectableContent).resetLineNumberColumnWidth();
 			setPrefWidth();
 		});
-		setAlignment(Pos.CENTER_RIGHT);
-		setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, null, null)));
+		setAlignment(Pos.CENTER_LEFT);
+
+		setStyle(
+				"-fx-background-color: -fx-base; -fx-border-style:solid; -fx-border-width: 0 1 0 0; -fx-border-color: -fx-text-fill");
 		FXUtils.columnFreezeHack(this);
 	}
 

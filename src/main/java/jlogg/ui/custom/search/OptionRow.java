@@ -23,7 +23,7 @@ public class OptionRow extends HBox {
 
 	public OptionRow() {
 		super(5);
-		progressBar = new ProgressBar(GlobalConstants.searchProgress, "search-progress");
+		progressBar = new ProgressBar(GlobalConstants.searchProgress);
 
 		Label matchesLabel = new Label();
 		GlobalConstants.searchResults.addListener(new ListChangeListener<LogLine>() {

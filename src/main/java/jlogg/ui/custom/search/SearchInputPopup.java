@@ -39,6 +39,11 @@ public class SearchInputPopup extends Popup {
 				}
 			}
 		});
+
+		GlobalConstants.theme.addListener((obs, o, n) -> {
+			scroll.setStyle("-fx-base:" + n.getFXBase());
+		});
+		scroll.setStyle("-fx-base:" + GlobalConstants.theme.getValue().getFXBase());
 	}
 
 	public void open() {

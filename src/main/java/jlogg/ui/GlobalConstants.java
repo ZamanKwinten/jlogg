@@ -14,8 +14,7 @@ import javafx.scene.text.Font;
 import jlogg.shared.Filter;
 import jlogg.shared.LogLine;
 import jlogg.ui.custom.search.SearchHistoryList;
-import jlogg.ui.logview.ObservableFont;
-import jlogg.ui.menubar.ObservableKeyCombination;
+import jlogg.ui.utils.Observable;
 
 /**
  * Globally accessible lists used throughout the application
@@ -55,29 +54,25 @@ public class GlobalConstants {
 	 */
 	public static final SimpleDoubleProperty searchProgress = new SimpleDoubleProperty(0.0);
 
-	public static final ObservableFont defaultFont = new ObservableFont(Font.font("Arial", 15));
+	public static final Observable<Font> defaultFont = new Observable<>(Font.font("Arial", 15));
 
 	public enum ShortCut {
-		SELECT_ALL("Select All",
-				new ObservableKeyCombination(new KeyCodeCombination(KeyCode.A, KeyCodeCombination.SHORTCUT_DOWN))),
-		COPY("Copy", new ObservableKeyCombination(new KeyCodeCombination(KeyCode.C, KeyCodeCombination.SHORTCUT_DOWN))),
-		OPEN_SEARCH("Find...",
-				new ObservableKeyCombination(new KeyCodeCombination(KeyCode.F, KeyCodeCombination.SHORTCUT_DOWN))),
+		SELECT_ALL("Select All", new Observable<>(new KeyCodeCombination(KeyCode.A, KeyCodeCombination.SHORTCUT_DOWN))),
+		COPY("Copy", new Observable<>(new KeyCodeCombination(KeyCode.C, KeyCodeCombination.SHORTCUT_DOWN))),
+		OPEN_SEARCH("Find...", new Observable<>(new KeyCodeCombination(KeyCode.F, KeyCodeCombination.SHORTCUT_DOWN))),
 		OPEN_GO_TO_LINE("Go To Line...",
-				new ObservableKeyCombination(new KeyCodeCombination(KeyCode.L, KeyCodeCombination.SHORTCUT_DOWN))),
+				new Observable<>(new KeyCodeCombination(KeyCode.L, KeyCodeCombination.SHORTCUT_DOWN))),
 		OPEN_FILTERS("Filters...",
-				new ObservableKeyCombination(new KeyCodeCombination(KeyCode.H, KeyCodeCombination.SHORTCUT_DOWN))),
-		OPEN_FILES("Open...",
-				new ObservableKeyCombination(new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN))),
-		CLOSE_TAB("Close Tab",
-				new ObservableKeyCombination(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN))),
+				new Observable<>(new KeyCodeCombination(KeyCode.H, KeyCodeCombination.SHORTCUT_DOWN))),
+		OPEN_FILES("Open...", new Observable<>(new KeyCodeCombination(KeyCode.O, KeyCombination.SHORTCUT_DOWN))),
+		CLOSE_TAB("Close Tab", new Observable<>(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN))),
 		SAVE_SEARCH_RESULTS("Save Search Results...",
-				new ObservableKeyCombination(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN)));
+				new Observable<>(new KeyCodeCombination(KeyCode.S, KeyCombination.SHORTCUT_DOWN)));
 
 		private final String uiName;
-		private final ObservableKeyCombination keyCombo;
+		private final Observable<KeyCombination> keyCombo;
 
-		private ShortCut(String uiName, ObservableKeyCombination keyCombo) {
+		private ShortCut(String uiName, Observable<KeyCombination> keyCombo) {
 			this.uiName = uiName;
 			this.keyCombo = keyCombo;
 		}
@@ -86,7 +81,7 @@ public class GlobalConstants {
 			return uiName;
 		}
 
-		public ObservableKeyCombination observable() {
+		public Observable<KeyCombination> observable() {
 			return keyCombo;
 		}
 
@@ -96,6 +91,28 @@ public class GlobalConstants {
 
 		public void update(KeyCombination value) {
 			keyCombo.setValue(value);
+		}
+	}
+
+	public static Observable<Theme> theme = new Observable<>(Theme.LIGHT);
+
+	public enum Theme {
+		LIGHT("Light", "#d0d0d0"), DARK("Dark", "#121212");
+
+		private final String uiName;
+		private final String fxBase;
+
+		private Theme(String uiName, String fxBase) {
+			this.uiName = uiName;
+			this.fxBase = fxBase;
+		}
+
+		public String getUIName() {
+			return uiName;
+		}
+
+		public String getFXBase() {
+			return fxBase;
 		}
 	}
 }

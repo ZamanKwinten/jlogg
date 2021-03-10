@@ -10,21 +10,25 @@ import jlogg.Preferences;
 import jlogg.ui.prefences.FontSelector;
 import jlogg.ui.prefences.PreferencesTab;
 import jlogg.ui.prefences.ShortcutSelector;
+import jlogg.ui.prefences.ThemeSelector;
 
 public class PreferencesPopup extends PopupWithReturn<Preferences> {
 
 	private final PreferencesTab<FontSelector> fontSetup;
 	private final PreferencesTab<ShortcutSelector> shortcutSetup;
+	private final PreferencesTab<ThemeSelector> themeSetup;
 
 	public PreferencesPopup() {
 		setTitle("Preferences");
 
+		themeSetup = new PreferencesTab<>("Theme", new ThemeSelector());
 		fontSetup = new PreferencesTab<>("Font", new FontSelector(this));
 		shortcutSetup = new PreferencesTab<>("Shortcuts", new ShortcutSelector());
 
 		TreeItem<String> root = new TreeItem<>("Editor");
 		root.setExpanded(true);
 
+		root.getChildren().add(themeSetup);
 		root.getChildren().add(fontSetup);
 		root.getChildren().add(shortcutSetup);
 
@@ -49,7 +53,7 @@ public class PreferencesPopup extends PopupWithReturn<Preferences> {
 			}
 		});
 
-		tree.getSelectionModel().select(fontSetup);
+		tree.getSelectionModel().select(themeSetup);
 
 		content.getChildren().addAll(grid, getCancelableFooterBox("Save", null));
 		setResizable(false);
@@ -57,6 +61,7 @@ public class PreferencesPopup extends PopupWithReturn<Preferences> {
 
 	@Override
 	protected Preferences getReturnValue() {
-		return new Preferences(fontSetup.node().getFont(), shortcutSetup.node().getKeyMap());
+		return new Preferences(fontSetup.node().getFont(), shortcutSetup.node().getKeyMap(),
+				themeSetup.node().getTheme());
 	}
 }

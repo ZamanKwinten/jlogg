@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.GlobalConstants.ShortCut;
+import jlogg.ui.GlobalConstants.Theme;
 
 /**
  * Class to define some constants used throughout the application TODO =>
@@ -88,7 +89,7 @@ public class ConstantMgr {
 			if (preferencesJSON != null) {
 				JSONObject fontJSON = preferencesJSON.optJSONObject(Preferences.JSON.FONT);
 				if (fontJSON != null) {
-					GlobalConstants.defaultFont.setFont(new Font(fontJSON.getString(Preferences.JSON.FAMILY),
+					GlobalConstants.defaultFont.setValue(new Font(fontJSON.getString(Preferences.JSON.FAMILY),
 							fontJSON.getDouble(Preferences.JSON.SIZE)));
 				}
 
@@ -101,6 +102,11 @@ public class ConstantMgr {
 							key.update(combo);
 						}
 					}
+				}
+
+				String themeName = preferencesJSON.optString(Preferences.JSON.THEME, null);
+				if (themeName != null) {
+					GlobalConstants.theme.setValue(Theme.valueOf(themeName));
 				}
 			}
 

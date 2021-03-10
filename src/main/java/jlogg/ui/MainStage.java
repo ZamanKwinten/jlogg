@@ -13,6 +13,8 @@ public class MainStage extends Stage {
 		Scene s = new Scene(root);
 		setScene(s);
 		setMaximized(true);
+
+		setTitle("JLogg");
 	}
 
 	public MainPane getMainPane() {

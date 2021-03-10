@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 import jlogg.ui.GlobalConstants.ShortCut;
+import jlogg.ui.GlobalConstants.Theme;
 
 public class Preferences {
 	public static class JSON {
@@ -14,20 +15,18 @@ public class Preferences {
 		public static String FAMILY = "family";
 		public static String SIZE = "size";
 		public static String SHORTCUTS = "shortcut";
-	}
-
-	public static Preferences fromJSON(JSONObject json) {
-		JSONObject fontJSON = json.getJSONObject(JSON.FONT);
-		Font font = new Font(fontJSON.getString(JSON.FAMILY), fontJSON.getDouble(JSON.SIZE));
-		return new Preferences(font, null);
+		public static String THEME = "theme";
 	}
 
 	private final Font font;
 	private final Map<ShortCut, KeyCombination> keyMap;
+	private final Theme theme;
 
-	public Preferences(Font font, @SuppressWarnings("exports") Map<ShortCut, KeyCombination> keyMap) {
+	@SuppressWarnings("exports")
+	public Preferences(Font font, Map<ShortCut, KeyCombination> keyMap, Theme theme) {
 		this.font = font;
 		this.keyMap = keyMap;
+		this.theme = theme;
 	}
 
 	public JSONObject toJSON() {
@@ -44,6 +43,8 @@ public class Preferences {
 			keyMap.put(key.name(), combo.getName());
 		}
 		preferences.put(JSON.SHORTCUTS, keyMap);
+
+		preferences.put(JSON.THEME, theme.name());
 
 		return preferences;
 	}

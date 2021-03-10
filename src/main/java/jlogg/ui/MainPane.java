@@ -27,11 +27,15 @@ public class MainPane extends VBox {
 
 		menuBar = new MenuBarWrapper(this);
 		tabPane = new TabPane();
-		// TODO add a default screen
 
 		setVgrow(tabPane, Priority.ALWAYS);
 
 		getChildren().addAll(menuBar, tabPane);
+
+		GlobalConstants.theme.addListener((obs, o, n) -> {
+			setStyle("-fx-base:" + n.getFXBase());
+		});
+		setStyle("-fx-base:" + GlobalConstants.theme.getValue().getFXBase());
 	}
 
 	/**

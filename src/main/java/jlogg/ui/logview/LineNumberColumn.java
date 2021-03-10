@@ -16,8 +16,6 @@ class LineNumberColumn extends TableColumn<LogLine, String> {
 		maxWidthProperty().bind(width);
 		prefWidthProperty().bind(width);
 
-		setStyle("-fx-alignment: CENTER-LEFT");
-
 		setSortable(false);
 	}
 }
