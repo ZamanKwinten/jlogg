@@ -80,6 +80,7 @@ public class ConstantMgr {
 
 			JSONArray filters = jsonConfig.optJSONArray(JSONKeys.FILTERS);
 			if (filters != null) {
+				GlobalConstants.filters.clear();
 				for (int i = 0; i < filters.length(); i++) {
 					GlobalConstants.filters.add(Filter.fromJSON(filters.getJSONObject(i)));
 				}
