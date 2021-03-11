@@ -11,3 +11,7 @@
 		black 50%
 	);
 }
+
+.text-field {
+	-fx-text-fill:-fx-jlogg-text-fill-color;
+}
