@@ -28,11 +28,6 @@ public class MainPane extends VBox {
 		setVgrow(tabPane, Priority.ALWAYS);
 
 		getChildren().addAll(menuBar, tabPane);
-
-		GlobalConstants.theme.addListener((obs, o, n) -> {
-			setStyle("-fx-base:" + n.getFXBase());
-		});
-		setStyle("-fx-base:" + GlobalConstants.theme.getValue().getFXBase());
 	}
 
 	/**

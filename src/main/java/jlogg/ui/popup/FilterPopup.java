@@ -7,11 +7,13 @@ import java.util.Optional;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
@@ -25,7 +27,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import jlogg.shared.Filter;
@@ -106,13 +107,14 @@ public class FilterPopup extends Stage {
 		rc.setVgrow(Priority.ALWAYS);
 		root.getRowConstraints().add(rc);
 
-		root.getStylesheets().add(ResourceLoader.loadResourceFile("FilterPopup.css"));
-		root.getStyleClass().add("root");
+		root.setPadding(new Insets(5));
 
 		setMinWidth(520);
 		setMinHeight(250);
 
 		Scene s = new Scene(root, 550, 350);
+		s.getStylesheets().addAll(ResourceLoader.loadResourceFile("color.css"));
+		s.getRoot().setStyle("-fx-base:" + GlobalConstants.theme.getValue().getFXBase());
 		setScene(s);
 
 		setTitle("Filters");
@@ -137,8 +139,8 @@ public class FilterPopup extends Stage {
 
 					} else {
 						setText(null);
-						background = "rgb(255,255,255)";
-						foreground = "rgb(0,0,0)";
+						background = "-fx-jlogg-background-color";
+						foreground = "-fx-jlogg-text-fill-color";
 					}
 
 					setStyle("-fx-background-color:" + background + ";" + "-fx-text-fill:" + foreground);
@@ -164,6 +166,8 @@ public class FilterPopup extends Stage {
 			}
 
 		});
+
+		registeredFilters.setStyle("-fx-background-color:-fx-jlogg-background-color");
 
 		AnchorPane anchor = new AnchorPane();
 		HBox leftButtonBox = new HBox(5.0);
@@ -204,7 +208,10 @@ public class FilterPopup extends Stage {
 	private Pane initRightPane() {
 		GridPane grid = new GridPane();
 
-		Text matchingPatternText = new Text("Matching Pattern:");
+		grid.setHgap(5);
+
+		Label matchingPatternText = new Label("Matching Pattern:");
+		matchingPatternText.setStyle("-fx-text-fill:-fx-jlogg-text-fill-color");
 		matchingPatternInput = new TextField();
 		matchingPatternInput.disableProperty().bind(disabledControls);
 		matchingPatternInput.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -216,6 +223,7 @@ public class FilterPopup extends Stage {
 		});
 
 		ignoreCase = new CheckBox("Ignore case");
+		ignoreCase.setStyle("-fx-text-fill:-fx-jlogg-text-fill-color");
 		ignoreCase.disableProperty().bind(disabledControls);
 		ignoreCase.setOnAction((event) -> {
 			if (currentFilter != null) {
@@ -224,7 +232,8 @@ public class FilterPopup extends Stage {
 		});
 		ignoreCase.setMaxWidth(Double.MAX_VALUE);
 
-		Text textColor = new Text("Fore Color:");
+		Label textColor = new Label("Fore Color:");
+		textColor.setStyle("-fx-text-fill:-fx-jlogg-text-fill-color");
 		foreColorPicker = new ColorPicker(Color.BLACK);
 		foreColorPicker.disableProperty().bind(disabledControls);
 		foreColorPicker.setOnAction((event) -> {
@@ -235,7 +244,8 @@ public class FilterPopup extends Stage {
 			}
 		});
 
-		Text backColor = new Text("Back Color:");
+		Label backColor = new Label("Back Color:");
+		backColor.setStyle("-fx-text-fill:-fx-jlogg-text-fill-color");
 		backColorPicker = new ColorPicker();
 		backColorPicker.disableProperty().bind(disabledControls);
 		backColorPicker.setOnAction((event) -> {
@@ -261,7 +271,7 @@ public class FilterPopup extends Stage {
 		grid.add(backColor, 0, 3);
 		grid.add(backColorPicker, 1, 3);
 
-		grid.getStyleClass().add("rightPane");
+		grid.setPadding(new Insets(0, 0, 0, 10));
 
 		ColumnConstraints cc = new ColumnConstraints();
 		cc.setHgrow(Priority.ALWAYS);

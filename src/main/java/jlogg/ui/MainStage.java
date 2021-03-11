@@ -15,6 +15,11 @@ public class MainStage extends Stage {
 		setScene(s);
 		s.getStylesheets().addAll(ResourceLoader.loadResourceFile("Default.css"),
 				ResourceLoader.loadResourceFile("color.css"));
+		GlobalConstants.theme.addListener((obs, o, n) -> {
+			s.getRoot().setStyle("-fx-base:" + n.getFXBase());
+		});
+		s.getRoot().setStyle("-fx-base:" + GlobalConstants.theme.getValue().getFXBase());
+
 		setMaximized(true);
 
 		setTitle("JLogg");
