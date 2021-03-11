@@ -18,7 +18,8 @@ public class FXUtils {
 	public static double caculateTextControlHeight(Font font) {
 		Text tmp = new Text("t");
 		tmp.setFont(font);
-		return tmp.getLayoutBounds().getHeight();
+
+		return Math.floor(tmp.getLayoutBounds().getHeight()) + 1;
 	}
 
 	public static double calculateTextControlWidth(Font font, String text, double padding) {

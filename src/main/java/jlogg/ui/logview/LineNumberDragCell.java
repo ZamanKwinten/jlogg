@@ -16,7 +16,7 @@ class LineNumberDragCell extends DragSelectionCell {
 		setAlignment(Pos.CENTER_LEFT);
 
 		setStyle(
-				"-fx-background-color: -fx-base; -fx-border-style:solid; -fx-border-width: 0 1 0 0; -fx-border-color: -fx-text-fill");
+				"-fx-background-color: -fx-jlogg-background-color; -fx-border-style: solid; -fx-border-width: 0 1 0 0; -fx-border-color: -fx-jlogg-text-fill-color");
 		FXUtils.columnFreezeHack(this);
 	}
 

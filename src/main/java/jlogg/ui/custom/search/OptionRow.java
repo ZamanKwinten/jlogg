@@ -2,6 +2,7 @@ package jlogg.ui.custom.search;
 
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -52,6 +53,7 @@ public class OptionRow extends HBox {
 		searchAllFiles.setMinWidth(110);
 
 		setHgrow(progressBar, Priority.ALWAYS);
+		setPadding(new Insets(5));
 		getStyleClass().add("optionRowPadding");
 		setAlignment(Pos.CENTER_LEFT);
 

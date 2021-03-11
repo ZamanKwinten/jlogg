@@ -105,7 +105,7 @@ class LineTextDragCell extends DragSelectionCell {
 	 */
 	private boolean applySelectedStyle() {
 		setStyle("-fx-background-color:rgb(30,144,255)");
-		textfield.setStyle("-fx-text-fill:rgb(255,255,255)");
+		textfield.setStyle("-fx-text-fill: white");
 		return true;
 	}
 
@@ -117,8 +117,8 @@ class LineTextDragCell extends DragSelectionCell {
 	 */
 	private boolean applyDefaultStyle() {
 		if (!applyFilterStyle()) {
-			setStyle("-fx-background-color: -fx-base");
-			textfield.setStyle("-fx-text-fill:-fx-text-base-color");
+			setStyle("-fx-background-color: -fx-jlogg-background-color");
+			textfield.setStyle("-fx-text-fill: -fx-jlogg-text-fill-color");
 		}
 		return true;
 	}

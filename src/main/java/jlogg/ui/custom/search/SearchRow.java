@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javafx.event.Event;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -41,17 +42,18 @@ public class SearchRow extends HBox {
 		searchButton = new Label("Search");
 		searchButton.setOnMouseClicked(this::fireSearch);
 		searchButton.getStyleClass().add("hoverableButton");
-		searchButton.getStyleClass().add("searchButton");
+		searchButton.setPadding(new Insets(3));
 
 		closeButton = new Label("X");
 		closeButton.getStyleClass().add("hoverableButton");
-		closeButton.getStyleClass().add("searchCloseButton");
+		closeButton.setPadding(new Insets(3));
 		closeButton.setOnMouseClicked((event) -> {
 			parent.hide();
 		});
 
 		setHgrow(searchInput, Priority.ALWAYS);
-		getStyleClass().add("searchRowPadding");
+		setPadding(new Insets(0, 5, 0, 5));
+
 		setAlignment(Pos.CENTER_LEFT);
 		getChildren().addAll(textLabel, searchInput, searchButton, closeButton);
 	}

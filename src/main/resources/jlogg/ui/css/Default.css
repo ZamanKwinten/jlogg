@@ -2,27 +2,13 @@
   -fx-cursor: hand;
 }
 
-.searchRowPadding{
-	-fx-padding: 0 5 0 5;
-}
-.optionRowPadding{
-	-fx-padding: 5;
-}
-
 .resize:hover{
 	-fx-cursor: v-resize
 }
 
-.searchButton{
-	-fx-padding: 3px;
-}
-
-.searchCloseButton{
-	-fx-padding: 3px;
-}
-
 .table-row-cell {
     -fx-padding: 0px;
+    -fx-border-width: 0px;
     -fx-border-style: none;
 }
 

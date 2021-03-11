@@ -14,7 +14,6 @@ import javafx.scene.layout.VBox;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.IndexStartEvent;
 import jlogg.shared.LogLine;
-import jlogg.ui.css.ResourceLoader;
 import jlogg.ui.menubar.MenuBarWrapper;
 
 public class MainPane extends VBox {
@@ -23,8 +22,6 @@ public class MainPane extends VBox {
 	private final TabPane tabPane;
 
 	public MainPane() {
-		getStylesheets().add(ResourceLoader.loadResourceFile("Default.css"));
-
 		menuBar = new MenuBarWrapper(this);
 		tabPane = new TabPane();
 

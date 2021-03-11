@@ -1,0 +1,13 @@
+.root{
+	-fx-jlogg-background-color: ladder(
+		-fx-base,
+		black 49%,
+		white 50%
+	);
+	
+	-fx-jlogg-text-fill-color: ladder(
+		-fx-base,
+		white 49%,
+		black 50%
+	);
+}

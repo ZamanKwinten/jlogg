@@ -9,6 +9,7 @@ module jlogg {
 
 	requires com.google.common;
 	requires transitive org.json;
+	requires javafx.graphics;
 
 	opens jlogg.os.windows to java.rmi;
 	opens jlogg.eventbus to com.google.common;
