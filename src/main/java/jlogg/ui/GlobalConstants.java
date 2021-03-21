@@ -47,7 +47,9 @@ public class GlobalConstants {
 	/**
 	 * Results of the current search
 	 */
-	public static final ObservableList<LogLine> searchResults = FXCollections.observableArrayList();
+	public static final ObservableList<LogLine> multiFileSearchResults = FXCollections.observableArrayList();
+
+	public static final Map<File, ObservableList<LogLine>> singleFileSearchResults = new HashMap<>();
 
 	/**
 	 * Progress of the current search
@@ -59,7 +61,11 @@ public class GlobalConstants {
 	public enum ShortCut {
 		SELECT_ALL("Select All", new Observable<>(new KeyCodeCombination(KeyCode.A, KeyCodeCombination.SHORTCUT_DOWN))),
 		COPY("Copy", new Observable<>(new KeyCodeCombination(KeyCode.C, KeyCodeCombination.SHORTCUT_DOWN))),
-		OPEN_SEARCH("Find...", new Observable<>(new KeyCodeCombination(KeyCode.F, KeyCodeCombination.SHORTCUT_DOWN))),
+		OPEN_SEARCH("Find in File...",
+				new Observable<>(new KeyCodeCombination(KeyCode.F, KeyCodeCombination.SHORTCUT_DOWN))),
+		OPEN_ALL_SEARCH("Find in all Files...",
+				new Observable<>(new KeyCodeCombination(KeyCode.F, KeyCodeCombination.SHORTCUT_DOWN,
+						KeyCodeCombination.SHIFT_DOWN))),
 		OPEN_GO_TO_LINE("Go To Line...",
 				new Observable<>(new KeyCodeCombination(KeyCode.L, KeyCodeCombination.SHORTCUT_DOWN))),
 		OPEN_FILTERS("Filters...",

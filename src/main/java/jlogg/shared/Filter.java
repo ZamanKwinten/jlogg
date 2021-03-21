@@ -10,7 +10,7 @@ public class Filter extends SearchCriteria implements Cloneable {
 
 	private static final class JSONKeys {
 		private static final String PATTERN = "pattern";
-		private static final String IGNORE_CASE = "ignoreCase";
+		private static final String SEARCHOPTIONS = "searchOptions";
 		private static final String FOREGROUND = "foreground";
 		private static final String BACKGROUND = "background";
 		private static final String RED = "r";
@@ -21,10 +21,10 @@ public class Filter extends SearchCriteria implements Cloneable {
 
 	public static Filter fromJSON(JSONObject json) {
 		String pattern = json.getString(JSONKeys.PATTERN);
-		boolean ignoreCase = json.getBoolean(JSONKeys.IGNORE_CASE);
+		SearchOptions searchOptions = SearchOptions.fromJSON(json.getJSONObject(JSONKeys.SEARCHOPTIONS));
 		Color foreground = getColorFromJSON(json.getJSONObject(JSONKeys.FOREGROUND));
 		Color background = getColorFromJSON(json.getJSONObject(JSONKeys.BACKGROUND));
-		return new Filter(pattern, ignoreCase, foreground, background);
+		return new Filter(pattern, searchOptions, foreground, background);
 	}
 
 	private static Color getColorFromJSON(JSONObject json) {
@@ -35,8 +35,8 @@ public class Filter extends SearchCriteria implements Cloneable {
 		return new Color(red, green, blue, opacity);
 	}
 
-	public Filter(String pattern, boolean ignoreCase, Color foreGround, Color backGround) {
-		super(pattern, ignoreCase);
+	public Filter(String pattern, SearchOptions searchOptions, Color foreGround, Color backGround) {
+		super(pattern, searchOptions);
 		this.foreGroundColor = foreGround;
 		this.backGroundColor = backGround;
 	}
@@ -71,13 +71,13 @@ public class Filter extends SearchCriteria implements Cloneable {
 
 	@Override
 	public Filter clone() {
-		return new Filter(pattern, ignoreCase, foreGroundColor, backGroundColor);
+		return new Filter(pattern, searchOptions, foreGroundColor, backGroundColor);
 	}
 
 	public JSONObject toJSON() {
 		JSONObject filter = new JSONObject();
 		filter.put(JSONKeys.PATTERN, pattern);
-		filter.put(JSONKeys.IGNORE_CASE, ignoreCase);
+		filter.put(JSONKeys.SEARCHOPTIONS, searchOptions.toJSON());
 		filter.put(JSONKeys.FOREGROUND, colorToJSON(foreGroundColor));
 		filter.put(JSONKeys.BACKGROUND, colorToJSON(backGroundColor));
 		return filter;
@@ -90,5 +90,13 @@ public class Filter extends SearchCriteria implements Cloneable {
 		json.put(JSONKeys.BLUE, color.getBlue());
 		json.put(JSONKeys.OPACITY, color.getOpacity());
 		return json;
+	}
+
+	public void setIgnoreCase(boolean ignoreCase) {
+		searchOptions.setIgnoreCase(ignoreCase);
+	}
+
+	public boolean isIgnoreCase() {
+		return searchOptions.ignoreCase();
 	}
 }

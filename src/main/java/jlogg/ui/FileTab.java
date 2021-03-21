@@ -9,14 +9,16 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import jlogg.shared.LogLine;
-import jlogg.ui.custom.FilteredView;
+import jlogg.ui.custom.MultiFileSearchView;
+import jlogg.ui.custom.SingleFileSearchView;
 import jlogg.ui.custom.search.ProgressBar;
 import jlogg.ui.logview.LogFileView;
 
 public class FileTab extends Tab {
 
 	private final LogFileView mainView;
-	private final FilteredView filteredView;
+	private final SingleFileSearchView singleFileSearchView;
+	private final MultiFileSearchView multiFileSearchView;
 	private final ProgressBar progressBar;
 
 	/**
@@ -39,20 +41,28 @@ public class FileTab extends Tab {
 
 		mainView = new LogFileView(this, lines);
 
-		filteredView = new FilteredView(mainPane, this);
+		singleFileSearchView = new SingleFileSearchView(mainPane, this);
+		multiFileSearchView = new MultiFileSearchView(mainPane, this);
 		// initialize it to something
 		lastSelection = mainView;
 
 		VBox.setVgrow(mainView, Priority.ALWAYS);
-		VBox.setVgrow(filteredView, Priority.ALWAYS);
+		VBox.setVgrow(singleFileSearchView, Priority.ALWAYS);
+		VBox.setVgrow(multiFileSearchView, Priority.ALWAYS);
 
-		content.getChildren().addAll(progressBar, mainView, filteredView);
-		filteredView.hide();
+		content.getChildren().addAll(progressBar, mainView, singleFileSearchView, multiFileSearchView);
+		singleFileSearchView.hide();
+		multiFileSearchView.hide();
 
-		selectedProperty().addListener((event) -> {
-			if (!GlobalConstants.searchResults.isEmpty()) {
-				// TODO this should only display if this file was in the search
-				filteredView.show();
+		singleFileSearchView.visibleProperty().addListener((obs, o, n) -> {
+			if (n) {
+				multiFileSearchView.hide();
+			}
+		});
+
+		multiFileSearchView.visibleProperty().addListener((obs, o, n) -> {
+			if (n) {
+				singleFileSearchView.hide();
 			}
 		});
 
@@ -71,13 +81,18 @@ public class FileTab extends Tab {
 		return lastSelection.getSingleLineSelection();
 	}
 
-	public void showFilteredView() {
-		getSingleLineSelection().ifPresent(string -> filteredView.setSearchText(string));
-		filteredView.show();
+	public void showSingleFileSearchView() {
+		getSingleLineSelection().ifPresent(string -> singleFileSearchView.setSearchText(string));
+		singleFileSearchView.show();
 	}
 
-	public void applyFilters() {
-		mainView.refresh();
+	public void showMultiFileSearchView() {
+		getSingleLineSelection().ifPresent(string -> multiFileSearchView.setSearchText(string));
+		multiFileSearchView.show();
+	}
+
+	public MultiFileSearchView getMultiFileSearchView() {
+		return multiFileSearchView;
 	}
 
 	public File getFile() {
@@ -85,7 +100,7 @@ public class FileTab extends Tab {
 	}
 
 	public String getSearch() {
-		return filteredView.getSearch();
+		return singleFileSearchView.getSearch();
 	}
 
 	public void selectLogLine(int index) {

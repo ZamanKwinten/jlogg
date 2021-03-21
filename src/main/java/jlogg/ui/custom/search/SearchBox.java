@@ -1,20 +1,22 @@
 package jlogg.ui.custom.search;
 
+import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.scene.layout.VBox;
-import jlogg.ui.FileTab;
-import jlogg.ui.MainPane;
-import jlogg.ui.custom.FilteredView;
+import jlogg.shared.LogLine;
+import jlogg.shared.SearchOptions;
+import jlogg.ui.custom.FileSearchView;
 
-public class SearchBox extends VBox {
+public abstract class SearchBox extends VBox {
 
-	final FilteredView parent;
+	final FileSearchView parent;
 	final OptionRow optionRow;
 	final SearchRow searchRow;
 
-	public SearchBox(MainPane mainPane, FileTab filetab, FilteredView parent) {
+	public SearchBox(FileSearchView parent) {
 		this.parent = parent;
-		optionRow = new OptionRow();
-		searchRow = new SearchRow(mainPane, filetab, this);
+		optionRow = new OptionRow(this);
+		searchRow = new SearchRow(this);
 
 		getChildren().addAll(searchRow, optionRow);
 	}
@@ -23,20 +25,26 @@ public class SearchBox extends VBox {
 		searchRow.focusSearchText();
 	}
 
-	public void setSearchText(String text) {
+	public void setSearchText(String text, SearchOptions searchOptions) {
 		searchRow.setSearchText(text);
+		optionRow.setSearchOptions(searchOptions);
 	}
 
 	void hide() {
 		parent.hide();
 	}
 
-	boolean isIgnoreCase() {
-		return optionRow.isIgnoreCase();
-	}
-
 	public String getSearch() {
 		return searchRow.getSearch();
 	}
 
+	public SearchOptions getSearchOptions() {
+		return optionRow.getSearchOptions();
+	}
+
+	ObservableList<LogLine> getSearchResultList() {
+		return parent.getSearchResultList();
+	}
+
+	public abstract void fireSearch(Event event);
 }

@@ -2,7 +2,6 @@ package jlogg.datahandlers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,10 +12,10 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import jlogg.ConstantMgr;
 import jlogg.eventbus.EventBusFactory;
+import jlogg.eventbus.SearchEvent;
 import jlogg.eventbus.SearchFinishedEvent;
 import jlogg.eventbus.SearchResultEvent;
 import jlogg.shared.LogLine;
-import jlogg.shared.SearchCriteria;
 
 public class FileSearcher extends FileIterator {
 
@@ -30,11 +29,11 @@ public class FileSearcher extends FileIterator {
 			ConstantMgr.instance().searchServiceThreadCount,
 			new ThreadFactoryBuilder().setDaemon(true).setNameFormat("search-thread-%d").build());
 
-	private final SearchCriteria criteria;
+	private final SearchEvent searchEvent;
 
-	public FileSearcher(Collection<File> files, SearchCriteria criteria) {
-		super(files);
-		this.criteria = criteria;
+	public FileSearcher(SearchEvent searchEvent) {
+		super(searchEvent.getFiles());
+		this.searchEvent = searchEvent;
 	}
 
 	@Override
@@ -59,12 +58,12 @@ public class FileSearcher extends FileIterator {
 
 	@Override
 	protected boolean shouldAddToTempResult(String s) {
-		return criteria.matches(s);
+		return searchEvent.getCriteria().matches(s);
 	}
 
 	@Override
 	protected void submitPercentEvent(File file, List<LogLine> lines, double percentage) {
-		EventBusFactory.getInstance().getEventBus().post(new SearchResultEvent(lines, percentage));
+		EventBusFactory.getInstance().getEventBus().post(new SearchResultEvent(searchEvent, lines, percentage));
 		// make sure to clear the list of cached log lines to prevent subsequent submits
 		// to include these
 		lines.clear();
@@ -72,6 +71,6 @@ public class FileSearcher extends FileIterator {
 
 	@Override
 	protected void submitFinishedEvent(File file, List<LogLine> lines) {
-		EventBusFactory.getInstance().getEventBus().post(new SearchFinishedEvent(lines));
+		EventBusFactory.getInstance().getEventBus().post(new SearchFinishedEvent(searchEvent, lines));
 	}
 }

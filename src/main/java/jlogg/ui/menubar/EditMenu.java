@@ -14,6 +14,7 @@ public class EditMenu extends Menu {
 	private final MenuItem copyMenuItem;
 	private final MenuItem selectAllMenuItem;
 	private final MenuItem findMenuItem;
+	private final MenuItem findAllMenuItem;
 	private final MenuItem goToMenuItem;
 
 	public EditMenu(MainPane mainPane) {
@@ -34,7 +35,14 @@ public class EditMenu extends Menu {
 		findMenuItem = new MenuItemWithAccelerator(ShortCut.OPEN_SEARCH);
 		findMenuItem.setOnAction((event) -> {
 			if (mainPane.getCurrentSelectedTab() != null) {
-				mainPane.getCurrentSelectedTab().showFilteredView();
+				mainPane.getCurrentSelectedTab().showSingleFileSearchView();
+			}
+		});
+
+		findAllMenuItem = new MenuItemWithAccelerator(ShortCut.OPEN_ALL_SEARCH);
+		findAllMenuItem.setOnAction((event) -> {
+			if (mainPane.getCurrentSelectedTab() != null) {
+				mainPane.getCurrentSelectedTab().showMultiFileSearchView();
 			}
 		});
 
@@ -49,6 +57,7 @@ public class EditMenu extends Menu {
 			}
 		});
 
-		getItems().addAll(copyMenuItem, selectAllMenuItem, new SeparatorMenuItem(), findMenuItem, goToMenuItem);
+		getItems().addAll(copyMenuItem, selectAllMenuItem, new SeparatorMenuItem(), findMenuItem, findAllMenuItem,
+				goToMenuItem);
 	}
 }

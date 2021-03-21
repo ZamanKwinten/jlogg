@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import jlogg.shared.LogLine;
+import jlogg.shared.SearchOptions;
 import jlogg.ui.GlobalConstants;
 
 public class OptionRow extends HBox {
@@ -17,17 +18,16 @@ public class OptionRow extends HBox {
 	// bookmarks)
 	private final ProgressBar progressBar;
 	private CheckBox ignoreCaseCheck;
-	private CheckBox searchAllFiles;
 
 	// private CheckBox autoRefreshCheck; -> maybe in the future currently no auto
 	// refresh support
 
-	public OptionRow() {
+	public OptionRow(SearchBox searchBox) {
 		super(5);
 		progressBar = new ProgressBar(GlobalConstants.searchProgress);
 
 		Label matchesLabel = new Label();
-		GlobalConstants.searchResults.addListener(new ListChangeListener<LogLine>() {
+		searchBox.getSearchResultList().addListener(new ListChangeListener<LogLine>() {
 			@Override
 			public void onChanged(Change<? extends LogLine> c) {
 				Platform.runLater(() -> {
@@ -47,28 +47,19 @@ public class OptionRow extends HBox {
 		ignoreCaseCheck.setSelected(true);
 		ignoreCaseCheck.setMinWidth(85);
 
-		// by default off since this will/should open another window (extra click)
-		searchAllFiles = new CheckBox("Search all files");
-		searchAllFiles.setSelected(false);
-		searchAllFiles.setMinWidth(110);
-
 		setHgrow(progressBar, Priority.ALWAYS);
 		setPadding(new Insets(5));
 		getStyleClass().add("optionRowPadding");
 		setAlignment(Pos.CENTER_LEFT);
 
-		getChildren().addAll(progressBar, matchesLabel, ignoreCaseCheck, searchAllFiles);
+		getChildren().addAll(progressBar, matchesLabel, ignoreCaseCheck);
 	}
 
-	public void setIgnoreCase(boolean val) {
-		ignoreCaseCheck.setSelected(val);
+	public void setSearchOptions(SearchOptions opt) {
+		ignoreCaseCheck.setSelected(opt.ignoreCase());
 	}
 
-	public boolean isIgnoreCase() {
-		return ignoreCaseCheck.isSelected();
-	}
-
-	public boolean isAllFilesSearch() {
-		return searchAllFiles.isSelected();
+	public SearchOptions getSearchOptions() {
+		return new SearchOptions(ignoreCaseCheck.isSelected());
 	}
 }

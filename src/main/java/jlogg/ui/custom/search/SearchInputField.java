@@ -74,7 +74,7 @@ public class SearchInputField extends TextField {
 
 		setText(pattern);
 		positionCaret(pattern.length());
-		searchBox.optionRow.setIgnoreCase(criteria.isIgnoreCase());
+		searchBox.optionRow.setSearchOptions(criteria.getSearchOptions());
 
 		fireEvent(new ActionEvent());
 

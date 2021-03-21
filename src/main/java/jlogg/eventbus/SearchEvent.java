@@ -3,9 +3,10 @@ package jlogg.eventbus;
 import java.io.File;
 import java.util.List;
 
+import jlogg.shared.LogLine;
 import jlogg.shared.SearchCriteria;
 
-public class SearchEvent {
+public abstract class SearchEvent {
 
 	private final SearchCriteria criteria;
 	private final List<File> files;
@@ -22,4 +23,8 @@ public class SearchEvent {
 	public SearchCriteria getCriteria() {
 		return criteria;
 	}
+
+	public abstract void clearGlobalConstants();
+
+	public abstract void setGlobalConstants(List<LogLine> lines);
 }

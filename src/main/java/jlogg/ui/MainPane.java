@@ -3,6 +3,7 @@ package jlogg.ui;
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleDoubleProperty;
@@ -13,7 +14,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.IndexStartEvent;
-import jlogg.shared.LogLine;
 import jlogg.ui.menubar.MenuBarWrapper;
 
 public class MainPane extends VBox {
@@ -62,8 +62,7 @@ public class MainPane extends VBox {
 	 */
 	private void addTab(File file, boolean shouldSelect) {
 		// Check to see whether a tab for that file already exists
-		int index = findFileTab(file);
-		FileTab filetab = index == -1 ? null : (FileTab) tabPane.getTabs().get(index);
+		FileTab filetab = findFileTab(file).orElse(null);
 
 		if (filetab == null) {
 			GlobalConstants.fileLogLines.put(file, FXCollections.observableArrayList());
@@ -90,29 +89,23 @@ public class MainPane extends VBox {
 				.collect(Collectors.toList());
 	}
 
-	public void selectLine(LogLine line) {
-		int index = findFileTab(line.getFile());
-		if (index == -1) {
-			// TODO ignored for now should show some kind of warning
-		} else {
-			tabPane.getSelectionModel().select(index);
-			((FileTab) tabPane.getTabs().get(index)).selectLogLine(line.getLineNumber());
-		}
-	}
-
-	private int findFileTab(File file) {
+	public Optional<FileTab> findFileTab(File file) {
 		for (int i = 0; i < tabPane.getTabs().size(); i++) {
 			if (tabPane.getTabs().get(i) instanceof FileTab) {
 				FileTab fileTab = (FileTab) tabPane.getTabs().get(i);
 				if (Objects.equals(file, fileTab.getFile())) {
-					return i;
+					return Optional.of(fileTab);
 				}
 			}
 		}
-		return -1;
+		return Optional.empty();
 	}
 
 	public void closeAllTabs() {
 		tabPane.getTabs().clear();
+	}
+
+	public void selectTab(FileTab tab) {
+		tabPane.getSelectionModel().select(tab);
 	}
 }

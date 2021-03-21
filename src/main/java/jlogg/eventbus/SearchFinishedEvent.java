@@ -6,7 +6,7 @@ import jlogg.shared.LogLine;
 
 public class SearchFinishedEvent extends SearchResultEvent {
 
-	public SearchFinishedEvent(List<LogLine> loglines) {
-		super(loglines, 1.0);
+	public SearchFinishedEvent(SearchEvent searchEvent, List<LogLine> loglines) {
+		super(searchEvent, loglines, 1.0);
 	}
 }

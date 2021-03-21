@@ -6,15 +6,15 @@ import java.util.regex.PatternSyntaxException;
 
 public class SearchCriteria {
 	protected String pattern;
-	protected boolean ignoreCase;
+	protected SearchOptions searchOptions;
 
-	public SearchCriteria(String pattern, boolean ignoreCase) {
+	public SearchCriteria(String pattern, SearchOptions searchOptions) {
 		this.pattern = pattern;
-		this.ignoreCase = ignoreCase;
+		this.searchOptions = searchOptions;
 	}
 
 	private Pattern getPattern() {
-		if (ignoreCase) {
+		if (searchOptions.ignoreCase()) {
 			return Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
 		} else {
 			return Pattern.compile(pattern);
@@ -29,12 +29,8 @@ public class SearchCriteria {
 		this.pattern = pattern;
 	}
 
-	public boolean isIgnoreCase() {
-		return ignoreCase;
-	}
-
-	public void setIgnoreCase(boolean ignoreCase) {
-		this.ignoreCase = ignoreCase;
+	public SearchOptions getSearchOptions() {
+		return searchOptions;
 	}
 
 	public boolean matches(String value) {
@@ -45,7 +41,7 @@ public class SearchCriteria {
 			}
 		} catch (PatternSyntaxException e) {
 			// regex was not valid => handle it as a strict match
-			if (ignoreCase) {
+			if (searchOptions.ignoreCase()) {
 				return value.toUpperCase().contains(pattern.toUpperCase());
 			} else {
 				return value.toUpperCase().contains(pattern.toUpperCase());
@@ -58,7 +54,7 @@ public class SearchCriteria {
 	public boolean equals(Object obj) {
 		if (obj instanceof SearchCriteria) {
 			SearchCriteria other = (SearchCriteria) obj;
-			return Objects.equals(pattern, other.pattern) && ignoreCase == other.ignoreCase;
+			return Objects.equals(pattern, other.pattern) && Objects.equals(searchOptions, other.searchOptions);
 		}
 
 		return false;
@@ -66,6 +62,6 @@ public class SearchCriteria {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(pattern, ignoreCase);
+		return Objects.hash(pattern, searchOptions);
 	}
 }

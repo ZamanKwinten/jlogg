@@ -30,6 +30,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import jlogg.shared.Filter;
+import jlogg.shared.SearchOptions;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.css.ResourceLoader;
 import jlogg.ui.popup.utils.UpDownBox;
@@ -173,7 +174,9 @@ public class FilterPopup extends Stage {
 		HBox leftButtonBox = new HBox(5.0);
 		Button addButton = new Button("Add");
 		addButton.setOnMouseClicked((event) -> {
-			Filter newFilter = new Filter(defaultFilter, ignoreCase.isSelected(), foreColorPicker.getValue(),
+			SearchOptions searchOptions = new SearchOptions(ignoreCase.isSelected());
+
+			Filter newFilter = new Filter(defaultFilter, searchOptions, foreColorPicker.getValue(),
 					backColorPicker.getValue());
 			filterList.add(newFilter);
 			registeredFilters.getSelectionModel().select(newFilter);

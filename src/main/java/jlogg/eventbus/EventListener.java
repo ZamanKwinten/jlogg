@@ -16,12 +16,12 @@ public class EventListener {
 			currentSearch.stop();
 		}
 
-		GlobalConstants.searchResults.clear();
+		searchEvent.clearGlobalConstants();
 		GlobalConstants.searchProgress.setValue(0.0);
 		SearchCriteria criteria = searchEvent.getCriteria();
 
 		GlobalConstants.searchHistory.add(criteria);
-		currentSearch = new FileSearcher(searchEvent.getFiles(), criteria);
+		currentSearch = new FileSearcher(searchEvent);
 		currentSearch.doIt();
 	}
 
@@ -41,7 +41,7 @@ public class EventListener {
 	 * @param event
 	 */
 	private void handleSearchEvent(SearchResultEvent event) {
-		GlobalConstants.searchResults.addAll(event.getLogLines());
+		event.setGlobalConstants();
 		GlobalConstants.searchProgress.set(event.getPrecentage());
 	}
 

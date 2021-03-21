@@ -61,7 +61,7 @@ public class FileMenu extends Menu {
 		saveAsMenuItem = new MenuItemWithAccelerator(ShortCut.SAVE_SEARCH_RESULTS);
 		saveAsMenuItem.setOnAction((event) -> {
 			// File must be opened + search must have results
-			if (mainPane.getCurrentSelectedTab() != null && !GlobalConstants.searchResults.isEmpty()) {
+			if (mainPane.getCurrentSelectedTab() != null) {
 				FileChooser fc = new FileChooser();
 
 				FileTab currentTab = mainPane.getCurrentSelectedTab();
@@ -72,7 +72,7 @@ public class FileMenu extends Menu {
 				if (file != null) {
 					previousDir = file.getParentFile();
 					try {
-						LogLine[] lines = GlobalConstants.searchResults.toArray(new LogLine[0]);
+						LogLine[] lines = GlobalConstants.singleFileSearchResults.get(file).toArray(new LogLine[0]);
 
 						file.delete();
 						file.createNewFile();
