@@ -55,7 +55,9 @@ public class SearchPopup extends PopupWithReturn<List<File>> {
 		UpDownBox upDownBox = new UpDownBox(openedFiles.getSelectionModel(), fileList);
 		upDownBox.setAlignment(Pos.CENTER_LEFT);
 
-		content.getChildren().addAll(info, openedFiles, upDownBox, getCancelableFooterBox("Search", null));
+		CancelableFooter footer = getCancelableFooterBox("Search", null);
+		content.getChildren().addAll(info, openedFiles, upDownBox, footer);
+		footer.requestFocus();
 
 		setMinWidth(360);
 		setMinHeight(250);

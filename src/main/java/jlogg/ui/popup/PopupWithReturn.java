@@ -33,6 +33,23 @@ abstract class PopupWithReturn<T> extends Stage {
 		initModality(Modality.APPLICATION_MODAL);
 	}
 
+	public class CancelableFooter extends HBox {
+		private final Button search;
+
+		public CancelableFooter(Button search, Button cancel) {
+			super(5.0);
+			setAlignment(Pos.CENTER_RIGHT);
+			this.search = search;
+
+			getChildren().addAll(search, cancel);
+		}
+
+		@Override
+		public void requestFocus() {
+			search.requestFocus();
+		}
+	}
+
 	/**
 	 * Create a footer HBox with an action & cancel button
 	 * 
@@ -41,9 +58,7 @@ abstract class PopupWithReturn<T> extends Stage {
 	 *                       the action button is enabled or not
 	 * @return
 	 */
-	public HBox getCancelableFooterBox(String actionLabel, ObservableBooleanValue actionDisabled) {
-		HBox footerBox = new HBox(5.0);
-		footerBox.setAlignment(Pos.CENTER_RIGHT);
+	public CancelableFooter getCancelableFooterBox(String actionLabel, ObservableBooleanValue actionDisabled) {
 		Button search = new Button(actionLabel);
 		search.setOnAction(event -> {
 			// redundant
@@ -59,9 +74,8 @@ abstract class PopupWithReturn<T> extends Stage {
 			isCanceled = true;
 			super.close();
 		});
-		footerBox.getChildren().addAll(search, cancel);
 
-		return footerBox;
+		return new CancelableFooter(search, cancel);
 	}
 
 	public Optional<T> open() {
