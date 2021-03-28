@@ -18,7 +18,6 @@ import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.IndexStartEvent;
 import jlogg.shared.LogLine;
 import jlogg.ui.FileTab;
-import jlogg.ui.GlobalConstants;
 import jlogg.ui.GlobalConstants.ShortCut;
 import jlogg.ui.MainPane;
 
@@ -61,36 +60,36 @@ public class FileMenu extends Menu {
 		saveAsMenuItem = new MenuItemWithAccelerator(ShortCut.SAVE_SEARCH_RESULTS);
 		saveAsMenuItem.setOnAction((event) -> {
 			// File must be opened + search must have results
-			if (mainPane.getCurrentSelectedTab() != null) {
-				FileChooser fc = new FileChooser();
+			FileTab currentTab = mainPane.getCurrentSelectedTab();
+			if (currentTab != null) {
+				LogLine[] lines = currentTab.getLinesToSave();
+				if (lines.length > 0) {
+					FileChooser fc = new FileChooser();
 
-				FileTab currentTab = mainPane.getCurrentSelectedTab();
-
-				fc.setInitialDirectory(currentTab.getFile().getParentFile());
-				fc.setInitialFileName(getFileName(currentTab.getSearch()));
-				File file = fc.showSaveDialog(null);
-				if (file != null) {
-					previousDir = file.getParentFile();
-					try {
-						LogLine[] lines = GlobalConstants.singleFileSearchResults.get(file).toArray(new LogLine[0]);
-
-						file.delete();
-						file.createNewFile();
-						try (FileWriter fw = new FileWriter(file)) {
-							for (List<LogLine> linesBatch : Lists.partition(Arrays.asList(lines), 100)) {
-								for (String textLines : FileLineReader.readLinesFromFile(linesBatch)) {
-									fw.write(textLines);
-									fw.write(System.lineSeparator());
+					fc.setInitialDirectory(currentTab.getFile().getParentFile());
+					fc.setInitialFileName(getFileName(currentTab.getSearch()));
+					File file = fc.showSaveDialog(null);
+					if (file != null) {
+						previousDir = file.getParentFile();
+						try {
+							file.delete();
+							file.createNewFile();
+							try (FileWriter fw = new FileWriter(file)) {
+								for (List<LogLine> linesBatch : Lists.partition(Arrays.asList(lines), 100)) {
+									for (String textLines : FileLineReader.readLinesFromFile(linesBatch)) {
+										fw.write(textLines);
+										fw.write(System.lineSeparator());
+									}
 								}
 							}
+
+							// File was successfully written => open it
+							mainPane.addTab(file);
+							EventBusFactory.getInstance().getEventBus().post(new IndexStartEvent(file));
+
+						} catch (Exception e) {
+							logger.log(Level.SEVERE, "Error during saving", e);
 						}
-
-						// File was successfully written => open it
-						mainPane.addTab(file);
-						EventBusFactory.getInstance().getEventBus().post(new IndexStartEvent(file));
-
-					} catch (Exception e) {
-						logger.log(Level.SEVERE, "Error during saving", e);
 					}
 				}
 			}

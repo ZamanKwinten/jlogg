@@ -107,4 +107,14 @@ public class FileTab extends Tab {
 		mainView.scrollTo(index);
 		mainView.getSelectionModel().clearAndSelect(index);
 	}
+
+	public LogLine[] getLinesToSave() {
+		if (singleFileSearchView.isVisible()) {
+			return GlobalConstants.singleFileSearchResults.get(file).toArray(new LogLine[0]);
+		} else if (multiFileSearchView.isVisible()) {
+			return GlobalConstants.multiFileSearchResults.toArray(new LogLine[0]);
+		} else {
+			return new LogLine[0];
+		}
+	}
 }
