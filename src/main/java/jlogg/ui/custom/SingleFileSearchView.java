@@ -23,7 +23,7 @@ public class SingleFileSearchView extends FileSearchView {
 	protected SearchBox initSearchBox(MainPane mainPane, FileTab fileTab) {
 		return new SearchBox(this) {
 			@Override
-			public void fireSearch(Event event) {
+			protected void fireSearchImpl(Event event) {
 				EventBusFactory.getInstance().getEventBus().post(new SingleFileSearchEvent(fileTab.getFile(),
 						new SearchCriteria(getSearch(), getSearchOptions())));
 			}

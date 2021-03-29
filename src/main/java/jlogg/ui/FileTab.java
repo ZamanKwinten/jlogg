@@ -105,6 +105,7 @@ public class FileTab extends Tab {
 
 	public void selectLogLine(int index) {
 		mainView.scrollTo(index);
+		mainView.scrollToColumnIndex(0);
 		mainView.getSelectionModel().clearAndSelect(index);
 	}
 

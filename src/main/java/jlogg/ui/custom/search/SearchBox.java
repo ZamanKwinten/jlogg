@@ -46,5 +46,10 @@ public abstract class SearchBox extends VBox {
 		return parent.getSearchResultList();
 	}
 
-	public abstract void fireSearch(Event event);
+	public void fireSearch(Event event) {
+		parent.scrollTo(0);
+		fireSearchImpl(event);
+	}
+
+	protected abstract void fireSearchImpl(Event event);
 }

@@ -88,6 +88,7 @@ public abstract class FileSearchView extends VBox implements HideableNode {
 
 	public void scrollTo(int index) {
 		logfileView.scrollTo(index);
+		logfileView.scrollToColumnIndex(0);
 		logfileView.getSelectionModel().clearAndSelect(index);
 	}
 }

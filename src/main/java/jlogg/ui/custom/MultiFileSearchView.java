@@ -29,7 +29,7 @@ public class MultiFileSearchView extends FileSearchView {
 		return new SearchBox(this) {
 
 			@Override
-			public void fireSearch(Event event) {
+			protected void fireSearchImpl(Event event) {
 				List<FileTab> fileTabs = mainPane.getFileTabs();
 
 				if (fileTabs.size() == 1) {
