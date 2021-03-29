@@ -2,8 +2,12 @@
   -fx-cursor: hand;
 }
 
-.resize:hover{
+.vertical_resize:hover{
 	-fx-cursor: v-resize
+}
+
+.horizontal_resize:hover{
+	-fx-cursor: h-resize
 }
 
 .table-row-cell {
@@ -32,4 +36,13 @@
         black 49%,
         #D3D3D3 50%
      );
+}
+
+.tree-view:focused {
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+
+    /* There is some oddness if padding is in em values rather than pixels,
+       in particular, the left border of the control doesn't show. */
+    -fx-padding: 1; /* 0.083333em; */
 }

@@ -18,7 +18,7 @@ public abstract class FileOpenHandler {
 
 	protected void addTabs(List<File> files) {
 		Platform.runLater(() -> {
-			stage.getMainPane().addTabs(files);
+			stage.getMainPane().openTabs(files);
 			requestFocus();
 		});
 	}

@@ -26,7 +26,7 @@ public class App extends Application {
 			handler = new WindowsFileOpenHandler(mainStage);
 		}
 		mainStage.show();
-		mainStage.getMainPane().addTabs(FileOpenHandler.initialFiles);
+		mainStage.getMainPane().openTabs(FileOpenHandler.initialFiles);
 	}
 
 	@Override

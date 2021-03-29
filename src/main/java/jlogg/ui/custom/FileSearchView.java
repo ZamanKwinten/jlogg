@@ -27,7 +27,7 @@ public abstract class FileSearchView extends VBox implements HideableNode {
 		searchBox = initSearchBox(mainPane, fileTab);
 		logfileView = initLogFileView(mainPane, fileTab);
 
-		resizer = new Resizer(this);
+		resizer = new VerticalResizer(this);
 
 		setVgrow(logfileView, Priority.ALWAYS);
 

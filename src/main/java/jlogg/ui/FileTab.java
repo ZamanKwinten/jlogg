@@ -35,7 +35,7 @@ public class FileTab extends Tab {
 	public FileTab(MainPane mainPane, File file, ObservableList<LogLine> lines, SimpleDoubleProperty progress) {
 		super(file.getName());
 		this.file = file;
-		VBox content = new VBox();
+		VBox logContent = new VBox();
 
 		progressBar = new ProgressBar(progress);
 
@@ -50,7 +50,7 @@ public class FileTab extends Tab {
 		VBox.setVgrow(singleFileSearchView, Priority.ALWAYS);
 		VBox.setVgrow(multiFileSearchView, Priority.ALWAYS);
 
-		content.getChildren().addAll(progressBar, mainView, singleFileSearchView, multiFileSearchView);
+		logContent.getChildren().addAll(progressBar, mainView, singleFileSearchView, multiFileSearchView);
 		singleFileSearchView.hide();
 		multiFileSearchView.hide();
 
@@ -66,7 +66,7 @@ public class FileTab extends Tab {
 			}
 		});
 
-		setContent(content);
+		setContent(logContent);
 	}
 
 	public void setLastSelection(LogFileView lastSelectionControl) {

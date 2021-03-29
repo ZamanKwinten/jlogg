@@ -5,12 +5,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 /**
- * A HBox of exactly 5 pixels that can be added anywhere to allow resizing by using mouse drag
+ * A HBox of exactly 5 pixels that can be added anywhere to allow resizing by
+ * using mouse drag
  * 
  * @author KWZA
  *
  */
-public class Resizer extends HBox {
+public class VerticalResizer extends HBox {
 
 	@SuppressWarnings("unused")
 	private final Node child;
@@ -18,9 +19,9 @@ public class Resizer extends HBox {
 	private double initialHeight;
 	private double initialY;
 
-	public Resizer(Pane child) {
+	public VerticalResizer(Pane child) {
 		this.child = child;
-		getStyleClass().add("resize");
+		getStyleClass().add("vertical_resize");
 		setMinHeight(5);
 		setMaxHeight(5);
 

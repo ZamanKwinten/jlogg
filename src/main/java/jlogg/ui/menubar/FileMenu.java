@@ -42,7 +42,7 @@ public class FileMenu extends Menu {
 			List<File> files = fc.showOpenMultipleDialog(null);
 			if (files != null) {
 				// user selected something => we need to open at least 1 file
-				mainPane.addTabs(files);
+				mainPane.openTabs(files);
 				previousDir = files.get(0).getParentFile();
 			}
 		});
@@ -84,7 +84,7 @@ public class FileMenu extends Menu {
 							}
 
 							// File was successfully written => open it
-							mainPane.addTab(file);
+							mainPane.addSearchResultTab(file, currentTab);
 							EventBusFactory.getInstance().getEventBus().post(new IndexStartEvent(file));
 
 						} catch (Exception e) {
