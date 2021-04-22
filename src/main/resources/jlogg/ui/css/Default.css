@@ -48,6 +48,15 @@
 	-fx-text-fill: white;
 }
 
+
+.scroll-bar > .thumb {
+    -fx-background-color:
+        linear-gradient(to bottom, derive(#f4f4f4,95%), derive(#f4f4f4,10%)),
+        linear-gradient(to bottom, derive(#d0d0d0,38%), derive(#d0d0d0,-16%));
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0.5em; /* makes sure this remains circular */
+}
+
 .tree-view:focused {
     -fx-background-color: -fx-box-border, -fx-control-inner-background;
     -fx-background-insets: 0, 1;
