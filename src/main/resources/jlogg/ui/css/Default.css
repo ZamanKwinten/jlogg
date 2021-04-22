@@ -38,6 +38,16 @@
      );
 }
 
+.tree-view .tree-cell{
+	-fx-text-fill: -fx-jlogg-text-fill-color;
+}
+
+.tree-view .tree-cell:focused{
+	-fx-background-color: -fx-focus-color, -fx-cell-focus-inner-border, -fx-selection-bar;
+    -fx-background: -fx-accent;
+	-fx-text-fill: white;
+}
+
 .tree-view:focused {
     -fx-background-color: -fx-box-border, -fx-control-inner-background;
     -fx-background-insets: 0, 1;

@@ -54,8 +54,6 @@ public class MainPane extends VBox {
 
 		treeView.setPrefWidth(0);
 
-		treeView.setStyle(getAccessibleHelp());
-
 		HorizontalResizer resizer = new HorizontalResizer(tabPane);
 
 		HBox.setHgrow(tabPane, Priority.ALWAYS);
