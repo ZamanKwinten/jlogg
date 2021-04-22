@@ -18,6 +18,7 @@ import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.IndexStartEvent;
 import jlogg.shared.LogLine;
 import jlogg.ui.FileTab;
+import jlogg.ui.FileTab.SearchResults;
 import jlogg.ui.GlobalConstants.ShortCut;
 import jlogg.ui.MainPane;
 
@@ -62,12 +63,15 @@ public class FileMenu extends Menu {
 			// File must be opened + search must have results
 			FileTab currentTab = mainPane.getCurrentSelectedTab();
 			if (currentTab != null) {
-				LogLine[] lines = currentTab.getLinesToSave();
+
+				SearchResults result = currentTab.getSearchResult();
+
+				LogLine[] lines = result.lines;
 				if (lines.length > 0) {
 					FileChooser fc = new FileChooser();
 
 					fc.setInitialDirectory(currentTab.getFile().getParentFile());
-					fc.setInitialFileName(getFileName(currentTab.getSearch()));
+					fc.setInitialFileName(getFileName(result.search));
 					File file = fc.showSaveDialog(null);
 					if (file != null) {
 						previousDir = file.getParentFile();
@@ -84,7 +88,12 @@ public class FileMenu extends Menu {
 							}
 
 							// File was successfully written => open it
-							mainPane.addSearchResultTab(file, currentTab);
+							if (result.isMulti) {
+								mainPane.addMultiFileSearchResultTab(file, result.search);
+							} else {
+								mainPane.addSingleFileSearchResultTab(file, result.search, currentTab);
+							}
+
 							EventBusFactory.getInstance().getEventBus().post(new IndexStartEvent(file));
 
 						} catch (Exception e) {

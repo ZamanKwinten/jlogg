@@ -1,9 +1,7 @@
 package jlogg.ui;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,56 +17,49 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.IndexStartEvent;
+import jlogg.ui.FileTab.FileTabTreeItem;
 import jlogg.ui.custom.HorizontalResizer;
 import jlogg.ui.menubar.MenuBarWrapper;
 
 public class MainPane extends VBox {
-
-	private final Map<FileTab, TreeItem<String>> drilldownSearch;
-
 	private final MenuBar menuBar;
 	private final TabPane tabPane;
-
-	private class DrillDownSearchItem extends TreeItem<String> {
-
-		private final FileTab tab;
-
-		public DrillDownSearchItem(String label, FileTab tab) {
-			super(label);
-			this.tab = tab;
-		}
-	}
+	private final TreeView<String> treeView;
+	private final TreeItem<String> rootItem;
+	private final TreeItem<String> multiSearchItem;
 
 	public MainPane() {
 		menuBar = new MenuBarWrapper(this);
 		tabPane = new TabPane();
-		drilldownSearch = new HashMap<>();
 
 		HBox hbox = new HBox();
 
-		TreeItem<String> dummyRoot = new TreeItem<>();
-		dummyRoot.setExpanded(true);
-		drilldownSearch.put(null, dummyRoot);
+		rootItem = new TreeItem<>();
+		rootItem.setExpanded(true);
 
-		TreeView<String> tree = new TreeView<>(dummyRoot);
-		tree.setShowRoot(false);
+		multiSearchItem = new TreeItem<>("Searches in Multipe Files");
+		multiSearchItem.setExpanded(true);
+		rootItem.getChildren().add(multiSearchItem);
 
-		tree.setPrefWidth(0);
+		treeView = new TreeView<>(rootItem);
+		treeView.setShowRoot(false);
 
-		tree.setStyle(getAccessibleHelp());
+		treeView.setPrefWidth(0);
+
+		treeView.setStyle(getAccessibleHelp());
 
 		HorizontalResizer resizer = new HorizontalResizer(tabPane);
 
 		HBox.setHgrow(tabPane, Priority.ALWAYS);
-		HBox.setHgrow(tree, Priority.SOMETIMES);
-		hbox.getChildren().addAll(tree, resizer, tabPane);
+		HBox.setHgrow(treeView, Priority.SOMETIMES);
+		hbox.getChildren().addAll(treeView, resizer, tabPane);
 
 		setVgrow(hbox, Priority.ALWAYS);
 		getChildren().addAll(menuBar, hbox);
 
-		tree.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
-			if (newV instanceof DrillDownSearchItem) {
-				selectTab(((DrillDownSearchItem) newV).tab);
+		treeView.getSelectionModel().selectedItemProperty().addListener((obs, o, n) -> {
+			if (n instanceof FileTabTreeItem) {
+				selectTab(((FileTabTreeItem) n).getTab());
 			}
 		});
 	}
@@ -76,24 +67,21 @@ public class MainPane extends VBox {
 	public void openTabs(List<File> files) {
 		boolean first = true;
 		for (File file : files) {
-			FileTab current = createAndAddFileTab(file, first);
-
-			DrillDownSearchItem searchItem = new DrillDownSearchItem(file.getName(), current);
-			searchItem.setExpanded(true);
-			drilldownSearch.get(null).getChildren().add(searchItem);
-			drilldownSearch.put(current, searchItem);
+			createAndAddFileTab(file, first, rootItem);
 
 			EventBusFactory.getInstance().getEventBus().post(new IndexStartEvent(file));
 			first = false;
 		}
 	}
 
-	public void addSearchResultTab(File file, FileTab parentTab) {
-		FileTab current = createAndAddFileTab(file, true);
-		DrillDownSearchItem searchItem = new DrillDownSearchItem(parentTab.getSearch(), current);
-		searchItem.setExpanded(true);
-		drilldownSearch.get(parentTab).getChildren().add(searchItem);
-		drilldownSearch.put(current, searchItem);
+	public void addMultiFileSearchResultTab(File file, String search) {
+		FileTab current = createAndAddFileTab(file, true, multiSearchItem);
+		current.setName(search);
+	}
+
+	public void addSingleFileSearchResultTab(File file, String search, FileTab parentTab) {
+		FileTab current = createAndAddFileTab(file, true, parentTab.getTreeItem());
+		current.setName(search);
 	}
 
 	/**
@@ -102,7 +90,7 @@ public class MainPane extends VBox {
 	 * @param file
 	 * @param shouldSelect
 	 */
-	private FileTab createAndAddFileTab(File file, boolean shouldSelect) {
+	private FileTab createAndAddFileTab(File file, boolean shouldSelect, TreeItem<String> parentTreeItem) {
 		// Check to see whether a tab for that file already exists
 		FileTab filetab = findFileTab(file).orElse(null);
 
@@ -110,7 +98,7 @@ public class MainPane extends VBox {
 			GlobalConstants.fileLogLines.put(file, FXCollections.observableArrayList());
 			GlobalConstants.fileIndexProgress.put(file, new SimpleDoubleProperty(0.0));
 			filetab = new FileTab(this, file, GlobalConstants.fileLogLines.get(file),
-					GlobalConstants.fileIndexProgress.get(file));
+					GlobalConstants.fileIndexProgress.get(file), parentTreeItem);
 			tabPane.getTabs().add(filetab);
 		}
 		if (shouldSelect) {
@@ -147,13 +135,12 @@ public class MainPane extends VBox {
 
 	public void closeAllTabs() {
 		tabPane.getTabs().clear();
-		drilldownSearch.get(null).getChildren().clear();
-		for (FileTab tab : drilldownSearch.keySet()) {
-			drilldownSearch.remove(tab);
-		}
+		rootItem.getChildren().clear();
+		rootItem.getChildren().add(multiSearchItem);
 	}
 
 	public void selectTab(FileTab tab) {
 		tabPane.getSelectionModel().select(tab);
+		treeView.getSelectionModel().select(tab.getTreeItem());
 	}
 }
