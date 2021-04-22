@@ -22,6 +22,9 @@ import jlogg.ui.custom.HorizontalResizer;
 import jlogg.ui.menubar.MenuBarWrapper;
 
 public class MainPane extends VBox {
+	private static final String MULTIPLE_FILES_SEARCH = "Searches in Multipe Files";
+	private static final String SINGLE_FILES = "Files";
+
 	private final MenuBar menuBar;
 	private final TabPane tabPane;
 	private final TreeView<String> treeView;
@@ -34,14 +37,19 @@ public class MainPane extends VBox {
 
 		HBox hbox = new HBox();
 
-		rootItem = new TreeItem<>();
+		TreeItem<String> dummyRoot = new TreeItem<>();
+		dummyRoot.setExpanded(true);
+
+		multiSearchItem = new TreeItem<>(MULTIPLE_FILES_SEARCH);
+		multiSearchItem.setExpanded(true);
+
+		rootItem = new TreeItem<>(SINGLE_FILES);
 		rootItem.setExpanded(true);
 
-		multiSearchItem = new TreeItem<>("Searches in Multipe Files");
-		multiSearchItem.setExpanded(true);
-		rootItem.getChildren().add(multiSearchItem);
+		dummyRoot.getChildren().add(rootItem);
+		dummyRoot.getChildren().add(multiSearchItem);
 
-		treeView = new TreeView<>(rootItem);
+		treeView = new TreeView<>(dummyRoot);
 		treeView.setShowRoot(false);
 
 		treeView.setPrefWidth(0);
@@ -60,6 +68,14 @@ public class MainPane extends VBox {
 		treeView.getSelectionModel().selectedItemProperty().addListener((obs, o, n) -> {
 			if (n instanceof FileTabTreeItem) {
 				selectTab(((FileTabTreeItem) n).getTab());
+			}
+			if (Objects.equals(n, rootItem)) {
+				rootItem.setExpanded(!rootItem.isExpanded());
+				treeView.getSelectionModel().select(o);
+			}
+			if (Objects.equals(n, multiSearchItem)) {
+				multiSearchItem.setExpanded(!multiSearchItem.isExpanded());
+				treeView.getSelectionModel().select(o);
 			}
 		});
 	}
@@ -109,6 +125,7 @@ public class MainPane extends VBox {
 
 	public void closeCurrentSelectTab() {
 		FileTab tab = getCurrentSelectedTab();
+		tab.getOnClosed().handle(null);
 		tabPane.getTabs().remove(tab);
 	}
 
@@ -136,7 +153,7 @@ public class MainPane extends VBox {
 	public void closeAllTabs() {
 		tabPane.getTabs().clear();
 		rootItem.getChildren().clear();
-		rootItem.getChildren().add(multiSearchItem);
+		multiSearchItem.getChildren().clear();
 	}
 
 	public void selectTab(FileTab tab) {

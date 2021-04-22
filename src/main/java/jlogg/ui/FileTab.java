@@ -54,7 +54,7 @@ public class FileTab extends Tab {
 		super(file.getName());
 		treeItem = new FileTabTreeItem(file.getName(), this);
 
-		parentInTree.getChildren().add(parentInTree.getChildren().size() - 1, treeItem);
+		parentInTree.getChildren().add(treeItem);
 
 		this.file = file;
 		VBox logContent = new VBox();
