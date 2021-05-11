@@ -3,6 +3,7 @@ package jlogg.ui.custom;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -55,14 +56,18 @@ public class MultiFileSearchView extends FileSearchView {
 			LogLine line = view.getItems().get(index);
 
 			mainPane.findFileTab(line.getFile()).ifPresent(targetTab -> {
-				mainPane.selectTab(targetTab);
-				targetTab.selectLogLine(line.getLineNumber());
+				if (!Objects.equals(mainPane.getCurrentSelectedTab(), targetTab)) {
+					mainPane.selectTab(targetTab);
+					targetTab.selectLogLine(line.getLineNumber());
 
-				MultiFileSearchView targetSearchView = targetTab.getMultiFileSearchView();
-				targetSearchView.show();
-				targetSearchView.scrollTo(index);
+					MultiFileSearchView targetSearchView = targetTab.getMultiFileSearchView();
+					targetSearchView.show();
+					targetSearchView.scrollTo(index);
 
-				targetSearchView.setSearch(this.getSearch(), this.getSearchOptions());
+					targetSearchView.setSearch(this.getSearch(), this.getSearchOptions());
+				} else {
+					targetTab.selectLogLine(line.getLineNumber());
+				}
 			});
 		});
 	}
