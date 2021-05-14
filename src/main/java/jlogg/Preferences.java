@@ -6,8 +6,8 @@ import org.json.JSONObject;
 
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
+import jlogg.plugin.Theme;
 import jlogg.ui.GlobalConstants.ShortCut;
-import jlogg.ui.GlobalConstants.Theme;
 
 public class Preferences {
 	public static class JSON {

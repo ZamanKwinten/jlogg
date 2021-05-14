@@ -13,10 +13,10 @@ import org.json.JSONObject;
 
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
+import jlogg.plugin.Theme;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.GlobalConstants.ShortCut;
-import jlogg.ui.GlobalConstants.Theme;
 
 /**
  * Class to define some constants used throughout the application TODO =>
