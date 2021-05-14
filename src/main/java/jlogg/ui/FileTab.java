@@ -9,6 +9,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import jlogg.plugin.JLoggPlugin;
+import jlogg.plugin.PluginViewWrapper;
 import jlogg.shared.LogLine;
 import jlogg.ui.custom.MultiFileSearchView;
 import jlogg.ui.custom.SingleFileSearchView;
@@ -36,6 +38,7 @@ public class FileTab extends Tab {
 	private final LogFileView mainView;
 	private final SingleFileSearchView singleFileSearchView;
 	private final MultiFileSearchView multiFileSearchView;
+	private final PluginViewWrapper pluginViewWrapper;
 	private final ProgressBar progressBar;
 
 	/**
@@ -65,26 +68,39 @@ public class FileTab extends Tab {
 
 		singleFileSearchView = new SingleFileSearchView(mainPane, this);
 		multiFileSearchView = new MultiFileSearchView(mainPane, this);
+		pluginViewWrapper = new PluginViewWrapper();
 		// initialize it to something
 		lastSelection = mainView;
 
 		VBox.setVgrow(mainView, Priority.ALWAYS);
 		VBox.setVgrow(singleFileSearchView, Priority.ALWAYS);
 		VBox.setVgrow(multiFileSearchView, Priority.ALWAYS);
+		VBox.setVgrow(pluginViewWrapper, Priority.ALWAYS);
 
-		logContent.getChildren().addAll(progressBar, mainView, singleFileSearchView, multiFileSearchView);
+		logContent.getChildren().addAll(progressBar, mainView, singleFileSearchView, multiFileSearchView,
+				pluginViewWrapper);
 		singleFileSearchView.hide();
 		multiFileSearchView.hide();
+		pluginViewWrapper.hide();
 
 		singleFileSearchView.visibleProperty().addListener((obs, o, n) -> {
 			if (n) {
 				multiFileSearchView.hide();
+				pluginViewWrapper.hide();
 			}
 		});
 
 		multiFileSearchView.visibleProperty().addListener((obs, o, n) -> {
 			if (n) {
 				singleFileSearchView.hide();
+				pluginViewWrapper.hide();
+			}
+		});
+
+		pluginViewWrapper.visibleProperty().addListener((obs, o, n) -> {
+			if (n) {
+				singleFileSearchView.hide();
+				multiFileSearchView.hide();
 			}
 		});
 
@@ -193,6 +209,10 @@ public class FileTab extends Tab {
 			this.isMulti = isMulti;
 			this.search = search;
 		}
+	}
+
+	public void openPlugin(JLoggPlugin plugin) {
+		pluginViewWrapper.showPlugin(plugin);
 	}
 
 }

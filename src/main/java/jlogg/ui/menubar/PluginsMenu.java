@@ -9,11 +9,16 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import jlogg.plugin.JLoggPlugin;
 import jlogg.ui.GlobalConstants;
+import jlogg.ui.MainPane;
 
 public class PluginsMenu extends Menu implements InvalidationListener {
 
-	public PluginsMenu() {
+	private final MainPane mainPane;
+
+	public PluginsMenu(MainPane mainPane) {
 		super("Plugins");
+		this.mainPane = mainPane;
+
 		load();
 		GlobalConstants.plugins.addListener(this);
 	}
@@ -24,7 +29,7 @@ public class PluginsMenu extends Menu implements InvalidationListener {
 			MenuItem pluginItem = new MenuItem(plugin.getName());
 
 			pluginItem.setOnAction(event -> {
-
+				mainPane.getCurrentSelectedTab().openPlugin(plugin);
 			});
 
 			menuItems.add(pluginItem);

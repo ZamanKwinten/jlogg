@@ -17,7 +17,7 @@ public class MenuBarWrapper extends MenuBar {
 		editMenu = new EditMenu(mainPane);
 		toolsMenu = new ToolsMenu(mainPane);
 		settingsMenu = new SettingsMenu(mainPane);
-		pluginsMenu = new PluginsMenu();
+		pluginsMenu = new PluginsMenu(mainPane);
 
 		getMenus().addAll(fileMenu, editMenu, toolsMenu, settingsMenu, pluginsMenu);
 	}
