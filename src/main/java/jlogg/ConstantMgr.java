@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
-import jlogg.plugin.PluginLoader;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.GlobalConstants.ShortCut;
@@ -43,6 +42,7 @@ public class ConstantMgr {
 
 	public final int indexServiceThreadCount;
 	public final int searchServiceThreadCount;
+	public final int pluginSearchServiceThreadCount;
 
 	private final File jloggConfig;
 	private final File jloggPluginDir;
@@ -70,6 +70,7 @@ public class ConstantMgr {
 
 		indexServiceThreadCount = 1;
 		searchServiceThreadCount = 1;
+		pluginSearchServiceThreadCount = 1;
 	}
 
 	private Optional<JSONObject> getCurrentJSON() throws IOException {

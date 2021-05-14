@@ -1,10 +1,12 @@
-package jlogg.plugin;
+package jlogg;
 
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
+
+import jlogg.plugin.JLoggPlugin;
 
 public class PluginLoader {
 	private final String mainClass;

@@ -1,8 +1,8 @@
-package jlogg.plugin;
+package jlogg.ui.custom;
 
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
-import jlogg.ui.custom.ResizableView;
+import jlogg.plugin.JLoggPlugin;
 
 public class PluginViewWrapper extends ResizableView {
 
