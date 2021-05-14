@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
+import jlogg.plugin.PluginLoader;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.GlobalConstants.ShortCut;
@@ -44,6 +45,7 @@ public class ConstantMgr {
 	public final int searchServiceThreadCount;
 
 	private final File jloggConfig;
+	private final File jloggPluginDir;
 
 	private ConstantMgr() {
 		String homeDir = System.getProperty("user.home");
@@ -59,6 +61,11 @@ public class ConstantMgr {
 			} catch (IOException e) {
 				logger.log(Level.SEVERE, "Error creating configuration file", e);
 			}
+		}
+
+		jloggPluginDir = new File(jloggDir, "plugins");
+		if (!jloggPluginDir.exists()) {
+			jloggPluginDir.mkdir();
 		}
 
 		indexServiceThreadCount = 1;
@@ -142,5 +149,17 @@ public class ConstantMgr {
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "Error writing configuration file", e);
 		}
+	}
+
+	public void loadPlugins() {
+		for (File jarFile : jloggPluginDir.listFiles()) {
+			try {
+				PluginLoader loader = new PluginLoader(jarFile);
+				GlobalConstants.plugins.add(loader.getPlugin());
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, "Error while loading plugin: " + jarFile, e);
+			}
+		}
+
 	}
 }

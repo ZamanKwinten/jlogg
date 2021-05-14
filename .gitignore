@@ -33,3 +33,7 @@ dependency-reduced-pom.xml
 *.exe
 
 *.msi
+
+src/main/java/jlogg/Playground.java
+
+caspian.css

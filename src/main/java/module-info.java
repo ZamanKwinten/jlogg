@@ -15,4 +15,5 @@ module jlogg {
 	opens jlogg.eventbus to com.google.common;
 
 	exports jlogg;
+	exports jlogg.plugin;
 }

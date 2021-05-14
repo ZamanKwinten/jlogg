@@ -7,13 +7,13 @@ import jlogg.ui.MainPane;
 import jlogg.ui.popup.PreferencesPopup;
 
 public class SettingsMenu extends Menu {
-	private final MenuItem filterMenuItem;
+	private final MenuItem preferencesMenuItem;
 
 	public SettingsMenu(MainPane mainPane) {
 		super("Settings");
 
-		filterMenuItem = new MenuItem("Preferences...");
-		filterMenuItem.setOnAction((event) -> {
+		preferencesMenuItem = new MenuItem("Preferences...");
+		preferencesMenuItem.setOnAction((event) -> {
 			PreferencesPopup popup = new PreferencesPopup();
 
 			popup.open().ifPresent(preferences -> {
@@ -24,6 +24,6 @@ public class SettingsMenu extends Menu {
 
 		});
 
-		getItems().addAll(filterMenuItem);
+		getItems().addAll(preferencesMenuItem);
 	}
 }

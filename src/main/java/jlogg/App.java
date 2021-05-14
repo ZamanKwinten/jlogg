@@ -16,7 +16,10 @@ public class App extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		// initialize the constant manager
-		ConstantMgr.instance().setupGlobalConstants();
+		ConstantMgr constantMGR = ConstantMgr.instance();
+		constantMGR.setupGlobalConstants();
+		constantMGR.loadPlugins();
+
 		stage.hide();
 		MainStage mainStage = new MainStage();
 		if (Launcher.isMac) {

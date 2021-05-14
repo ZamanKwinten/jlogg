@@ -11,6 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
+import jlogg.plugin.JLoggPlugin;
 import jlogg.shared.Filter;
 import jlogg.shared.LogLine;
 import jlogg.ui.custom.search.SearchHistoryList;
@@ -121,4 +122,6 @@ public class GlobalConstants {
 			return fxBase;
 		}
 	}
+
+	public static ObservableList<JLoggPlugin> plugins = FXCollections.observableArrayList();
 }
