@@ -1,7 +1,9 @@
 package jlogg.ui.custom;
 
 import javafx.scene.Node;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import jlogg.plugin.JLoggPlugin;
 
 public class PluginViewWrapper extends ResizableView {
@@ -10,6 +12,8 @@ public class PluginViewWrapper extends ResizableView {
 
 	public PluginViewWrapper() {
 		pluginLocation = new StackPane();
+
+		VBox.setVgrow(pluginLocation, Priority.ALWAYS);
 
 		getChildren().add(pluginLocation);
 	}
