@@ -3,7 +3,7 @@ package jlogg.eventbus;
 import java.io.File;
 import java.util.List;
 
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 import jlogg.shared.SearchCriteria;
 
 public abstract class SearchEvent {

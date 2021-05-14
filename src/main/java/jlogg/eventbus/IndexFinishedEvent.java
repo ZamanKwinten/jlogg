@@ -3,7 +3,7 @@ package jlogg.eventbus;
 import java.util.List;
 
 import jlogg.datahandlers.FileIndexer;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 
 public class IndexFinishedEvent extends IndexResultEvent {
 

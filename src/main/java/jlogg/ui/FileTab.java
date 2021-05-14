@@ -10,7 +10,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import jlogg.plugin.JLoggPlugin;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 import jlogg.ui.custom.MultiFileSearchView;
 import jlogg.ui.custom.PluginViewWrapper;
 import jlogg.ui.custom.SingleFileSearchView;

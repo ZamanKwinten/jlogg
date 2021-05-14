@@ -10,7 +10,8 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
-import jlogg.shared.LogLine;
+import jlogg.datahandlers.FileLineReader;
+import jlogg.plugin.LogLine;
 import jlogg.ui.FileTab;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.interfaces.DragSelectableContent;
@@ -136,7 +137,7 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 		} else {
 			StringBuilder sb = new StringBuilder();
 			for (LogLine l : getSelectionModel().getSelectedItems()) {
-				sb.append(l.getLineString()).append("\n");
+				sb.append(FileLineReader.readLineFromFile(l)).append("\n");
 			}
 			return Optional.of(sb.toString());
 		}

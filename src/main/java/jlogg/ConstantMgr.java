@@ -42,7 +42,6 @@ public class ConstantMgr {
 
 	public final int indexServiceThreadCount;
 	public final int searchServiceThreadCount;
-	public final int pluginSearchServiceThreadCount;
 
 	private final File jloggConfig;
 	private final File jloggPluginDir;
@@ -70,7 +69,6 @@ public class ConstantMgr {
 
 		indexServiceThreadCount = 1;
 		searchServiceThreadCount = 1;
-		pluginSearchServiceThreadCount = 1;
 	}
 
 	private Optional<JSONObject> getCurrentJSON() throws IOException {

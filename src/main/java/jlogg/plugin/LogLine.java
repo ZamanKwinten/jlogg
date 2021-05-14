@@ -1,8 +1,6 @@
-package jlogg.shared;
+package jlogg.plugin;
 
 import java.io.File;
-
-import jlogg.datahandlers.FileLineReader;
 
 public class LogLine {
 
@@ -32,9 +30,5 @@ public class LogLine {
 
 	public File getFile() {
 		return file;
-	}
-
-	public String getLineString() {
-		return FileLineReader.readLineFromFile(this);
 	}
 }

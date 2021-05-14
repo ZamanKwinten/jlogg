@@ -2,7 +2,7 @@ package jlogg.ui.custom;
 
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Priority;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 import jlogg.shared.SearchOptions;
 import jlogg.ui.FileTab;
 import jlogg.ui.MainPane;

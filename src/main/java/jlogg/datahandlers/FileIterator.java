@@ -12,7 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 
 /**
  * Abstract class usable by any logic that wants to handle all lines of a file
@@ -59,8 +59,10 @@ public abstract class FileIterator {
 						long start = fileMetaData.getStart();
 						int size = text.length();
 
-						if (shouldAddToTempResult(text)) {
-							logLines.add(new LogLine(lineNumber, start, size, file));
+						LogLine logline = new LogLine(lineNumber, start, size, file);
+
+						if (shouldAddToTempResult(text, logline)) {
+							logLines.add(logline);
 						}
 
 						double percentage = fileMetaData.readNewLine(size, jloggline.amountOfDelimiterCharacters());
@@ -90,7 +92,7 @@ public abstract class FileIterator {
 
 	protected abstract void handleIOException(IOException e);
 
-	protected abstract boolean shouldAddToTempResult(String s);
+	protected abstract boolean shouldAddToTempResult(String text, LogLine line);
 
 	protected abstract void submitPercentEvent(File file, List<LogLine> lines, double percentage);
 

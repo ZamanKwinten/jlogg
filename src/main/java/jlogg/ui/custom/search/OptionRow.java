@@ -8,7 +8,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 import jlogg.shared.SearchOptions;
 import jlogg.ui.GlobalConstants;
 

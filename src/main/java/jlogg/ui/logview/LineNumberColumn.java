@@ -3,7 +3,7 @@ package jlogg.ui.logview;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.control.TableColumn;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 
 class LineNumberColumn extends TableColumn<LogLine, String> {
 

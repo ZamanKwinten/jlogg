@@ -15,7 +15,7 @@ import jlogg.ConstantMgr;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.IndexFinishedEvent;
 import jlogg.eventbus.IndexResultEvent;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 
 public class FileIndexer extends FileIterator {
 	private static final Logger log = Logger.getLogger(FileIndexer.class.getName());
@@ -57,7 +57,7 @@ public class FileIndexer extends FileIterator {
 	}
 
 	@Override
-	protected boolean shouldAddToTempResult(String s) {
+	protected boolean shouldAddToTempResult(String s, LogLine l) {
 		return true;
 	}
 

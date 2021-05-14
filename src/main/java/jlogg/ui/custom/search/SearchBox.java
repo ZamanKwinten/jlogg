@@ -3,7 +3,7 @@ package jlogg.ui.custom.search;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.scene.layout.VBox;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 import jlogg.shared.SearchOptions;
 import jlogg.ui.custom.FileSearchView;
 

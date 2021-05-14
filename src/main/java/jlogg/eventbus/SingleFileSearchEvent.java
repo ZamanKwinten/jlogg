@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javafx.collections.ObservableList;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 import jlogg.shared.SearchCriteria;
 import jlogg.ui.GlobalConstants;
 

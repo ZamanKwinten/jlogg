@@ -16,7 +16,7 @@ import javafx.stage.FileChooser;
 import jlogg.datahandlers.FileLineReader;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.IndexStartEvent;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 import jlogg.ui.FileTab;
 import jlogg.ui.FileTab.SearchResults;
 import jlogg.ui.GlobalConstants.ShortCut;

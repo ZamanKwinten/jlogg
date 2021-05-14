@@ -21,7 +21,7 @@ public class App extends Application {
 		constantMGR.loadPlugins();
 
 		stage.hide();
-		MainStage mainStage = new MainStage();
+		MainStage mainStage = MainStage.getInstance();
 		if (Launcher.isMac) {
 			handler = new MacFileOpenHandler(mainStage);
 			Desktop.getDesktop().setOpenFileHandler((OpenFilesHandler) handler);

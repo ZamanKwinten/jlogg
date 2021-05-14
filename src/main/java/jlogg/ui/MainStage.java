@@ -6,9 +6,15 @@ import jlogg.ui.css.ResourceLoader;
 
 public class MainStage extends Stage {
 
+	public static final MainStage instance = new MainStage();
+
+	public static final MainStage getInstance() {
+		return instance;
+	}
+
 	private final MainPane root;
 
-	public MainStage() {
+	private MainStage() {
 		root = new MainPane();
 
 		Scene s = new Scene(root);

@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.event.Event;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.SingleFileSearchEvent;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 import jlogg.shared.SearchCriteria;
 import jlogg.ui.FileTab;
 import jlogg.ui.GlobalConstants;

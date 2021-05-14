@@ -2,7 +2,7 @@ package jlogg.ui.logview;
 
 import javafx.scene.Node;
 import javafx.scene.control.TableCell;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 import jlogg.ui.interfaces.DragSelectableContent;
 
 /**

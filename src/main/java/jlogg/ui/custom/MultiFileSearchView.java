@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import javafx.event.Event;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.MultiFileSearchEvent;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 import jlogg.shared.SearchCriteria;
 import jlogg.ui.FileTab;
 import jlogg.ui.GlobalConstants;

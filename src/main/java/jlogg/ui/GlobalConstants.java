@@ -12,8 +12,9 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 import jlogg.plugin.JLoggPlugin;
+import jlogg.plugin.LogLine;
+import jlogg.plugin.Theme;
 import jlogg.shared.Filter;
-import jlogg.shared.LogLine;
 import jlogg.ui.custom.search.SearchHistoryList;
 import jlogg.ui.utils.Observable;
 
@@ -102,26 +103,6 @@ public class GlobalConstants {
 	}
 
 	public static Observable<Theme> theme = new Observable<>(Theme.LIGHT);
-
-	public enum Theme {
-		LIGHT("Light", "#d0d0d0"), DARK("Dark", "#121212");
-
-		private final String uiName;
-		private final String fxBase;
-
-		private Theme(String uiName, String fxBase) {
-			this.uiName = uiName;
-			this.fxBase = fxBase;
-		}
-
-		public String getUIName() {
-			return uiName;
-		}
-
-		public String getFXBase() {
-			return fxBase;
-		}
-	}
 
 	public static ObservableList<JLoggPlugin> plugins = FXCollections.observableArrayList();
 }

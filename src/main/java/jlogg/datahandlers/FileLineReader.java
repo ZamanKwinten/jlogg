@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 
 public class FileLineReader {
 	private static final Logger log = Logger.getLogger(FileLineReader.class.getName());

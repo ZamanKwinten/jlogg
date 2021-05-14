@@ -15,7 +15,7 @@ import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.SearchEvent;
 import jlogg.eventbus.SearchFinishedEvent;
 import jlogg.eventbus.SearchResultEvent;
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 
 public class FileSearcher extends FileIterator {
 
@@ -57,7 +57,7 @@ public class FileSearcher extends FileIterator {
 	}
 
 	@Override
-	protected boolean shouldAddToTempResult(String s) {
+	protected boolean shouldAddToTempResult(String s, LogLine l) {
 		return searchEvent.getCriteria().matches(s);
 	}
 

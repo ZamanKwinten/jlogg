@@ -2,7 +2,7 @@ package jlogg.eventbus;
 
 import java.util.List;
 
-import jlogg.shared.LogLine;
+import jlogg.plugin.LogLine;
 
 public class SearchResultEvent {
 
