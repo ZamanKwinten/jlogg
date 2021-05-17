@@ -32,6 +32,8 @@ public class PluginsMenu extends Menu implements InvalidationListener {
 				mainPane.getCurrentSelectedTab().openPlugin(plugin);
 			});
 
+			plugin.getCSSStylesheet().ifPresent(mainPane.getStylesheets()::add);
+
 			menuItems.add(pluginItem);
 		}
 		getItems().setAll(menuItems);
