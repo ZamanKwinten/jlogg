@@ -1,21 +1,19 @@
 package jlogg.ui.logview;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableDoubleValue;
-import javafx.scene.control.TableColumn;
+import java.util.function.BiConsumer;
+
 import jlogg.datahandlers.FileLineReader;
 import jlogg.plugin.LogLine;
+import jlogg.ui.GlobalConstants;
 
-class LineTextColumn extends TableColumn<LogLine, String> {
+class LineTextColumn extends FillRemainingColumn<LogLine> {
 
-	public LineTextColumn(ObservableDoubleValue width) {
-		setCellValueFactory((cell) -> {
-			return new SimpleStringProperty(FileLineReader.readLineFromFile(cell.getValue()));
+	public LineTextColumn(LogFileView parent, BiConsumer<LogFileView, Integer> clickHandler) {
+		super(parent, GlobalConstants.defaultFont, FileLineReader::readLineFromFile);
+
+		setCellFactory((param) -> {
+			return new LineTextDragCell(parent, clickHandler);
 		});
-
-		minWidthProperty().bind(width);
-		maxWidthProperty().bind(width);
-		prefWidthProperty().bind(width);
 
 		setSortable(false);
 	}

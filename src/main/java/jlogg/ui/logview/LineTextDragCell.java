@@ -10,7 +10,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseDragEvent;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
-import jlogg.ui.utils.FXUtils;
 
 /**
  * The line in the UI representing the actual text. Has its own implementation
@@ -66,9 +65,11 @@ class LineTextDragCell extends DragSelectionCell {
 		});
 
 		textfield.fontProperty().bind(GlobalConstants.defaultFont);
-		textfield.fontProperty().addListener((o, a, b) -> {
-			setPrefWidth();
-		});
+
+		textfield.prefWidthProperty().bind(prefWidthProperty());
+		textfield.minWidthProperty().bind(minWidthProperty());
+		textfield.maxWidthProperty().bind(maxWidthProperty());
+
 		setPadding(Insets.EMPTY);
 
 		setGraphic(textfield);
@@ -82,20 +83,8 @@ class LineTextDragCell extends DragSelectionCell {
 		} else {
 			// replace tabs with 4 spaces
 			textfield.setText(value.replace("\t", "    "));
-			setPrefWidth();
 		}
 		applyDefaultStyle();
-	}
-
-	private void setPrefWidth() {
-		// 15 px of padding
-		double width = FXUtils.calculateTextControlWidth(textfield.getFont(), textfield.getText(), 15);
-
-		textfield.setPrefWidth(width);
-		textfield.setMinWidth(width);
-		textfield.setMaxWidth(width);
-
-		((LogFileView) selectableContent).updateTextColumnWidth(width);
 	}
 
 	/**

@@ -3,13 +3,11 @@ package jlogg.ui.logview;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
-import javafx.stage.Screen;
 import jlogg.datahandlers.FileLineReader;
 import jlogg.plugin.LogLine;
 import jlogg.ui.FileTab;
@@ -33,9 +31,6 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 
 	private String internalSelection;
 
-	private final SimpleDoubleProperty maxTextColumnWidth = new SimpleDoubleProperty();
-	private final SimpleDoubleProperty maxLineNumberColumnWidth = new SimpleDoubleProperty();
-
 	public LogFileView(FileTab mainPane, ObservableList<LogLine> lines) {
 		this(mainPane, lines, null);
 	}
@@ -45,16 +40,8 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 		super(lines);
 		this.mainPane = mainPane;
 
-		lineNumberColumn = new LineNumberColumn(maxLineNumberColumnWidth);
-		lineTextColumn = new LineTextColumn(maxTextColumnWidth);
-
-		lineNumberColumn.setCellFactory((param) -> {
-			return new LineNumberDragCell(this);
-		});
-
-		lineTextColumn.setCellFactory((param) -> {
-			return new LineTextDragCell(this, mouseClickHandler);
-		});
+		lineNumberColumn = new LineNumberColumn(this);
+		lineTextColumn = new LineTextColumn(this, mouseClickHandler);
 
 		getColumns().add(lineNumberColumn);
 		getColumns().add(lineTextColumn);
@@ -81,24 +68,6 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 
 			return row;
 		});
-
-		maxTextColumnWidth.set(Screen.getPrimary().getBounds().getWidth());
-	}
-
-	void updateTextColumnWidth(double value) {
-		if (value > maxTextColumnWidth.doubleValue()) {
-			maxTextColumnWidth.set(value);
-		}
-	}
-
-	void resetLineNumberColumnWidth() {
-		maxLineNumberColumnWidth.set(0);
-	}
-
-	void updateLineNumberColumnWidth(double value) {
-		if (value > maxLineNumberColumnWidth.doubleValue()) {
-			maxLineNumberColumnWidth.set(value);
-		}
 	}
 
 	public int getDragStart() {
@@ -152,8 +121,8 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 	}
 
 	@Override
-	public void resize(double arg0, double arg1) {
-		super.resize(arg0, arg1);
+	public void resize(double width, double height) {
+		super.resize(width, height);
 
 		Pane header = (Pane) lookup("TableHeaderRow");
 		header.setMaxHeight(0);
