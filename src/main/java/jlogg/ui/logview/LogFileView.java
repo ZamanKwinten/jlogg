@@ -6,7 +6,6 @@ import java.util.function.BiConsumer;
 import javafx.collections.ObservableList;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import jlogg.datahandlers.FileLineReader;
 import jlogg.plugin.LogLine;
@@ -21,13 +20,13 @@ import jlogg.ui.utils.FXUtils;
  * @author KWZA
  *
  */
-public class LogFileView extends TableView<LogLine> implements DragSelectableContent {
+public class LogFileView extends AutoFillingTable<LogLine> implements DragSelectableContent {
 	private final FileTab mainPane;
 
-	private final LineNumberColumn lineNumberColumn;
-	private final LineTextColumn lineTextColumn;
-
 	private int dragStart;
+
+	private LineNumberColumn lineNumberColumn;
+	private LineTextColumn lineTextColumn;
 
 	private String internalSelection;
 
@@ -37,14 +36,15 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 
 	public LogFileView(FileTab mainPane, ObservableList<LogLine> lines,
 			BiConsumer<LogFileView, Integer> mouseClickHandler) {
-		super(lines);
-		this.mainPane = mainPane;
+		setItems(lines);
 
 		lineNumberColumn = new LineNumberColumn(this);
 		lineTextColumn = new LineTextColumn(this, mouseClickHandler);
 
-		getColumns().add(lineNumberColumn);
-		getColumns().add(lineTextColumn);
+		addColumn(lineNumberColumn);
+		addColumn(lineTextColumn);
+
+		this.mainPane = mainPane;
 
 		getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		getSelectionModel().setCellSelectionEnabled(true);
@@ -80,7 +80,7 @@ public class LogFileView extends TableView<LogLine> implements DragSelectableCon
 	}
 
 	private void selectLine(int index) {
-		getSelectionModel().select(index, lineTextColumn);
+		getSelectionModel().select(index, getColumn(lineTextColumn));
 		mainPane.setLastSelection(this);
 	}
 
