@@ -20,10 +20,6 @@ public class ShortcutSelector extends GridPane {
 
 		int i = 0;
 		for (ShortCut key : GlobalConstants.ShortCut.values()) {
-			if (key == ShortCut.SELECT_ALL) {
-				continue;
-			}
-
 			add(new Label(key.uiName()), 0, i);
 			Label keyDisplay = new Label(key.getKeyDisplayText());
 

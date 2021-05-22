@@ -5,8 +5,13 @@ import java.util.regex.PatternSyntaxException;
 
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseDragEvent;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
@@ -37,12 +42,28 @@ class LineTextDragCell extends DragSelectionCell {
 
 		if (clickHandler != null) {
 			textfield.setOnMouseClicked((event) -> {
-				clickHandler.accept(logFileView, getIndex());
-			});
-			setOnMouseClicked((event) -> {
-				clickHandler.accept(logFileView, getIndex());
+				if (event.getButton() == MouseButton.PRIMARY) {
+					clickHandler.accept(logFileView, getIndex());
+				}
 			});
 		}
+
+		ContextMenu menu = new ContextMenu();
+		MenuItem copy = new MenuItem("Copy");
+		copy.setOnAction((event) -> {
+			logFileView.getSelection().ifPresent((selection) -> {
+				final ClipboardContent content = new ClipboardContent();
+				content.putString(selection);
+				Clipboard.getSystemClipboard().setContent(content);
+				event.consume();
+			});
+		});
+		menu.getItems().add(copy);
+		textfield.setContextMenu(menu);
+
+		/*
+		 * textfield.addEventFilter(ContextMenuEvent.ANY, ev -> { ev.consume(); });
+		 */
 
 		// Register the listener responsible for managing the selection css
 		selectedProperty().addListener((observable, oldValue, newValue) -> {

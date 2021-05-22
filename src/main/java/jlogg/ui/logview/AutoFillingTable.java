@@ -8,6 +8,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import jlogg.ui.GlobalConstants;
 
 public class AutoFillingTable<T> extends TableView<T> {
@@ -32,6 +34,14 @@ public class AutoFillingTable<T> extends TableView<T> {
 						new FillRemainingColumn<>(this, GlobalConstants.defaultFont, definition.contentProducer()));
 			}
 		});
+
+		addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+			if (e.getCode() == KeyCode.A && e.isShortcutDown()) {
+				e.consume();
+			}
+		});
+
+		// new KeyMapping(, e -> selectAll()),
 	}
 
 	private void handleColumnDefinition(ColumnDefinition<T> definition, TableColumn<T, String> column) {

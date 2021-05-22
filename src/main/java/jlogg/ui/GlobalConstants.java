@@ -61,7 +61,6 @@ public class GlobalConstants {
 	public static final Observable<Font> defaultFont = new Observable<>(Font.font("Arial", 15));
 
 	public enum ShortCut {
-		SELECT_ALL("Select All", new Observable<>(new KeyCodeCombination(KeyCode.A, KeyCodeCombination.SHORTCUT_DOWN))),
 		COPY("Copy", new Observable<>(new KeyCodeCombination(KeyCode.C, KeyCodeCombination.SHORTCUT_DOWN))),
 		OPEN_SEARCH("Find in File...",
 				new Observable<>(new KeyCodeCombination(KeyCode.F, KeyCodeCombination.SHORTCUT_DOWN))),
