@@ -1,0 +1,13 @@
+
+.cell{
+	-fx-background-color: -fx-jlogg-background-color; 
+	-fx-text-fill:-fx-jlogg-text-fill-color;
+}
+
+.cellWithRightBorder{
+	-fx-background-color: -fx-jlogg-background-color; 
+	-fx-text-fill:-fx-jlogg-text-fill-color;
+	-fx-border-style: solid; 
+	-fx-border-width: 0 1 0 0; 
+	-fx-border-color: -fx-jlogg-text-fill-color;
+}

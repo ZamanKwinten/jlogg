@@ -20,7 +20,7 @@ public class MainStage extends Stage {
 		Scene s = new Scene(root);
 		setScene(s);
 		s.getStylesheets().addAll(ResourceLoader.loadResourceFile("Default.css"),
-				ResourceLoader.loadResourceFile("color.css"));
+				ResourceLoader.loadResourceFile("color.css"), ResourceLoader.loadResourceFile("cellstyles.css"));
 		GlobalConstants.theme.addListener((obs, o, n) -> {
 			s.getRoot().setStyle("-fx-base:" + n.getFXBase());
 		});

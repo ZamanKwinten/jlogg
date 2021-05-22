@@ -11,7 +11,9 @@ public abstract class ColumnDefinition<T> {
 
 	protected abstract Function<T, String> contentProducer();
 
-	protected abstract Optional<Callback<TableColumn<T, String>, TableCell<T, String>>> getCellFactory();
+	protected Optional<Callback<TableColumn<T, String>, TableCell<T, String>>> getCellFactory() {
+		return Optional.empty();
+	}
 
 	protected void applyExtra(TableColumn<T, String> column) {
 
