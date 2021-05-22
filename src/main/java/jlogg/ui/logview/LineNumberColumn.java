@@ -7,6 +7,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
 import jlogg.plugin.LogLine;
+import jlogg.ui.table.ColumnDefinition;
 
 class LineNumberColumn extends ColumnDefinition<LogLine> {
 	private final LogFileView parent;

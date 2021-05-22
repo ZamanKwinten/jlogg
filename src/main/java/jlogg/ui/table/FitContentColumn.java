@@ -1,4 +1,4 @@
-package jlogg.ui.logview;
+package jlogg.ui.table;
 
 import java.util.function.Function;
 

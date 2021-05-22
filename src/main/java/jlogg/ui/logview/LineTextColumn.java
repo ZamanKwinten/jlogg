@@ -9,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
 import jlogg.datahandlers.FileLineReader;
 import jlogg.plugin.LogLine;
+import jlogg.ui.table.ColumnDefinition;
 
 class LineTextColumn extends ColumnDefinition<LogLine> {
 	private final LogFileView parent;

@@ -12,6 +12,7 @@ import jlogg.plugin.LogLine;
 import jlogg.ui.FileTab;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.interfaces.DragSelectableContent;
+import jlogg.ui.table.AutoFillingTable;
 import jlogg.ui.utils.FXUtils;
 
 /**

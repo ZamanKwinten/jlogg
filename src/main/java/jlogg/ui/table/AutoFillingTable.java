@@ -1,4 +1,4 @@
-package jlogg.ui.logview;
+package jlogg.ui.table;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,8 +40,6 @@ public class AutoFillingTable<T> extends TableView<T> {
 				e.consume();
 			}
 		});
-
-		// new KeyMapping(, e -> selectAll()),
 	}
 
 	private void handleColumnDefinition(ColumnDefinition<T> definition, TableColumn<T, String> column) {
