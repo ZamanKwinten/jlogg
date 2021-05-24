@@ -1,7 +1,7 @@
 package jlogg.ui.logview;
 
 import java.util.Optional;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import javafx.scene.control.TableCell;
@@ -10,12 +10,13 @@ import javafx.util.Callback;
 import jlogg.datahandlers.FileLineReader;
 import jlogg.plugin.LogLine;
 import jlogg.ui.table.ColumnDefinition;
+import jlogg.ui.table.JLoggLogFileView;
 
-class LineTextColumn extends ColumnDefinition<LogLine> {
-	private final LogFileView parent;
-	private final BiConsumer<LogFileView, Integer> clickHandler;
+public class LineTextColumn extends ColumnDefinition<LogLine> {
+	private final JLoggLogFileView parent;
+	private final Consumer<LogLine> clickHandler;
 
-	public LineTextColumn(LogFileView parent, BiConsumer<LogFileView, Integer> clickHandler) {
+	public LineTextColumn(JLoggLogFileView parent, Consumer<LogLine> clickHandler) {
 		this.parent = parent;
 		this.clickHandler = clickHandler;
 	}

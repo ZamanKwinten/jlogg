@@ -31,12 +31,14 @@ public class ResizableView extends VBox {
 			if (n instanceof Pane) {
 				setVisibilityRecursive((Pane) n, isVisible);
 			} else {
-				n.setManaged(isVisible);
-				n.setVisible(isVisible);
+				setVisibility(n, isVisible);
 			}
 		}
-		p.setManaged(isVisible);
-		p.setVisible(isVisible);
+		setVisibility(p, isVisible);
 	}
 
+	private void setVisibility(Node n, boolean isVisible) {
+		n.setManaged(isVisible);
+		n.setVisible(isVisible);
+	}
 }

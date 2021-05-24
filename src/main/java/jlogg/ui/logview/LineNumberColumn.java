@@ -7,12 +7,13 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
 import jlogg.plugin.LogLine;
+import jlogg.ui.interfaces.DragSelectableContent;
 import jlogg.ui.table.ColumnDefinition;
 
-class LineNumberColumn extends ColumnDefinition<LogLine> {
-	private final LogFileView parent;
+public class LineNumberColumn extends ColumnDefinition<LogLine> {
+	private final DragSelectableContent parent;
 
-	public LineNumberColumn(LogFileView parent) {
+	public LineNumberColumn(DragSelectableContent parent) {
 		this.parent = parent;
 
 	}

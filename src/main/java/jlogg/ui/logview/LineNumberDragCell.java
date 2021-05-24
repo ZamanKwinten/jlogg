@@ -2,10 +2,11 @@ package jlogg.ui.logview;
 
 import javafx.geometry.Pos;
 import jlogg.ui.GlobalConstants;
+import jlogg.ui.interfaces.DragSelectableContent;
 import jlogg.ui.utils.FXUtils;
 
 class LineNumberDragCell extends DragSelectionCell {
-	public LineNumberDragCell(LogFileView logFileView) {
+	public LineNumberDragCell(DragSelectableContent logFileView) {
 		super(logFileView);
 
 		fontProperty().bind(GlobalConstants.defaultFont);

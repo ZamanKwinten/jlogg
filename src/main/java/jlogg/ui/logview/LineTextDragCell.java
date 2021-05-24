@@ -1,6 +1,6 @@
 package jlogg.ui.logview;
 
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.regex.PatternSyntaxException;
 
 import javafx.collections.ListChangeListener;
@@ -13,8 +13,10 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseDragEvent;
+import jlogg.plugin.LogLine;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
+import jlogg.ui.table.JLoggLogFileView;
 
 /**
  * The line in the UI representing the actual text. Has its own implementation
@@ -28,7 +30,7 @@ class LineTextDragCell extends DragSelectionCell {
 
 	private final TextField textfield;
 
-	public LineTextDragCell(LogFileView logFileView, BiConsumer<LogFileView, Integer> clickHandler) {
+	public LineTextDragCell(JLoggLogFileView logFileView, Consumer<LogLine> clickHandler) {
 		super(logFileView);
 		setOnMouseDragOver(this::onDragOver);
 
@@ -43,7 +45,7 @@ class LineTextDragCell extends DragSelectionCell {
 		if (clickHandler != null) {
 			textfield.setOnMouseClicked((event) -> {
 				if (event.getButton() == MouseButton.PRIMARY) {
-					clickHandler.accept(logFileView, getIndex());
+					clickHandler.accept(this.getTableRow().getItem());
 				}
 			});
 		}

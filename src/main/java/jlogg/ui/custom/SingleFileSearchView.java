@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.event.Event;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.SingleFileSearchEvent;
-import jlogg.plugin.LogLine;
 import jlogg.shared.SearchCriteria;
 import jlogg.ui.FileTab;
 import jlogg.ui.GlobalConstants;
@@ -32,8 +31,7 @@ public class SingleFileSearchView extends FileSearchView {
 
 	@Override
 	protected LogFileView initLogFileView(MainPane mainPane, FileTab fileTab) {
-		return new LogFileView(fileTab, this.searchResults, (view, index) -> {
-			LogLine line = view.getItems().get(index);
+		return new LogFileView(fileTab, this.searchResults, (line) -> {
 			fileTab.selectLogLine(line.getLineNumber());
 		});
 	}

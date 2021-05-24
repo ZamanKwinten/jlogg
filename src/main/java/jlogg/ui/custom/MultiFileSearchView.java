@@ -52,8 +52,7 @@ public class MultiFileSearchView extends FileSearchView {
 
 	@Override
 	protected LogFileView initLogFileView(MainPane mainPane, FileTab fileTab) {
-		return new LogFileView(fileTab, this.searchResults, (view, index) -> {
-			LogLine line = view.getItems().get(index);
+		return new LogFileView(fileTab, this.searchResults, (line) -> {
 
 			mainPane.findFileTab(line.getFile()).ifPresent(targetTab -> {
 				if (!Objects.equals(mainPane.getCurrentSelectedTab(), targetTab)) {
@@ -62,6 +61,14 @@ public class MultiFileSearchView extends FileSearchView {
 
 					MultiFileSearchView targetSearchView = targetTab.getMultiFileSearchView();
 					targetSearchView.show();
+
+					int index = 0;
+					for (LogLine ll : this.searchResults) {
+						if (Objects.equals(line, ll)) {
+							break;
+						}
+						index++;
+					}
 					targetSearchView.scrollTo(index);
 
 					targetSearchView.setSearch(this.getSearch(), this.getSearchOptions());
