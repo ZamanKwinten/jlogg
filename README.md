@@ -13,7 +13,7 @@ Searches can be performed by pressing ctrl/command+F (search in a single file) o
 This opens the search pane in this pane you can setup multiple options: 
 - The text to search for: JLogg will interpret this text as regular expression by default. If the regex is invalid it will fall back on exact matching 
 - Ignore Case: whether the search should ignore casing or not
-- JLogg also keeps track of all you searches and in which file they were done. This overview can be opened by dragging from the left border of the application.
+- JLogg also keeps track of all your searches and in which file they were done. This overview can be opened by dragging from the left border of the application.
 
 ### Highlighting
 Highlighting of interesting lines can be done by pressing ctrl/command+H.
