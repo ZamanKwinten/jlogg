@@ -6,17 +6,17 @@ In essence it's a log file searching tool made for searching in large log files.
 ## Features
 - [x] Searching in the log files (using ctrl/command+F) 
 - [x] Highlighting lines in the log file using regular expressions (using ctrl/command+H) 
-- [ ] Make it possible to have custom plugins to make it easier to investigate your log files
+- [x] Make it possible to have custom plugins to make it easier to investigate your log files
 
 ### Searching 
-Searches can be performed by pressing ctrl/command+F. 
+Searches can be performed by pressing ctrl/command+F (search in a single file) or by pressing shift+ctrl/command+f (search in multiple files)
 This opens the search pane in this pane you can setup multiple options: 
 - The text to search for: JLogg will interpret this text as regular expression by default. If the regex is invalid it will fall back on exact matching 
-- Ignore Case: whether the search should ignore the casing or not 
-- Search all files: defines whether the search scope should be limited to the current tab or whether it should search in all tabs. When using this option you are prompted to define the order in which JLogg should search through the tabs. 
+- Ignore Case: whether the search should ignore casing or not
+- JLogg also keeps track of all you searches and in which file they were done. This overview can be opened by dragging from the left border of the application.
 
 ### Highlighting
-Highlighting of interesting lines can be done by pressing ctrl/command +H.
+Highlighting of interesting lines can be done by pressing ctrl/command+H.
 This opens the Filter pane. 
 This pane allows you to add, reorder or remove filters. These filters are persisted when JLogg is stopped so that they can be reused in your next session. 
 - Adding a filter: this can be done by clicking the add button. 
