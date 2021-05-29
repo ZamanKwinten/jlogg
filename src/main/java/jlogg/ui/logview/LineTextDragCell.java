@@ -7,6 +7,7 @@ import javafx.collections.ListChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -16,6 +17,8 @@ import javafx.scene.input.MouseDragEvent;
 import jlogg.plugin.LogLine;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
+import jlogg.ui.GlobalConstants.ShortCut;
+import jlogg.ui.MainStage;
 import jlogg.ui.table.JLoggLogFileView;
 
 /**
@@ -60,7 +63,27 @@ class LineTextDragCell extends DragSelectionCell {
 				event.consume();
 			});
 		});
-		menu.getItems().add(copy);
+
+		SeparatorMenuItem seperator = new SeparatorMenuItem();
+		MenuItem findSingleFile = new MenuItem(ShortCut.OPEN_SEARCH.uiName());
+		findSingleFile.setOnAction(event -> {
+			MainStage.getInstance().getMainPane().getCurrentSelectedTab()
+					.showSingleFileSearchView(logFileView.getSingleLineSelection().orElse(null));
+		});
+
+		MenuItem findAllFiles = new MenuItem(ShortCut.OPEN_ALL_SEARCH.uiName());
+		findAllFiles.setOnAction(event -> {
+			MainStage.getInstance().getMainPane().getCurrentSelectedTab()
+					.showMultiFileSearchView(logFileView.getSingleLineSelection().orElse(null));
+		});
+
+		menu.getItems().addAll(copy, seperator, findSingleFile, findAllFiles);
+		menu.showingProperty().addListener((obs, o, n) -> {
+			boolean hasSingleLineSelection = logFileView.getSingleLineSelection().isPresent();
+			seperator.setVisible(hasSingleLineSelection);
+			findSingleFile.setVisible(hasSingleLineSelection);
+			findAllFiles.setVisible(hasSingleLineSelection);
+		});
 		textfield.setContextMenu(menu);
 
 		/*

@@ -1,11 +1,9 @@
 package jlogg.ui.logview;
 
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
-import jlogg.datahandlers.FileLineReader;
 import jlogg.plugin.LogLine;
 import jlogg.ui.FileTab;
 import jlogg.ui.table.JLoggLogFileView;
@@ -27,27 +25,6 @@ public class LogFileView extends JLoggLogFileView {
 		super(lines, mouseClickHandler);
 
 		this.mainPane = mainPane;
-	}
-
-	public Optional<String> getSelection() {
-		if (getSelectionModel().getSelectedItems().size() == 0) {
-			// nothing is selected => return internal selection
-			return Optional.ofNullable(internalSelection);
-		} else {
-			StringBuilder sb = new StringBuilder();
-			for (LogLine l : getSelectionModel().getSelectedItems()) {
-				sb.append(FileLineReader.readLineFromFile(l)).append("\n");
-			}
-			return Optional.of(sb.toString());
-		}
-	}
-
-	public Optional<String> getSingleLineSelection() {
-		if (getSelectionModel().getSelectedItems().size() == 0) {
-			// nothing is selected => return internal selection
-			return Optional.ofNullable(internalSelection);
-		}
-		return Optional.empty();
 	}
 
 	@Override

@@ -112,4 +112,13 @@ public class JLoggLogFileView extends AutoFillingTable<LogLine> implements DragS
 			return Optional.of(sb.toString());
 		}
 	}
+
+	public Optional<String> getSingleLineSelection() {
+		if (getSelectionModel().getSelectedItems().size() == 0) {
+			// nothing is selected => return internal selection
+			return Optional.ofNullable(internalSelection);
+		}
+		return Optional.empty();
+	}
+
 }

@@ -5,6 +5,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import jlogg.ui.FileTab;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.GlobalConstants.ShortCut;
 import jlogg.ui.MainPane;
@@ -32,14 +33,16 @@ public class EditMenu extends Menu {
 		findMenuItem = new MenuItemWithAccelerator(ShortCut.OPEN_SEARCH);
 		findMenuItem.setOnAction((event) -> {
 			if (mainPane.getCurrentSelectedTab() != null) {
-				mainPane.getCurrentSelectedTab().showSingleFileSearchView();
+				FileTab filetab = mainPane.getCurrentSelectedTab();
+				filetab.showSingleFileSearchView(filetab.getSingleLineSelection().orElse(null));
 			}
 		});
 
 		findAllMenuItem = new MenuItemWithAccelerator(ShortCut.OPEN_ALL_SEARCH);
 		findAllMenuItem.setOnAction((event) -> {
 			if (mainPane.getCurrentSelectedTab() != null) {
-				mainPane.getCurrentSelectedTab().showMultiFileSearchView();
+				FileTab filetab = mainPane.getCurrentSelectedTab();
+				mainPane.getCurrentSelectedTab().showMultiFileSearchView(filetab.getSingleLineSelection().orElse(null));
 			}
 		});
 

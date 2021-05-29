@@ -145,13 +145,17 @@ public class FileTab extends Tab {
 		return lastSelection.getSingleLineSelection();
 	}
 
-	public void showSingleFileSearchView() {
-		getSingleLineSelection().ifPresent(string -> singleFileSearchView.setSearchText(string));
+	public void showSingleFileSearchView(String searchText) {
+		if (searchText != null) {
+			singleFileSearchView.setSearchText(searchText);
+		}
 		singleFileSearchView.show();
 	}
 
-	public void showMultiFileSearchView() {
-		getSingleLineSelection().ifPresent(string -> multiFileSearchView.setSearchText(string));
+	public void showMultiFileSearchView(String searchText) {
+		if (searchText != null) {
+			multiFileSearchView.setSearchText(searchText);
+		}
 		multiFileSearchView.show();
 	}
 
