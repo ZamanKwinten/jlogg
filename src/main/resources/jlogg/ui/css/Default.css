@@ -65,3 +65,14 @@
        in particular, the left border of the control doesn't show. */
     -fx-padding: 1; /* 0.083333em; */
 }
+
+
+.searchhightlightbar-missing{
+	-fx-fill: TRANSPARENT;
+}
+
+.searchhightlightbar-hit{
+	-fx-fill: RED;
+	-fx-cursor: hand;
+}
+

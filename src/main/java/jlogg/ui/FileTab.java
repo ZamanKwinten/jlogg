@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import jlogg.plugin.JLoggPlugin;
@@ -64,7 +65,12 @@ public class FileTab extends Tab {
 
 		progressBar = new ProgressBar(progress);
 
+		HBox mainViewWrapper = new HBox();
 		mainView = new LogFileView(this, lines);
+		SearchHighlightBar highlightBar = new SearchHighlightBar(this, lines);
+
+		HBox.setHgrow(mainView, Priority.ALWAYS);
+		mainViewWrapper.getChildren().addAll(mainView, highlightBar);
 
 		singleFileSearchView = new SingleFileSearchView(mainPane, this);
 		multiFileSearchView = new MultiFileSearchView(mainPane, this);
@@ -72,12 +78,12 @@ public class FileTab extends Tab {
 		// initialize it to something
 		lastSelection = mainView;
 
-		VBox.setVgrow(mainView, Priority.ALWAYS);
+		VBox.setVgrow(mainViewWrapper, Priority.ALWAYS);
 		VBox.setVgrow(singleFileSearchView, Priority.ALWAYS);
 		VBox.setVgrow(multiFileSearchView, Priority.ALWAYS);
 		VBox.setVgrow(pluginViewWrapper, Priority.ALWAYS);
 
-		logContent.getChildren().addAll(progressBar, mainView, singleFileSearchView, multiFileSearchView,
+		logContent.getChildren().addAll(progressBar, mainViewWrapper, singleFileSearchView, multiFileSearchView,
 				pluginViewWrapper);
 		singleFileSearchView.hide();
 		multiFileSearchView.hide();
@@ -87,6 +93,9 @@ public class FileTab extends Tab {
 			if (n) {
 				multiFileSearchView.hide();
 				pluginViewWrapper.hide();
+				highlightBar.openSingleView();
+			} else if (!multiFileSearchView.isVisible()) {
+				highlightBar.hide();
 			}
 		});
 
@@ -94,14 +103,20 @@ public class FileTab extends Tab {
 			if (n) {
 				singleFileSearchView.hide();
 				pluginViewWrapper.hide();
+				highlightBar.openMultiView();
+			} else if (!singleFileSearchView.isVisible()) {
+				highlightBar.hide();
 			}
+
 		});
 
 		pluginViewWrapper.visibleProperty().addListener((obs, o, n) -> {
 			if (n) {
 				singleFileSearchView.hide();
 				multiFileSearchView.hide();
+				highlightBar.hide();
 			}
+
 		});
 
 		setContent(logContent);
