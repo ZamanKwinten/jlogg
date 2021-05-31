@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 import jlogg.shared.Filter;
 import jlogg.shared.SearchOptions;
 import jlogg.ui.GlobalConstants;
+import jlogg.ui.MainStage;
 import jlogg.ui.css.ResourceLoader;
 import jlogg.ui.popup.utils.UpDownBox;
 
@@ -117,6 +118,10 @@ public class FilterPopup extends Stage {
 		s.getStylesheets().addAll(ResourceLoader.loadResourceFile("color.css"));
 		s.getRoot().setStyle("-fx-base:" + GlobalConstants.theme.getValue().getFXBase());
 		setScene(s);
+
+		setX(MainStage.getInstance().getX());
+		setY(MainStage.getInstance().getY());
+		centerOnScreen();
 
 		setTitle("Filters");
 		initModality(Modality.APPLICATION_MODAL);

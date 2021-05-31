@@ -11,8 +11,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import jlogg.ui.GlobalConstants;
-import jlogg.ui.css.ResourceLoader;
+import jlogg.ui.MainStage;
+import jlogg.ui.utils.StyledScene;
 
 abstract class PopupWithReturn<T> extends Stage {
 	protected final VBox content;
@@ -24,11 +24,12 @@ abstract class PopupWithReturn<T> extends Stage {
 
 		content.setPadding(new Insets(15));
 
-		Scene s = new Scene(content);
-		s.getStylesheets().addAll(ResourceLoader.loadResourceFile("color.css"));
-		s.getRoot().setStyle("-fx-base:" + GlobalConstants.theme.getValue().getFXBase());
+		Scene s = new StyledScene(content);
 
 		setScene(s);
+		setX(MainStage.getInstance().getX());
+		setY(MainStage.getInstance().getY());
+		centerOnScreen();
 
 		initModality(Modality.APPLICATION_MODAL);
 	}
