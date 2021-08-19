@@ -2,6 +2,7 @@ package jlogg.ui.custom.search;
 
 import javafx.collections.ObservableList;
 import javafx.event.Event;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import jlogg.plugin.LogLine;
 import jlogg.shared.SearchOptions;
@@ -49,6 +50,10 @@ public abstract class SearchBox extends VBox {
 	public void fireSearch(Event event) {
 		parent.scrollTo(0);
 		fireSearchImpl(event);
+	}
+
+	protected Label getCurrentFileSearchFilename() {
+		return new Label();
 	}
 
 	protected abstract void fireSearchImpl(Event event);

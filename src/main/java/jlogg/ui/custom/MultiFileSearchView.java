@@ -7,7 +7,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javafx.application.Platform;
 import javafx.event.Event;
+import javafx.scene.control.Label;
 import jlogg.eventbus.EventBusFactory;
 import jlogg.eventbus.MultiFileSearchEvent;
 import jlogg.plugin.LogLine;
@@ -46,6 +48,21 @@ public class MultiFileSearchView extends FileSearchView {
 								new SearchCriteria(getSearch(), getSearchOptions())));
 					}
 				}
+			}
+
+			@Override
+			protected Label getCurrentFileSearchFilename() {
+				Label currentFileLabel = new Label();
+				GlobalConstants.multiFileSearchCurrentFilename.addListener((obs, ov, nv) -> {
+					Platform.runLater(() -> {
+						if (nv == null) {
+							currentFileLabel.setText("");
+						} else {
+							currentFileLabel.setText(nv);
+						}
+					});
+				});
+				return currentFileLabel;
 			}
 		};
 	}

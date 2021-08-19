@@ -27,7 +27,7 @@ public class SingleFileSearchEvent extends SearchEvent {
 	}
 
 	@Override
-	public void setGlobalConstants(List<LogLine> lines) {
+	public void setGlobalConstants(File currentFile, List<LogLine> lines) {
 		GlobalConstants.singleFileSearchResults.get(file).addAll(lines);
 	}
 

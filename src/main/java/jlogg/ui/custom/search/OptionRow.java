@@ -14,13 +14,8 @@ import jlogg.ui.GlobalConstants;
 
 public class OptionRow extends HBox {
 
-	// private final Button filterTypeButton; -> maybe in the future (search vs
-	// bookmarks)
 	private final ProgressBar progressBar;
 	private CheckBox ignoreCaseCheck;
-
-	// private CheckBox autoRefreshCheck; -> maybe in the future currently no auto
-	// refresh support
 
 	public OptionRow(SearchBox searchBox) {
 		super(5);
@@ -48,11 +43,10 @@ public class OptionRow extends HBox {
 		ignoreCaseCheck.setMinWidth(85);
 
 		setHgrow(progressBar, Priority.ALWAYS);
-		setPadding(new Insets(5));
-		getStyleClass().add("optionRowPadding");
+		setPadding(new Insets(5, 5, 5, 0));
 		setAlignment(Pos.CENTER_LEFT);
 
-		getChildren().addAll(progressBar, matchesLabel, ignoreCaseCheck);
+		getChildren().addAll(searchBox.getCurrentFileSearchFilename(), progressBar, matchesLabel, ignoreCaseCheck);
 	}
 
 	public void setSearchOptions(SearchOptions opt) {

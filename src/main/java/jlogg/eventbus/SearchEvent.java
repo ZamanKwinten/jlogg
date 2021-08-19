@@ -26,5 +26,5 @@ public abstract class SearchEvent {
 
 	public abstract void clearGlobalConstants();
 
-	public abstract void setGlobalConstants(List<LogLine> lines);
+	public abstract void setGlobalConstants(File currentFile, List<LogLine> lines);
 }

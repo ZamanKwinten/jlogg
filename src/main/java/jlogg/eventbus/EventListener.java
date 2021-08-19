@@ -18,6 +18,7 @@ public class EventListener {
 
 		searchEvent.clearGlobalConstants();
 		GlobalConstants.searchProgress.setValue(0.0);
+		GlobalConstants.multiFileSearchCurrentFilename.setValue(null);
 		SearchCriteria criteria = searchEvent.getCriteria();
 
 		GlobalConstants.searchHistory.add(criteria);
@@ -27,11 +28,6 @@ public class EventListener {
 
 	@Subscribe
 	private void onSearchResultEvent(SearchResultEvent searchResult) {
-		handleSearchEvent(searchResult);
-	}
-
-	@Subscribe
-	private void onSearchFinishedEvent(SearchFinishedEvent searchResult) {
 		handleSearchEvent(searchResult);
 	}
 

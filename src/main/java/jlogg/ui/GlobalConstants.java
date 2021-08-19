@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.input.KeyCode;
@@ -50,6 +51,8 @@ public class GlobalConstants {
 	 * Results of the current search
 	 */
 	public static final ObservableList<LogLine> multiFileSearchResults = FXCollections.observableArrayList();
+
+	public static final SimpleStringProperty multiFileSearchCurrentFilename = new SimpleStringProperty(null);
 
 	public static final Map<File, ObservableList<LogLine>> singleFileSearchResults = new HashMap<>();
 
