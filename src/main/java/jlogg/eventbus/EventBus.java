@@ -14,7 +14,7 @@ public class EventBus {
 	private final List<JLoggEventListener> listeners;
 
 	private EventBus() {
-		listeners = Arrays.asList();
+		listeners = Arrays.asList(new EventListener());
 	}
 
 	public void submit(SearchEvent event) {

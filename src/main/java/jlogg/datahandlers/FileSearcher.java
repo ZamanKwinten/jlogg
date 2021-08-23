@@ -8,8 +8,6 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
 import jlogg.ConstantMgr;
 import jlogg.eventbus.EventBus;
 import jlogg.eventbus.SearchEvent;
@@ -26,8 +24,7 @@ public class FileSearcher extends FileIterator {
 	 * 
 	 */
 	private static final ExecutorService searchService = Executors.newFixedThreadPool(
-			ConstantMgr.instance().searchServiceThreadCount,
-			new ThreadFactoryBuilder().setDaemon(true).setNameFormat("search-thread-%d").build());
+			ConstantMgr.instance().searchServiceThreadCount, new NamedThreadFactory("search-thread-"));
 
 	private final SearchEvent searchEvent;
 

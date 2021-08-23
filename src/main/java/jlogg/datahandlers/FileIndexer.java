@@ -9,8 +9,6 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
 import jlogg.ConstantMgr;
 import jlogg.eventbus.EventBus;
 import jlogg.eventbus.IndexFinishedEvent;
@@ -24,8 +22,7 @@ public class FileIndexer extends FileIterator {
 	 * Define the Executor service used for indexing
 	 */
 	private static final ExecutorService indexService = Executors.newFixedThreadPool(
-			ConstantMgr.instance().indexServiceThreadCount,
-			new ThreadFactoryBuilder().setDaemon(true).setNameFormat("index-thread-%d").build());
+			ConstantMgr.instance().indexServiceThreadCount, new NamedThreadFactory("index-thread-"));
 
 	/**
 	 * File indexer can only run on 1 file at a time

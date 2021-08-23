@@ -10,8 +10,6 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
 import jlogg.plugin.LogLine;
 import jlogg.plugin.PluginAction;
 
@@ -26,7 +24,7 @@ public class PluginFileIterator extends FileIterator {
 	private static final Logger log = Logger.getLogger(FileIndexer.class.getName());
 
 	private static final ExecutorService pluginIterationService = Executors.newFixedThreadPool(1,
-			new ThreadFactoryBuilder().setDaemon(true).setNameFormat("plugin-iterate-%d").build());
+			new NamedThreadFactory("plugin-iterate-"));
 
 	private final PluginAction action;
 

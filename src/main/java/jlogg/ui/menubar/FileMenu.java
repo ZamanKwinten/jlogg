@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.google.common.collect.Lists;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -79,7 +79,8 @@ public class FileMenu extends Menu {
 							file.delete();
 							file.createNewFile();
 							try (FileWriter fw = new FileWriter(file)) {
-								for (List<LogLine> linesBatch : Lists.partition(Arrays.asList(lines), 100)) {
+
+								for (List<LogLine> linesBatch : getBatches(lines, 100)) {
 									for (String textLines : FileLineReader.readLinesFromFile(linesBatch)) {
 										fw.write(textLines);
 										fw.write(System.lineSeparator());
@@ -105,6 +106,13 @@ public class FileMenu extends Menu {
 		});
 
 		getItems().addAll(openMenuItem, closeMenuItem, closeAllMenuItem, new SeparatorMenuItem(), saveAsMenuItem);
+	}
+
+	private List<List<LogLine>> getBatches(LogLine[] loglines, int batchSize) {
+		List<LogLine> lines = Arrays.asList(loglines);
+		return IntStream.iterate(0, i -> i < lines.size(), i -> i + batchSize)
+				.mapToObj(i -> lines.subList(i, Math.min(i + batchSize, lines.size()))).collect(Collectors.toList());
+
 	}
 
 	private String getFileName(String search) {

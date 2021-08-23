@@ -7,7 +7,6 @@ module jlogg {
 	requires transitive javafx.controls;
 	requires javafx.base;
 
-	requires com.google.common;
 	requires transitive org.json;
 	requires javafx.graphics;
 
