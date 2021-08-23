@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import jlogg.ConstantMgr;
-import jlogg.eventbus.EventBusFactory;
+import jlogg.eventbus.EventBus;
 import jlogg.eventbus.IndexFinishedEvent;
 import jlogg.eventbus.IndexResultEvent;
 import jlogg.plugin.LogLine;
@@ -63,7 +63,7 @@ public class FileIndexer extends FileIterator {
 
 	@Override
 	protected void submitPercentEvent(File file, List<LogLine> lines, double percentage) {
-		EventBusFactory.getInstance().getEventBus().post(new IndexResultEvent(this, lines, percentage));
+		EventBus.get().submit(new IndexResultEvent(this, lines, percentage));
 		// make sure to clear the list of cached log lines to prevent subsequent submits
 		// to include these
 		lines.clear();
@@ -71,7 +71,7 @@ public class FileIndexer extends FileIterator {
 
 	@Override
 	protected void submitFinishedEvent(File file, List<LogLine> lines) {
-		EventBusFactory.getInstance().getEventBus().post(new IndexFinishedEvent(this, lines));
+		EventBus.get().submit(new IndexFinishedEvent(this, lines));
 	}
 
 	/**

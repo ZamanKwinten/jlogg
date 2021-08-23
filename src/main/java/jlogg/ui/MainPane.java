@@ -15,7 +15,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import jlogg.eventbus.EventBusFactory;
+import jlogg.eventbus.EventBus;
 import jlogg.eventbus.IndexStartEvent;
 import jlogg.ui.FileTab.FileTabTreeItem;
 import jlogg.ui.custom.HorizontalResizer;
@@ -83,7 +83,7 @@ public class MainPane extends VBox {
 		for (File file : files) {
 			createAndAddFileTab(file, first, rootItem);
 
-			EventBusFactory.getInstance().getEventBus().post(new IndexStartEvent(file));
+			EventBus.get().submit(new IndexStartEvent(file));
 			first = false;
 		}
 	}

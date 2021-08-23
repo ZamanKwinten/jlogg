@@ -2,7 +2,7 @@ package jlogg.ui.custom;
 
 import javafx.collections.FXCollections;
 import javafx.event.Event;
-import jlogg.eventbus.EventBusFactory;
+import jlogg.eventbus.EventBus;
 import jlogg.eventbus.SingleFileSearchEvent;
 import jlogg.shared.SearchCriteria;
 import jlogg.ui.FileTab;
@@ -23,7 +23,7 @@ public class SingleFileSearchView extends FileSearchView {
 		return new SearchBox(this) {
 			@Override
 			protected void fireSearchImpl(Event event) {
-				EventBusFactory.getInstance().getEventBus().post(new SingleFileSearchEvent(fileTab.getFile(),
+				EventBus.get().submit(new SingleFileSearchEvent(fileTab.getFile(),
 						new SearchCriteria(getSearch(), getSearchOptions())));
 			}
 		};

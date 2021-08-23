@@ -14,7 +14,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.stage.FileChooser;
 import jlogg.datahandlers.FileLineReader;
-import jlogg.eventbus.EventBusFactory;
+import jlogg.eventbus.EventBus;
 import jlogg.eventbus.IndexStartEvent;
 import jlogg.plugin.LogLine;
 import jlogg.ui.FileTab;
@@ -94,7 +94,7 @@ public class FileMenu extends Menu {
 								mainPane.addSingleFileSearchResultTab(file, result.search, currentTab);
 							}
 
-							EventBusFactory.getInstance().getEventBus().post(new IndexStartEvent(file));
+							EventBus.get().submit(new IndexStartEvent(file));
 
 						} catch (Exception e) {
 							logger.log(Level.SEVERE, "Error during saving", e);

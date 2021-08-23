@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.scene.control.Label;
-import jlogg.eventbus.EventBusFactory;
+import jlogg.eventbus.EventBus;
 import jlogg.eventbus.MultiFileSearchEvent;
 import jlogg.plugin.LogLine;
 import jlogg.shared.SearchCriteria;
@@ -36,15 +36,14 @@ public class MultiFileSearchView extends FileSearchView {
 				List<FileTab> fileTabs = mainPane.getFileTabs();
 
 				if (fileTabs.size() == 1) {
-					EventBusFactory.getInstance().getEventBus()
-							.post(new MultiFileSearchEvent(Collections.singletonList(fileTabs.get(0).getFile()),
-									new SearchCriteria(getSearch(), getSearchOptions())));
+					EventBus.get().submit(new MultiFileSearchEvent(Collections.singletonList(fileTabs.get(0).getFile()),
+							new SearchCriteria(getSearch(), getSearchOptions())));
 				} else if (fileTabs.size() > 1) {
 					SearchPopup popup = new SearchPopup(
 							fileTabs.stream().map(fileTab -> fileTab.getFile()).collect(Collectors.toList()));
 					Optional<List<File>> result = popup.open();
 					if (result.isPresent()) {
-						EventBusFactory.getInstance().getEventBus().post(new MultiFileSearchEvent(result.get(),
+						EventBus.get().submit(new MultiFileSearchEvent(result.get(),
 								new SearchCriteria(getSearch(), getSearchOptions())));
 					}
 				}

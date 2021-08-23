@@ -1,34 +1,32 @@
 package jlogg.eventbus;
 
-import com.google.common.eventbus.Subscribe;
-
 import jlogg.datahandlers.FileIndexer;
 import jlogg.datahandlers.FileSearcher;
 import jlogg.shared.SearchCriteria;
 import jlogg.ui.GlobalConstants;
 
-public class EventListener {
+public class EventListener implements JLoggEventListener {
 	private FileSearcher currentSearch;
 
-	@Subscribe
-	private void onSearchEvent(SearchEvent searchEvent) {
+	@Override
+	public void on(SearchEvent event) {
 		if (currentSearch != null) {
 			currentSearch.stop();
 		}
 
-		searchEvent.clearGlobalConstants();
+		event.clearGlobalConstants();
 		GlobalConstants.searchProgress.setValue(0.0);
 		GlobalConstants.multiFileSearchCurrentFilename.setValue(null);
-		SearchCriteria criteria = searchEvent.getCriteria();
+		SearchCriteria criteria = event.getCriteria();
 
 		GlobalConstants.searchHistory.add(criteria);
-		currentSearch = new FileSearcher(searchEvent);
+		currentSearch = new FileSearcher(event);
 		currentSearch.doIt();
 	}
 
-	@Subscribe
-	private void onSearchResultEvent(SearchResultEvent searchResult) {
-		handleSearchEvent(searchResult);
+	@Override
+	public void on(SearchResultEvent event) {
+		handleSearchEvent(event);
 	}
 
 	/**
@@ -41,21 +39,21 @@ public class EventListener {
 		GlobalConstants.searchProgress.set(event.getPrecentage());
 	}
 
-	@Subscribe
-	public void onIndexEvent(IndexStartEvent event) {
+	@Override
+	public void on(IndexStartEvent event) {
 		GlobalConstants.fileLogLines.get(event.getFile()).clear();
 		GlobalConstants.fileIndexProgress.get(event.getFile()).set(0.0);
 
 		new FileIndexer(event.getFile()).doIt();
 	}
 
-	@Subscribe
-	public void onIndexResultEvent(IndexResultEvent event) {
+	@Override
+	public void on(IndexResultEvent event) {
 		handleIndexEvent(event);
 	}
 
-	@Subscribe
-	public void onIndexDoneEvent(IndexFinishedEvent event) {
+	@Override
+	public void on(IndexFinishedEvent event) {
 		handleIndexEvent(event);
 	}
 

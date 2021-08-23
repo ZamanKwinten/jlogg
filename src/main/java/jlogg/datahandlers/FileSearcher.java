@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import jlogg.ConstantMgr;
-import jlogg.eventbus.EventBusFactory;
+import jlogg.eventbus.EventBus;
 import jlogg.eventbus.SearchEvent;
 import jlogg.eventbus.SearchFinishedEvent;
 import jlogg.eventbus.SearchResultEvent;
@@ -63,7 +63,7 @@ public class FileSearcher extends FileIterator {
 
 	@Override
 	protected void submitPercentEvent(File file, List<LogLine> lines, double percentage) {
-		EventBusFactory.getInstance().getEventBus().post(new SearchResultEvent(searchEvent, file, lines, percentage));
+		EventBus.get().submit(new SearchResultEvent(searchEvent, file, lines, percentage));
 		// make sure to clear the list of cached log lines to prevent subsequent submits
 		// to include these
 		lines.clear();
@@ -71,6 +71,6 @@ public class FileSearcher extends FileIterator {
 
 	@Override
 	protected void submitFinishedEvent(File file, List<LogLine> lines) {
-		EventBusFactory.getInstance().getEventBus().post(new SearchFinishedEvent(searchEvent, file, lines));
+		EventBus.get().submit(new SearchFinishedEvent(searchEvent, file, lines));
 	}
 }
