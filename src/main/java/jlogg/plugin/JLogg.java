@@ -64,4 +64,8 @@ public class JLogg {
 			});
 		}
 	}
+
+	public static void closePluginView() {
+		MainStage.getInstance().getMainPane().getCurrentSelectedTab().closePlugin();
+	}
 }

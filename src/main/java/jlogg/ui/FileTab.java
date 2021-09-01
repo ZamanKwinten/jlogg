@@ -234,4 +234,8 @@ public class FileTab extends Tab {
 		pluginViewWrapper.showPlugin(plugin);
 	}
 
+	public void closePlugin() {
+		pluginViewWrapper.hide();
+	}
+
 }
