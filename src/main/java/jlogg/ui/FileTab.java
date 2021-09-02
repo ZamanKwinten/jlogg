@@ -12,8 +12,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import jlogg.plugin.JLoggPlugin;
 import jlogg.plugin.LogLine;
+import jlogg.plugin.PluginViewWrapper;
 import jlogg.ui.custom.MultiFileSearchView;
-import jlogg.ui.custom.PluginViewWrapper;
 import jlogg.ui.custom.SingleFileSearchView;
 import jlogg.ui.custom.search.ProgressBar;
 import jlogg.ui.logview.LogFileView;
@@ -232,6 +232,10 @@ public class FileTab extends Tab {
 
 	public void openPlugin(JLoggPlugin plugin) {
 		pluginViewWrapper.showPlugin(plugin);
+	}
+
+	public PluginViewWrapper getPluginViewWrapper() {
+		return pluginViewWrapper;
 	}
 
 	public void closePlugin() {

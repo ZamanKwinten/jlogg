@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import jlogg.datahandlers.FileLineReader;
@@ -53,14 +54,19 @@ public class JLogg {
 	}
 
 	public static void selectLine(LogLine line) {
+		selectLine(line, (filetab) -> {
+		});
+	}
+
+	public static void selectLine(LogLine line, Consumer<PluginViewWrapper> filetabChangeCallback) {
 		MainPane pane = MainStage.getInstance().getMainPane();
 		if (Objects.equals(pane.getCurrentSelectedTab().getFile(), line.getFile())) {
 			pane.getCurrentSelectedTab().selectLogLine(line.getLineNumber());
 		} else {
 			pane.findFileTab(line.getFile()).ifPresent(filetab -> {
 				pane.selectTab(filetab);
-
 				filetab.selectLogLine(line.getLineNumber());
+				filetabChangeCallback.accept(filetab.getPluginViewWrapper());
 			});
 		}
 	}
