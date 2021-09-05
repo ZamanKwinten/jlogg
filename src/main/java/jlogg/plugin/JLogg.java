@@ -58,15 +58,17 @@ public class JLogg {
 		});
 	}
 
-	public static void selectLine(LogLine line, Consumer<PluginViewWrapper> filetabChangeCallback) {
+	public static void selectLine(LogLine line, Consumer<PluginViewWrapper> callback) {
 		MainPane pane = MainStage.getInstance().getMainPane();
 		if (Objects.equals(pane.getCurrentSelectedTab().getFile(), line.getFile())) {
-			pane.getCurrentSelectedTab().selectLogLine(line.getLineNumber());
+			FileTab fileTab = pane.getCurrentSelectedTab();
+			fileTab.selectLogLine(line.getLineNumber());
+			callback.accept(fileTab.getPluginViewWrapper());
 		} else {
 			pane.findFileTab(line.getFile()).ifPresent(filetab -> {
 				pane.selectTab(filetab);
 				filetab.selectLogLine(line.getLineNumber());
-				filetabChangeCallback.accept(filetab.getPluginViewWrapper());
+				callback.accept(filetab.getPluginViewWrapper());
 			});
 		}
 	}
