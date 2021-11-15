@@ -70,7 +70,12 @@ public class PluginFileIterator extends FileIterator {
 	}
 
 	@Override
-	protected void submitFinishedEvent(File file, List<LogLine> lines) {
-		action.consumeFinishedEvent(file);
+	protected void submitFileFinishedEvent(File file, List<LogLine> lines) {
+		action.consumeFileFinishedEvent(file);
+	}
+
+	@Override
+	protected void submitFinishedEvent() {
+		action.consumeFinishedEvent();
 	}
 }

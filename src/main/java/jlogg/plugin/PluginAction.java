@@ -27,5 +27,10 @@ public interface PluginAction {
 	 * 
 	 * @param file
 	 */
-	public void consumeFinishedEvent(File file);
+	public void consumeFileFinishedEvent(File file);
+
+	/**
+	 * This method is called whenever everything is finished
+	 */
+	public void consumeFinishedEvent();
 }

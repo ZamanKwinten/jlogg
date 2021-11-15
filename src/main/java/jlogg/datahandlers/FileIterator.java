@@ -73,13 +73,15 @@ public abstract class FileIterator {
 					});
 
 					logEnd(file, System.currentTimeMillis() - startTS);
-					submitFinishedEvent(file, logLines);
+					submitFileFinishedEvent(file, logLines);
 				} catch (IOException e) {
 					handleIOException(e);
 				} catch (FileIteratorInterruptedException e) {
 					logger.log(Level.INFO, "Execution of fileiterator: " + this + " was interrupted");
 				}
 			}
+
+			submitFinishedEvent();
 			return null;
 		});
 	}
@@ -96,7 +98,11 @@ public abstract class FileIterator {
 
 	protected abstract void submitPercentEvent(File file, List<LogLine> lines, double percentage);
 
-	protected abstract void submitFinishedEvent(File file, List<LogLine> lines);
+	protected abstract void submitFileFinishedEvent(File file, List<LogLine> lines);
+
+	protected void submitFinishedEvent() {
+
+	}
 
 	// Stop executing this iterator
 	public void stop() {

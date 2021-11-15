@@ -67,7 +67,7 @@ public class FileIndexer extends FileIterator {
 	}
 
 	@Override
-	protected void submitFinishedEvent(File file, List<LogLine> lines) {
+	protected void submitFileFinishedEvent(File file, List<LogLine> lines) {
 		EventBus.get().submit(new IndexFinishedEvent(this, lines));
 	}
 

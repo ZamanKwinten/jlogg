@@ -67,7 +67,7 @@ public class FileSearcher extends FileIterator {
 	}
 
 	@Override
-	protected void submitFinishedEvent(File file, List<LogLine> lines) {
+	protected void submitFileFinishedEvent(File file, List<LogLine> lines) {
 		EventBus.get().submit(new SearchFinishedEvent(searchEvent, file, lines));
 	}
 }
