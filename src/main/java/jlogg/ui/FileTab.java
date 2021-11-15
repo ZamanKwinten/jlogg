@@ -206,28 +206,15 @@ public class FileTab extends Tab {
 		return treeItem;
 	}
 
-	public SearchResults getSearchResult() {
+	public void save() {
 		if (singleFileSearchView.isVisible()) {
-			return new SearchResults(GlobalConstants.singleFileSearchResults.get(file).toArray(new LogLine[0]), false,
-					singleFileSearchView.getSearch());
+			singleFileSearchView.save();
 		} else if (multiFileSearchView.isVisible()) {
-			return new SearchResults(GlobalConstants.multiFileSearchResults.toArray(new LogLine[0]), true,
-					multiFileSearchView.getSearch());
-		} else {
-			return new SearchResults(new LogLine[0], false, null);
+			multiFileSearchView.save();
+		} else if (pluginViewWrapper.isVisible()) {
+			pluginViewWrapper.save();
 		}
-	}
 
-	public class SearchResults {
-		public final boolean isMulti;
-		public final LogLine[] lines;
-		public final String search;
-
-		public SearchResults(LogLine[] lines, boolean isMulti, String search) {
-			this.lines = lines;
-			this.isMulti = isMulti;
-			this.search = search;
-		}
 	}
 
 	public void openPlugin(JLoggPlugin plugin) {

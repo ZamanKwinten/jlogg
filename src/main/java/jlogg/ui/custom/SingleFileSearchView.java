@@ -1,5 +1,7 @@
 package jlogg.ui.custom;
 
+import java.io.File;
+
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import jlogg.eventbus.EventBus;
@@ -36,4 +38,8 @@ public class SingleFileSearchView extends FileSearchView {
 		});
 	}
 
+	@Override
+	protected void addSearchResultTab(File file, String search, FileTab currentTab) {
+		mainPane.addSingleFileSearchResultTab(file, search, currentTab);
+	}
 }

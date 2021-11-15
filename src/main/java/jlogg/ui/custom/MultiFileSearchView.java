@@ -95,4 +95,8 @@ public class MultiFileSearchView extends FileSearchView {
 		});
 	}
 
+	@Override
+	protected void addSearchResultTab(File file, String search, FileTab currentTab) {
+		mainPane.addMultiFileSearchResultTab(file, search);
+	}
 }

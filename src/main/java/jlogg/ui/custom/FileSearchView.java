@@ -1,7 +1,12 @@
 package jlogg.ui.custom;
 
+import java.io.File;
+
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Priority;
+import jlogg.eventbus.EventBus;
+import jlogg.eventbus.IndexStartEvent;
+import jlogg.plugin.JLogg;
 import jlogg.plugin.LogLine;
 import jlogg.shared.SearchOptions;
 import jlogg.ui.FileTab;
@@ -13,10 +18,15 @@ public abstract class FileSearchView extends ResizableView {
 	private final SearchBox searchBox;
 	private final LogFileView logfileView;
 
+	protected final MainPane mainPane;
+	protected final FileTab fileTab;
+
 	protected final ObservableList<LogLine> searchResults;
 
 	public FileSearchView(MainPane mainPane, FileTab fileTab, ObservableList<LogLine> searchResults) {
 		super();
+		this.mainPane = mainPane;
+		this.fileTab = fileTab;
 		this.searchResults = searchResults;
 
 		searchBox = initSearchBox(mainPane, fileTab);
@@ -61,5 +71,27 @@ public abstract class FileSearchView extends ResizableView {
 		logfileView.scrollTo(index);
 		logfileView.scrollToColumnIndex(0);
 		logfileView.getSelectionModel().clearAndSelect(index);
+	}
+
+	public void save() {
+		if (!searchResults.isEmpty()) {
+			String search = getSearch();
+
+			JLogg.saveLogLinesToFile(getFileName(search), searchResults.toArray(new LogLine[0])).ifPresent(file -> {
+				addSearchResultTab(file, search, fileTab);
+
+				EventBus.get().submit(new IndexStartEvent(file));
+			});
+		}
+	}
+
+	protected abstract void addSearchResultTab(File file, String search, FileTab currentTab);
+
+	private String getFileName(String search) {
+		String name = search.replaceAll("\\W+", "");
+		if (name.length() == 0) {
+			return "jlogg" + System.currentTimeMillis() + ".log";
+		}
+		return name + ".log";
 	}
 }

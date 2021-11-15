@@ -11,8 +11,9 @@ import jlogg.ui.custom.ResizableView;
 
 public class PluginViewWrapper extends ResizableView {
 
-	private final Map<Class<? extends JLoggPlugin>, Node> map = new HashMap<>();
+	private final Map<Class<? extends JLoggPlugin>, PluginView> map = new HashMap<>();
 
+	private PluginView currentView;
 	private final StackPane pluginLocation;
 
 	public PluginViewWrapper() {
@@ -23,14 +24,21 @@ public class PluginViewWrapper extends ResizableView {
 		getChildren().add(pluginLocation);
 	}
 
-	private void setPluginView(Node pluginView) {
-		pluginLocation.getChildren().setAll(pluginView);
+	private void setPluginView(PluginView pluginView) {
+		pluginLocation.getChildren().setAll(pluginView.getView());
+		currentView = pluginView;
 	}
 
 	public Node showPlugin(JLoggPlugin plugin) {
-		Node pluginMain = map.computeIfAbsent(plugin.getClass(), key -> plugin.getMainView());
+		PluginView pluginMain = map.computeIfAbsent(plugin.getClass(), key -> plugin.getMainView());
 		setPluginView(pluginMain);
 		show();
-		return pluginMain;
+		return pluginMain.getView();
+	}
+
+	public void save() {
+		if (currentView != null) {
+			currentView.save();
+		}
 	}
 }

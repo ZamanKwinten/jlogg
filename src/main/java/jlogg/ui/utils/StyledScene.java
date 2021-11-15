@@ -11,6 +11,10 @@ public class StyledScene extends Scene {
 		super(root);
 		getStylesheets().addAll(ResourceLoader.loadResourceFile("color.css"));
 		getRoot().setStyle("-fx-base:" + GlobalConstants.theme.getValue().getFXBase());
+
+		GlobalConstants.theme.addListener((obs, o, n) -> {
+			getRoot().setStyle("-fx-base:" + n.getFXBase());
+		});
 	}
 
 }
