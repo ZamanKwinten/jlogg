@@ -24,7 +24,12 @@ public class FileMenu extends Menu {
 		openMenuItem.setOnAction((event) -> {
 
 			FileChooser fc = new FileChooser();
-			fc.setInitialDirectory(mainPane.getCurrentSelectedTab().getFile().getParentFile());
+
+			var filetab = mainPane.getCurrentSelectedTab();
+			if (filetab != null) {
+				fc.setInitialDirectory(mainPane.getCurrentSelectedTab().getFile().getParentFile());
+			}
+
 			fc.setTitle("Open log file");
 			List<File> files = fc.showOpenMultipleDialog(null);
 			if (files != null) {
