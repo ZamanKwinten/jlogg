@@ -5,6 +5,7 @@ import java.awt.desktop.OpenFilesHandler;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import jlogg.datahandlers.ThreadGroups;
 import jlogg.os.FileOpenHandler;
 import jlogg.os.mac.MacFileOpenHandler;
 import jlogg.os.windows.WindowsFileOpenHandler;
@@ -34,6 +35,7 @@ public class App extends Application {
 
 	@Override
 	public void stop() throws Exception {
+		ThreadGroups.forceStop();
 		handler.release();
 	}
 

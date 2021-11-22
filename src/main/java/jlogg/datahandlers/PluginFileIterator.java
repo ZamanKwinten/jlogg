@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,9 +22,6 @@ import jlogg.plugin.PluginAction;
 public class PluginFileIterator extends FileIterator {
 	private static final Logger log = Logger.getLogger(FileIndexer.class.getName());
 
-	private static final ExecutorService pluginIterationService = Executors.newFixedThreadPool(1,
-			new NamedThreadFactory("plugin-iterate-"));
-
 	private final PluginAction action;
 
 	public PluginFileIterator(File file, PluginAction action) {
@@ -39,7 +35,7 @@ public class PluginFileIterator extends FileIterator {
 
 	@Override
 	protected ExecutorService getExecutorService() {
-		return pluginIterationService;
+		return ThreadGroups.pluginIterationService;
 	}
 
 	@Override

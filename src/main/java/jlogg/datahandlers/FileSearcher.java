@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jlogg.ConstantMgr;
 import jlogg.eventbus.EventBus;
 import jlogg.eventbus.SearchEvent;
 import jlogg.eventbus.SearchFinishedEvent;
@@ -19,13 +17,6 @@ public class FileSearcher extends FileIterator {
 
 	private static final Logger log = Logger.getLogger(FileSearcher.class.getName());
 
-	/**
-	 * Define the Executor service used for searching
-	 * 
-	 */
-	private static final ExecutorService searchService = Executors.newFixedThreadPool(
-			ConstantMgr.instance().searchServiceThreadCount, new NamedThreadFactory("search-thread-"));
-
 	private final SearchEvent searchEvent;
 
 	public FileSearcher(SearchEvent searchEvent) {
@@ -35,7 +26,7 @@ public class FileSearcher extends FileIterator {
 
 	@Override
 	protected ExecutorService getExecutorService() {
-		return searchService;
+		return ThreadGroups.searchService;
 	}
 
 	@Override

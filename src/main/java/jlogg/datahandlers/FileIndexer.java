@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import jlogg.ConstantMgr;
 import jlogg.eventbus.EventBus;
 import jlogg.eventbus.IndexFinishedEvent;
 import jlogg.eventbus.IndexResultEvent;
@@ -17,12 +15,6 @@ import jlogg.plugin.LogLine;
 
 public class FileIndexer extends FileIterator {
 	private static final Logger log = Logger.getLogger(FileIndexer.class.getName());
-
-	/**
-	 * Define the Executor service used for indexing
-	 */
-	private static final ExecutorService indexService = Executors.newFixedThreadPool(
-			ConstantMgr.instance().indexServiceThreadCount, new NamedThreadFactory("index-thread-"));
 
 	/**
 	 * File indexer can only run on 1 file at a time
@@ -35,7 +27,7 @@ public class FileIndexer extends FileIterator {
 
 	@Override
 	protected ExecutorService getExecutorService() {
-		return indexService;
+		return ThreadGroups.indexService;
 	}
 
 	@Override
