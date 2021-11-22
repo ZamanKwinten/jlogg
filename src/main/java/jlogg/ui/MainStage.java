@@ -1,6 +1,7 @@
 package jlogg.ui;
 
 import javafx.scene.Scene;
+import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
 import jlogg.ui.css.ResourceLoader;
 
@@ -29,6 +30,25 @@ public class MainStage extends Stage {
 		setMaximized(true);
 
 		setTitle("JLogg");
+
+		root.setOnDragOver((event) -> {
+			if (event.getDragboard().hasFiles()) {
+				event.acceptTransferModes(TransferMode.LINK);
+			}
+
+			event.consume();
+		});
+
+		root.setOnDragDropped((event) -> {
+			if (event.getDragboard().hasFiles()) {
+				var files = event.getDragboard().getFiles();
+				files.sort((a, b) -> a.getName().compareTo(b.getName()));
+				root.openTabs(files);
+			}
+
+			event.setDropCompleted(true);
+			event.consume();
+		});
 	}
 
 	public MainPane getMainPane() {
