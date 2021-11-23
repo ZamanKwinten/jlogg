@@ -20,6 +20,14 @@ public class FitContentColumn<T> extends TableColumn<T, String> {
 	protected final SimpleDoubleProperty maxContentSize = new SimpleDoubleProperty();
 
 	public FitContentColumn(Observable<Font> font, Function<T, String> contentProducer) {
+		textProperty().addListener((obs, ov, nv) -> {
+			// 15 px of padding
+			double width = FXUtils.calculateTextControlWidth(font.getValue(), nv, 15);
+			if (width > maxContentSize.doubleValue()) {
+				maxContentSize.setValue(width);
+			}
+		});
+
 		setCellValueFactory((cell) -> {
 			String content = contentProducer.apply(cell.getValue());
 			// 15 px of padding
