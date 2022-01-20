@@ -18,19 +18,27 @@ public class ScriptRunner extends Application {
 
 	static String pluginClass;
 	static String pluginDetails;
+	static File outputFolder;
 	static List<File> files;
 
-	public static void main(String[] args) {
-		if (args.length < 3) {
+	public static void run(String[] args) {
+		if (args.length < 4) {
 			System.out.println(
-					"Unexpected amount of parameters expected: <plugin class> <plugin details> <list of files>");
+					"Unexpected amount of parameters expected: <plugin class> <plugin details> <output folder> <list of files>");
+			System.exit(1);
 		}
 
 		pluginClass = args[0];
 		pluginDetails = args[1];
+		outputFolder = new File(args[2]);
+		outputFolder.mkdirs();
+		if (!outputFolder.exists()) {
+			System.out.println("Output folder does not exist and cannot be created");
+			System.exit(1);
+		}
 
 		files = new ArrayList<>();
-		for (int i = 2; i < args.length; i++) {
+		for (int i = 3; i < args.length; i++) {
 			files.add(new File(args[i]));
 		}
 
@@ -38,9 +46,7 @@ public class ScriptRunner extends Application {
 	}
 
 	private static Optional<JLoggScriptablePlugin> loadScritablePlugin(String pluginClass) {
-
 		for (var plugin : GlobalConstants.plugins) {
-
 			if (Objects.equals(plugin.getClass().getCanonicalName(), pluginClass)) {
 				System.out.println("Found a class!");
 
@@ -62,19 +68,18 @@ public class ScriptRunner extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
 		ConstantMgr constantMGR = ConstantMgr.instance();
 		constantMGR.setupGlobalConstants();
 		constantMGR.loadPlugins();
 
-		JLogg.JLOGG = new JLoggHeadless();
+		JLogg.JLOGG = new JLoggHeadless(outputFolder);
 
-		loadScritablePlugin(pluginClass).ifPresent(plugin -> {
+		loadScritablePlugin(pluginClass).ifPresentOrElse(plugin -> {
 			MainStage mainStage = MainStage.getInstance();
 			mainStage.getMainPane().openTabs(files);
 
 			plugin.run(pluginDetails);
-		});
+		}, () -> System.exit(1));
 
 		System.exit(0);
 	}

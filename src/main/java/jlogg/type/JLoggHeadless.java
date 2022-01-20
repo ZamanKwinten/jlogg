@@ -19,6 +19,12 @@ import jlogg.ui.MainStage;
 public class JLoggHeadless extends JLogg {
 	private static final Logger logger = Logger.getLogger(JLoggHeadless.class.getName());
 
+	private final File outputFolder;
+
+	public JLoggHeadless(File outputFolder) {
+		this.outputFolder = outputFolder;
+	}
+
 	@Override
 	public void doItOnCurrentFile(PluginAction action) {
 		doItOnFiles(Collections.singleton(MainStage.getInstance().getMainPane().getCurrentSelectedTab().getFile()),
@@ -42,7 +48,7 @@ public class JLoggHeadless extends JLogg {
 	@Override
 	public Optional<File> saveToFile(String fileName, FileWriterCallback callback) {
 
-		File file = new File(fileName);
+		File file = new File(outputFolder, fileName);
 		logger.log(Level.INFO, "Writing results to: " + file.getAbsolutePath());
 		try {
 			file.delete();
