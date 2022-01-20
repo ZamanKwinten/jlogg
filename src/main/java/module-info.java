@@ -16,5 +16,6 @@ module jlogg {
 	exports jlogg;
 	exports jlogg.ui.table;
 	exports jlogg.ui.utils;
+	exports jlogg.type;
 	exports jlogg.plugin;
 }
