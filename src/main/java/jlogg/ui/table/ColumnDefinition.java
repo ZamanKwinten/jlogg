@@ -11,6 +11,10 @@ public abstract class ColumnDefinition<T> {
 
 	protected abstract Function<T, String> contentProducer();
 
+	public String getValue(T val) {
+		return contentProducer().apply(val);
+	}
+
 	protected Optional<Callback<TableColumn<T, String>, TableCell<T, String>>> getCellFactory() {
 		return Optional.empty();
 	}
