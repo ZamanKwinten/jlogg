@@ -10,6 +10,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabDragPolicy;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.HBox;
@@ -34,6 +35,7 @@ public class MainPane extends VBox {
 	public MainPane() {
 		menuBar = new MenuBarWrapper(this);
 		tabPane = new TabPane();
+		tabPane.setTabDragPolicy(TabDragPolicy.REORDER);
 
 		HBox hbox = new HBox();
 
