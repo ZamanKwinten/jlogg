@@ -26,6 +26,11 @@ import jlogg.ui.GlobalConstants.ShortCut;
  *
  */
 public class ConstantMgr {
+	public static final File JLoggConfigDir;
+	static {
+		JLoggConfigDir = new File(System.getProperty("user.home"), ".jlogg");
+		JLoggConfigDir.mkdirs();
+	}
 
 	private static final class JSONKeys {
 		private static final String FILTERS = "filters";
@@ -47,10 +52,9 @@ public class ConstantMgr {
 	private final File jloggPluginDir;
 
 	private ConstantMgr() {
-		String homeDir = System.getProperty("user.home");
-		File jloggDir = new File(homeDir, ".jlogg");
+		File jloggDir = JLoggConfigDir;
 		if (!jloggDir.exists()) {
-			jloggDir.mkdir();
+			jloggDir.mkdirs();
 		}
 
 		jloggConfig = new File(jloggDir, "config.json");

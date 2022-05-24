@@ -1,26 +1,26 @@
 package jlogg.os.windows;
 
 import java.io.File;
-import java.util.List;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import jlogg.os.FileOpenHandler;
 import jlogg.ui.MainStage;
 
-public class WindowsFileOpenHandler extends FileOpenHandler implements RMIInterface {
+public class WindowsFileOpenHandler extends FileOpenHandler {
 
 	public WindowsFileOpenHandler(MainStage stage) {
 		super(stage);
-		RMITool.registerJLoggInstance(this);
+		WindowsDomainSocketServer.openHandler = this;
 	}
 
-	@Override
-	public void open(List<File> files) {
-		addTabs(files);
+	void open(String msg) {
+		addTabs(Arrays.stream(msg.split(",")).map(File::new).collect(Collectors.toList()));
 	}
 
 	@Override
 	public void release() {
-		RMITool.unregisterJLoggInstance(this);
+		WindowsDomainSocketServer.clearSocketFile();
 	}
 
 }
