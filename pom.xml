@@ -12,7 +12,7 @@
 		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
-		    <version>20180813</version>
+		    <version>20230227</version>
 		</dependency>
 		
 		<!-- Provided dependencies are modules that are linked into the JRE by jlink -->
