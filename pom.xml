@@ -1,141 +1,139 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>github</groupId>
-    <artifactId>jlogg</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <build.modules.directory>${project.build.directory}/modules</build.modules.directory>
-    </properties>
-    <dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>github</groupId>
+	<artifactId>jlogg</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<build.modules.directory>${project.build.directory}/modules</build.modules.directory>
+	</properties>
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 		<dependency>
-		    <groupId>org.json</groupId>
-		    <artifactId>json</artifactId>
-		    <version>20180813</version>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.10.1</version>
 		</dependency>
-		
+
+
 		<!-- Provided dependencies are modules that are linked into the JRE by jlink -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>11.0.2</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-    <build> 
-    	<plugins>
-    		<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <release>17</release>
-                </configuration>
-            </plugin>
-            
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-controls</artifactId>
+			<version>11.0.2</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
 			<plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-dependency-plugin</artifactId>
-		        <version>3.1.1</version>
-		        <executions>
-		            <execution>
-		                <id>copy-javafx-modules</id>
-		            	<phase>generate-resources</phase>
-		            	<goals>
-		              		<goal>copy-dependencies</goal>
-		            	</goals>
-		            	<configuration>
-		            		<includeGroupIds>org.openjfx</includeGroupIds>
-		            		<includeClassifiers>${javafx.classifier}</includeClassifiers>
-		            		<outputDirectory>${build.modules.directory}</outputDirectory>
-		            	</configuration>
-		          	</execution>
-		        </executions>
-		    </plugin>
-		    		    
-		    <plugin>
-		    	<groupId>org.apache.maven.plugins</groupId>
-		    	<artifactId>maven-shade-plugin</artifactId>
-		    	<version>3.2.4</version>
-		    	<executions>
-		    		<execution>
-		    			<goals>
-		    				<goal>shade</goal>
-		    			</goals>
-		    			<configuration>
-		    				<artifactSet>
-		    					<excludes>org.openjfx:*</excludes>
-		    				</artifactSet>
-		    				<filters>
-		    					<filter>
-		    						<excludes>
-		                                <exclude>**/module-info.java</exclude>
-		                                <exclude>**/module-info.class</exclude>
-		                                <exclude>module-info.java</exclude>
-		                                <exclude>module-info.class</exclude>
-		                                <exclude>META-INF/*.MF</exclude>
-		                                <exclude>META-INF/*.DSA</exclude>
-		                                <exclude>META-INF/*.RSA</exclude>
-		                            </excludes>
-		    					</filter>
-		    				</filters>
-		    			</configuration>
-		    		</execution>
-		    	</executions>
-		    </plugin>
-		    
-		    <plugin>
-		    	<groupId>org.moditect</groupId>
-				<artifactId>moditect-maven-plugin</artifactId>
-				<version>1.0.0.Beta2</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<release>17</release>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.3.0</version>
+				<configuration>
+					<outputDirectory>${build.modules.directory}</outputDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
 				<executions>
 					<execution>
-						<id>add-module-info</id>
-						<phase>package</phase>
+						<id>copy-javafx</id>
+						<phase>generate-resources</phase>
 						<goals>
-							<goal>add-module-info</goal>
+							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<modules>
-								<module>
-									<file>${project.build.directory}/${project.build.finalName}.jar</file>
-									<moduleInfo>
-										<name>jlogg</name>
-									</moduleInfo>
-								</module>
-							</modules>
-							<jdepsExtraArgs>--module-path=${build.modules.directory}</jdepsExtraArgs>
+							<includeGroupIds>org.openjfx</includeGroupIds>
+							<includeClassifiers>${javafx.classifier}</includeClassifiers>
+							<outputDirectory>${build.modules.directory}</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-other</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<excludeGroupIds>org.openjfx</excludeGroupIds>
 							<outputDirectory>${build.modules.directory}</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
-		    </plugin>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.akman</groupId>
+				<artifactId>jpackage-maven-plugin</artifactId>
+				<version>0.1.5</version>
+				<executions>
+					<execution>
+						<id>jpackage-installer</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jpackage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<name>JLogg</name>
+					<modulepath>
+						<filesets>
+							<fileset>
+								<directory>${project.build.directory}/modules</directory>
+								<includes>
+									<include>**/*</include>
+								</includes>
+								<excludes>
+									<exclude>**/*Empty.jar</exclude>
+								</excludes>
+								<followSymlinks>false</followSymlinks>
+							</fileset>
+						</filesets>
+					</modulepath>
+					<module>jlogg/jlogg.Launcher</module>
+					<windirchooser>true</windirchooser>
+					<fileassociations>${project.basedir}/log.properties</fileassociations>
+					<type>MSI</type>
+				</configuration>
+			</plugin>
 		</plugins>
-    </build>
-    
-    <profiles>
-    	<profile>
-    		<id>windows-profile</id>
-    		<activation>
-    			<os>
-    				<family>windows</family>
-    			</os>
-    		</activation>
-    		<properties>
-    			<javafx.classifier>win</javafx.classifier>
-    		</properties>
-    	</profile>
-    	<profile>
-    		<id>mac-profile</id>
-    		<activation>
-    			<os>
-    				<family>mac</family>
-    			</os>
-    		</activation>
-    		<properties>
-    			<javafx.classifier>mac</javafx.classifier>
-    		</properties>
-    	</profile>
-    </profiles>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>windows-profile</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+			<properties>
+				<javafx.classifier>win</javafx.classifier>
+			</properties>
+		</profile>
+		<profile>
+			<id>mac-profile</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+			</activation>
+			<properties>
+				<javafx.classifier>mac</javafx.classifier>
+			</properties>
+		</profile>
+	</profiles>
 </project>
