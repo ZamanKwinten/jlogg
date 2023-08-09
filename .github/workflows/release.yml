@@ -13,20 +13,10 @@ jobs:
         with:
           distribution: adopt
           java-version: 17
-          
-      - name: Restore Maven cache
-        uses: skjolber/maven-cache-github-action@v1
-        with:
-          step: restore
+    
       - name: Maven Build
         run: mvn -B clean package
-      - name: Store Maven cache
-        uses: skjolber/maven-cache-github-action@v1
-        with:
-          step: save
-      - name: JPackage
-        run: jpackage -t msi -n JLogg -p target/modules -m jlogg/jlogg.Launcher --win-dir-chooser --file-associations log.properties
-        
+      
       - name: Upload
         uses: actions/upload-artifact@v2.2.2
         with:
@@ -43,19 +33,9 @@ jobs:
           distribution: adopt
           java-version: 17
           
-      - name: Restore Maven cache
-        uses: skjolber/maven-cache-github-action@v1
-        with:
-          step: restore
       - name: Maven Build
         run: mvn -B clean package
-      - name: Store Maven cache
-        uses: skjolber/maven-cache-github-action@v1
-        with:
-          step: save
-      - name: JPackage
-        run: jpackage -t DMG -n JLogg -p target/modules -m jlogg/jlogg.Launcher --file-associations log.properties
-        
+  
       - name: Upload
         uses: actions/upload-artifact@v2.2.2
         with:
