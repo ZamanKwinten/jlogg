@@ -23,6 +23,7 @@
 			<version>11.0.2</version>
 		</dependency>
 	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -74,41 +75,6 @@
 				</executions>
 			</plugin>
 
-			<plugin>
-				<groupId>com.github.akman</groupId>
-				<artifactId>jpackage-maven-plugin</artifactId>
-				<version>0.1.5</version>
-				<executions>
-					<execution>
-						<id>jpackage-installer</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jpackage</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<name>JLogg</name>
-					<modulepath>
-						<filesets>
-							<fileset>
-								<directory>${project.build.directory}/modules</directory>
-								<includes>
-									<include>**/*</include>
-								</includes>
-								<excludes>
-									<exclude>**/*Empty.jar</exclude>
-								</excludes>
-								<followSymlinks>false</followSymlinks>
-							</fileset>
-						</filesets>
-					</modulepath>
-					<module>jlogg/jlogg.Launcher</module>
-					<windirchooser>true</windirchooser>
-					<fileassociations>${project.basedir}/log.properties</fileassociations>
-					<type>MSI</type>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
@@ -123,6 +89,46 @@
 			<properties>
 				<javafx.classifier>win</javafx.classifier>
 			</properties>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.akman</groupId>
+						<artifactId>jpackage-maven-plugin</artifactId>
+						<version>0.1.5</version>
+						<executions>
+							<execution>
+								<id>jpackage-installer</id>
+								<phase>package</phase>
+								<goals>
+									<goal>jpackage</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<name>JLogg</name>
+							<modulepath>
+								<filesets>
+									<fileset>
+										<directory>${project.build.directory}/modules</directory>
+										<includes>
+											<include>**/*</include>
+										</includes>
+										<excludes>
+											<exclude>**/*Empty.jar</exclude>
+										</excludes>
+										<followSymlinks>false</followSymlinks>
+									</fileset>
+								</filesets>
+							</modulepath>
+							<module>jlogg/jlogg.Launcher</module>
+							<windirchooser>true</windirchooser>
+							<fileassociations>${project.basedir}/log.properties</fileassociations>
+							<type>MSI</type>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		<profile>
 			<id>mac-profile</id>
@@ -134,6 +140,45 @@
 			<properties>
 				<javafx.classifier>mac</javafx.classifier>
 			</properties>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.akman</groupId>
+						<artifactId>jpackage-maven-plugin</artifactId>
+						<version>0.1.5</version>
+						<executions>
+							<execution>
+								<id>jpackage-installer</id>
+								<phase>package</phase>
+								<goals>
+									<goal>jpackage</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<name>JLogg</name>
+							<modulepath>
+								<filesets>
+									<fileset>
+										<directory>${project.build.directory}/modules</directory>
+										<includes>
+											<include>**/*</include>
+										</includes>
+										<excludes>
+											<exclude>**/*Empty.jar</exclude>
+										</excludes>
+										<followSymlinks>false</followSymlinks>
+									</fileset>
+								</filesets>
+							</modulepath>
+							<module>jlogg/jlogg.Launcher</module>
+							<fileassociations>${project.basedir}/log.properties</fileassociations>
+							<type>DMG</type>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 </project>
