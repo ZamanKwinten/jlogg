@@ -21,7 +21,7 @@ jobs:
         uses: actions/upload-artifact@v2.2.2
         with:
           name: windows
-          path: JLogg*.msi
+          path: target/jpackage/JLogg*.msi
         
   macos_build:
     runs-on: macos-latest
@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v2.2.2
         with:
           name: macos
-          path: JLogg*.dmg
+          path: target/jpackage/JLogg*.dmg
 
   release:
     runs-on: ubuntu-latest
