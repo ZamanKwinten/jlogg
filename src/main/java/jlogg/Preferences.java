@@ -2,7 +2,7 @@ package jlogg;
 
 import java.util.Map;
 
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
@@ -29,22 +29,22 @@ public class Preferences {
 		this.theme = theme;
 	}
 
-	public JSONObject toJSON() {
-		JSONObject preferences = new JSONObject();
+	public JsonObject toJSON() {
+		JsonObject preferences = new JsonObject();
 
-		JSONObject fontJSON = new JSONObject();
-		fontJSON.put(JSON.FAMILY, font.getFamily());
-		fontJSON.put(JSON.SIZE, font.getSize());
-		preferences.put(JSON.FONT, fontJSON);
+		JsonObject fontJSON = new JsonObject();
+		fontJSON.addProperty(JSON.FAMILY, font.getFamily());
+		fontJSON.addProperty(JSON.SIZE, font.getSize());
+		preferences.add(JSON.FONT, fontJSON);
 
-		JSONObject keyMap = new JSONObject();
+		JsonObject keyMap = new JsonObject();
 		for (ShortCut key : this.keyMap.keySet()) {
 			KeyCombination combo = this.keyMap.get(key);
-			keyMap.put(key.name(), combo.getName());
+			keyMap.addProperty(key.name(), combo.getName());
 		}
-		preferences.put(JSON.SHORTCUTS, keyMap);
+		preferences.add(JSON.SHORTCUTS, keyMap);
 
-		preferences.put(JSON.THEME, theme.name());
+		preferences.addProperty(JSON.THEME, theme.name());
 
 		return preferences;
 	}

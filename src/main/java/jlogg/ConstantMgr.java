@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
@@ -75,67 +78,71 @@ public class ConstantMgr {
 		searchServiceThreadCount = 1;
 	}
 
-	private Optional<JSONObject> getCurrentJSON() throws IOException {
+	private Optional<JsonObject> getCurrentJSON() throws IOException {
 		String content = Files.readString(Paths.get(jloggConfig.getAbsolutePath()));
 		if (!content.trim().isEmpty()) {
-			return Optional.of(new JSONObject(content));
+			return Optional.of(JsonParser.parseString(content).getAsJsonObject());
 		}
 		return Optional.empty();
 	}
 
 	public void setupGlobalConstants() {
 		try {
+			JsonObject jsonConfig = getCurrentJSON().orElseGet(JsonObject::new);
 
-			JSONObject jsonConfig = getCurrentJSON().orElseGet(JSONObject::new);
-
-			JSONArray filters = jsonConfig.optJSONArray(JSONKeys.FILTERS);
-			if (filters != null) {
+			optionalGet(jsonConfig, JSONKeys.FILTERS, JsonElement::getAsJsonArray).ifPresent(filters -> {
 				GlobalConstants.filters.clear();
-				for (int i = 0; i < filters.length(); i++) {
-					GlobalConstants.filters.add(Filter.fromJSON(filters.getJSONObject(i)));
+				for (int i = 0; i < filters.size(); i++) {
+					GlobalConstants.filters.add(Filter.fromJSON(filters.get(i).getAsJsonObject()));
 				}
-			}
+			});
 
-			JSONObject preferencesJSON = jsonConfig.optJSONObject(JSONKeys.PREFERENCES);
-			if (preferencesJSON != null) {
-				JSONObject fontJSON = preferencesJSON.optJSONObject(Preferences.JSON.FONT);
-				if (fontJSON != null) {
-					GlobalConstants.defaultFont.setValue(new Font(fontJSON.getString(Preferences.JSON.FAMILY),
-							fontJSON.getDouble(Preferences.JSON.SIZE)));
-				}
+			optionalGet(jsonConfig, JSONKeys.PREFERENCES, JsonElement::getAsJsonObject).ifPresent(preferencesJSON -> {
+				optionalGet(preferencesJSON, Preferences.JSON.FONT, JsonElement::getAsJsonObject)
+						.ifPresent(fontJSON -> {
+							GlobalConstants.defaultFont
+									.setValue(new Font(fontJSON.get(Preferences.JSON.FAMILY).getAsString(),
+											fontJSON.get(Preferences.JSON.SIZE).getAsDouble()));
+						});
 
-				JSONObject keyMapJSON = preferencesJSON.optJSONObject(Preferences.JSON.SHORTCUTS);
-				if (keyMapJSON != null) {
-					for (ShortCut key : GlobalConstants.ShortCut.values()) {
-						String val = keyMapJSON.optString(key.name(), null);
-						if (val != null) {
-							KeyCombination combo = KeyCombination.valueOf(val);
-							key.update(combo);
-						}
-					}
-				}
+				optionalGet(preferencesJSON, Preferences.JSON.SHORTCUTS, JsonElement::getAsJsonObject)
+						.ifPresent(keyMapJSON -> {
+							for (ShortCut key : GlobalConstants.ShortCut.values()) {
+								optionalGet(keyMapJSON, key.name(), JsonElement::getAsString).ifPresent(val -> {
+									KeyCombination combo = KeyCombination.valueOf(val);
+									key.update(combo);
+								});
+							}
+						});
 
-				String themeName = preferencesJSON.optString(Preferences.JSON.THEME, null);
-				if (themeName != null) {
+				optionalGet(preferencesJSON, Preferences.JSON.THEME, JsonElement::getAsString).ifPresent(themeName -> {
 					GlobalConstants.theme.setValue(Theme.valueOf(themeName));
-				}
-			}
+				});
+			});
 
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "Error reading configuration file", e);
 		}
 	}
 
+	private <T> Optional<T> optionalGet(JsonObject json, String key, Function<JsonElement, T> converter) {
+		if (json.has(key)) {
+			return Optional.of(converter.apply(json.get(key)));
+		}
+
+		return Optional.empty();
+	}
+
 	public void updateFilters() {
 		try {
-			JSONObject config = getCurrentJSON().orElseGet(JSONObject::new);
+			JsonObject config = getCurrentJSON().orElseGet(JsonObject::new);
 
-			JSONArray filters = new JSONArray();
+			JsonArray filters = new JsonArray();
 			for (Filter filter : GlobalConstants.filters) {
-				filters.put(filter.toJSON());
+				filters.add(filter.toJSON());
 			}
-			config.put(JSONKeys.FILTERS, filters);
 
+			config.add(JSONKeys.FILTERS, filters);
 			Files.writeString(Paths.get(jloggConfig.getAbsolutePath()), config.toString());
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "Error writing configuration file", e);
@@ -144,9 +151,9 @@ public class ConstantMgr {
 
 	public void updatePreferences(Preferences preferences) {
 		try {
-			JSONObject config = getCurrentJSON().orElseGet(JSONObject::new);
+			JsonObject config = getCurrentJSON().orElseGet(JsonObject::new);
 
-			config.put(JSONKeys.PREFERENCES, preferences.toJSON());
+			config.add(JSONKeys.PREFERENCES, preferences.toJSON());
 
 			Files.writeString(Paths.get(jloggConfig.getAbsolutePath()), config.toString());
 		} catch (IOException e) {

@@ -1,6 +1,6 @@
 package jlogg.shared;
 
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import javafx.scene.paint.Color;
 
@@ -19,19 +19,20 @@ public class Filter extends SearchCriteria implements Cloneable {
 		private static final String OPACITY = "o";
 	}
 
-	public static Filter fromJSON(JSONObject json) {
-		String pattern = json.getString(JSONKeys.PATTERN);
-		SearchOptions searchOptions = SearchOptions.fromJSON(json.getJSONObject(JSONKeys.SEARCHOPTIONS));
-		Color foreground = getColorFromJSON(json.getJSONObject(JSONKeys.FOREGROUND));
-		Color background = getColorFromJSON(json.getJSONObject(JSONKeys.BACKGROUND));
+	public static Filter fromJSON(JsonObject json) {
+		String pattern = json.get(JSONKeys.PATTERN).getAsString();
+		SearchOptions searchOptions = SearchOptions.fromJSON(json.get(JSONKeys.SEARCHOPTIONS).getAsJsonObject());
+		Color foreground = getColorFromJSON(json.get(JSONKeys.FOREGROUND).getAsJsonObject());
+		Color background = getColorFromJSON(json.get(JSONKeys.BACKGROUND).getAsJsonObject());
+
 		return new Filter(pattern, searchOptions, foreground, background);
 	}
 
-	private static Color getColorFromJSON(JSONObject json) {
-		double red = json.getDouble(JSONKeys.RED);
-		double green = json.getDouble(JSONKeys.GREEN);
-		double blue = json.getDouble(JSONKeys.BLUE);
-		double opacity = json.getDouble(JSONKeys.OPACITY);
+	private static Color getColorFromJSON(JsonObject json) {
+		double red = json.get(JSONKeys.RED).getAsDouble();
+		double green = json.get(JSONKeys.GREEN).getAsDouble();
+		double blue = json.get(JSONKeys.BLUE).getAsDouble();
+		double opacity = json.get(JSONKeys.OPACITY).getAsDouble();
 		return new Color(red, green, blue, opacity);
 	}
 
@@ -74,21 +75,21 @@ public class Filter extends SearchCriteria implements Cloneable {
 		return new Filter(pattern, searchOptions, foreGroundColor, backGroundColor);
 	}
 
-	public JSONObject toJSON() {
-		JSONObject filter = new JSONObject();
-		filter.put(JSONKeys.PATTERN, pattern);
-		filter.put(JSONKeys.SEARCHOPTIONS, searchOptions.toJSON());
-		filter.put(JSONKeys.FOREGROUND, colorToJSON(foreGroundColor));
-		filter.put(JSONKeys.BACKGROUND, colorToJSON(backGroundColor));
+	public JsonObject toJSON() {
+		JsonObject filter = new JsonObject();
+		filter.addProperty(JSONKeys.PATTERN, pattern);
+		filter.add(JSONKeys.SEARCHOPTIONS, searchOptions.toJSON());
+		filter.add(JSONKeys.FOREGROUND, colorToJSON(foreGroundColor));
+		filter.add(JSONKeys.BACKGROUND, colorToJSON(backGroundColor));
 		return filter;
 	}
 
-	private JSONObject colorToJSON(Color color) {
-		JSONObject json = new JSONObject();
-		json.put(JSONKeys.RED, color.getRed());
-		json.put(JSONKeys.GREEN, color.getGreen());
-		json.put(JSONKeys.BLUE, color.getBlue());
-		json.put(JSONKeys.OPACITY, color.getOpacity());
+	private JsonObject colorToJSON(Color color) {
+		JsonObject json = new JsonObject();
+		json.addProperty(JSONKeys.RED, color.getRed());
+		json.addProperty(JSONKeys.GREEN, color.getGreen());
+		json.addProperty(JSONKeys.BLUE, color.getBlue());
+		json.addProperty(JSONKeys.OPACITY, color.getOpacity());
 		return json;
 	}
 

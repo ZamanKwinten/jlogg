@@ -1,14 +1,14 @@
 package jlogg.shared;
 
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 public class SearchOptions {
 	private static final class JSONKeys {
 		private static final String IGNORECASE = "ignoreCase";
 	}
 
-	public static SearchOptions fromJSON(JSONObject json) {
-		return new SearchOptions(json.getBoolean(JSONKeys.IGNORECASE));
+	public static SearchOptions fromJSON(JsonObject json) {
+		return new SearchOptions(json.get(JSONKeys.IGNORECASE).getAsBoolean());
 	}
 
 	private boolean ignoreCase;
@@ -25,9 +25,9 @@ public class SearchOptions {
 		this.ignoreCase = ignoreCase;
 	}
 
-	public JSONObject toJSON() {
-		JSONObject json = new JSONObject();
-		json.put(JSONKeys.IGNORECASE, ignoreCase);
+	public JsonObject toJSON() {
+		JsonObject json = new JsonObject();
+		json.addProperty(JSONKeys.IGNORECASE, ignoreCase);
 
 		return json;
 	}
