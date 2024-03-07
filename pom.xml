@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>github</groupId>
 	<artifactId>jlogg</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>HEAD</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<build.modules.directory>${project.build.directory}/modules</build.modules.directory>
