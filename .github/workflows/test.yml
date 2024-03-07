@@ -1,9 +1,9 @@
 name: Tester
 
-on: 
-  release:
-    types: [released]
-
+on:
+  push:
+    tags:
+      - "v*.*.*"
 jobs:
   test:
     runs-on: ubuntu-latest
