@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>github</groupId>
 	<artifactId>jlogg</artifactId>
-	<version>HEAD</version>
+	<version>SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<build.modules.directory>${project.build.directory}/modules</build.modules.directory>
@@ -23,6 +23,14 @@
 			<version>11.0.2</version>
 		</dependency>
 	</dependencies>
+
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub Packages</name>
+			<url>https://maven.pkg.github.com/ZamanKwinten/jlogg</url>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<plugins>
