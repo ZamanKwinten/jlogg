@@ -1,0 +1,32 @@
+name: publish JLogg 
+
+on: 
+  release:
+    types: [released]
+      
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v
+      - uses: actions/setup-java@v4.1.0
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Set Release Version
+        id: vars
+        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+      - name: Echo Release Version
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo $RELEASE_VERSION
+      - name: Update maven version 
+        run: mvn --batch-mode versions:set -DnewVersion=$RELEASE_VERSION
+      - name: Publish package
+        run: mvn --batch-mode deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
