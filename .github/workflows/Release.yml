@@ -18,7 +18,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Set Release Version
-        run: mvn --batch-mode versions:set -DnewVersion=$GITHUB_REF_NAME
+        run: mvn --batch-mode versions:set -DnewVersion=${{ github.ref_name }}
       - name: Publish package
         run: mvn --batch-mode deploy
         env:
@@ -33,7 +33,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Set Release Version
-        run: mvn --batch-mode versions:set -DnewVersion=$env:GITHUB_REF_NAME
+        run: mvn --batch-mode versions:set -DnewVersion=${{ github.ref_name }}
       - name: Maven Build
         run: mvn -B clean package
       - name: Upload
@@ -51,7 +51,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Set Release Version
-        run: mvn --batch-mode versions:set -DnewVersion=$GITHUB_REF_NAME
+        run: mvn --batch-mode versions:set -DnewVersion=${{ github.ref_name }}
       - name: Maven Build
         run: mvn -B clean package
       - name: Upload
