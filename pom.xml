@@ -115,6 +115,7 @@
 						</executions>
 						<configuration>
 							<name>JLogg</name>
+							<appversion>${project.version}</appversion>
 							<modulepath>
 								<filesets>
 									<fileset>
@@ -166,6 +167,7 @@
 						</executions>
 						<configuration>
 							<name>JLogg</name>
+							<appversion>${project.version}</appversion>
 							<modulepath>
 								<filesets>
 									<fileset>
