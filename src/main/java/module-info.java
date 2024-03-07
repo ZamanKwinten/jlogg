@@ -8,6 +8,7 @@ module jlogg {
 
 	requires javafx.graphics;
 	requires java.net.http;
+	requires jdk.crypto.ec;
 	requires transitive com.google.gson;
 
 	opens jlogg.os.windows to java.rmi;
