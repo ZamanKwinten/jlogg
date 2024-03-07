@@ -18,14 +18,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Set Release Version
-        id: vars
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-      - name: Update maven version 
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
-        run: |
-          echo $RELEASE_VERSION
-          mvn --batch-mode versions:set -DnewVersion=$GITHUB_REF_NAME
+        run: mvn --batch-mode versions:set -DnewVersion=$GITHUB_REF_NAME
       - name: Publish package
         run: mvn --batch-mode deploy
         env:
@@ -40,14 +33,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Set Release Version
-        id: vars
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-      - name: Update maven version 
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
-        run: |
-          echo $RELEASE_VERSION
-          mvn --batch-mode versions:set -DnewVersion=$GITHUB_REF_NAME
+        run: mvn --batch-mode versions:set -DnewVersion=$env:GITHUB_REF_NAME
       - name: Maven Build
         run: mvn -B clean package
       - name: Upload
@@ -65,14 +51,7 @@ jobs:
           distribution: temurin
           java-version: 17
       - name: Set Release Version
-        id: vars
-        run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
-      - name: Update maven version 
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
-        run: |
-          echo $RELEASE_VERSION
-          mvn --batch-mode versions:set -DnewVersion=$GITHUB_REF_NAME
+        run: mvn --batch-mode versions:set -DnewVersion=$GITHUB_REF_NAME
       - name: Maven Build
         run: mvn -B clean package
       - name: Upload
