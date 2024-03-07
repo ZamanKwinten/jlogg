@@ -72,6 +72,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files:
-            ./windows/*
-            ./macos/*
+            ./windows/JLogg-1.0.msi 
+            ./macos/JLogg-1.0.dmg 
   
