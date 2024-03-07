@@ -3,7 +3,7 @@ name: Release JLogg
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   deploy_package:
@@ -25,7 +25,7 @@ jobs:
           RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |
           echo $RELEASE_VERSION
-          mvn --batch-mode versions:set -DnewVersion=$RELEASE_VERSION
+          mvn --batch-mode versions:set -DnewVersion=$GITHUB_REF_NAME
       - name: Publish package
         run: mvn --batch-mode deploy
         env:
@@ -47,7 +47,7 @@ jobs:
           RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |
           echo $RELEASE_VERSION
-          mvn --batch-mode versions:set -DnewVersion=$RELEASE_VERSION
+          mvn --batch-mode versions:set -DnewVersion=$GITHUB_REF_NAME
       - name: Maven Build
         run: mvn -B clean package
       - name: Upload
@@ -72,7 +72,7 @@ jobs:
           RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         run: |
           echo $RELEASE_VERSION
-          mvn --batch-mode versions:set -DnewVersion=$RELEASE_VERSION
+          mvn --batch-mode versions:set -DnewVersion=$GITHUB_REF_NAME
       - name: Maven Build
         run: mvn -B clean package
       - name: Upload
