@@ -1,9 +1,6 @@
 name: publish JLogg 
 
-on:
-  push:
-    branches:
-      - main
+on: workflow_dispatch
       
 jobs:
   publish:
