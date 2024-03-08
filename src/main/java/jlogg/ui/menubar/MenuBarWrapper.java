@@ -2,6 +2,7 @@ package jlogg.ui.menubar;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import jlogg.Launcher;
 import jlogg.ui.MainPane;
 
 public class MenuBarWrapper extends MenuBar {
@@ -20,5 +21,8 @@ public class MenuBarWrapper extends MenuBar {
 		pluginsMenu = new PluginsMenu(mainPane);
 
 		getMenus().addAll(fileMenu, editMenu, toolsMenu, settingsMenu, pluginsMenu);
+		if (Launcher.isMac) {
+			setUseSystemMenuBar(true);
+		}
 	}
 }
