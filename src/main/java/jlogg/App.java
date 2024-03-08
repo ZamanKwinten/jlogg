@@ -10,6 +10,7 @@ import jlogg.os.FileOpenHandler;
 import jlogg.os.mac.MacFileOpenHandler;
 import jlogg.os.windows.WindowsFileOpenHandler;
 import jlogg.ui.MainStage;
+import jlogg.version.VersionUtil;
 
 public class App extends Application {
 	private FileOpenHandler handler;
@@ -20,6 +21,9 @@ public class App extends Application {
 		ConstantMgr constantMGR = ConstantMgr.instance();
 		constantMGR.setupGlobalConstants();
 		constantMGR.loadPlugins();
+		var updateCheckingThread = new Thread(VersionUtil::checkForUpdates, "check-for-updates-thread");
+		updateCheckingThread.setDaemon(true);
+		updateCheckingThread.start();
 
 		stage.hide();
 		MainStage mainStage = MainStage.getInstance();

@@ -13,6 +13,7 @@ module jlogg {
 
 	opens jlogg.os.windows to java.rmi;
 	opens jlogg.eventbus to com.google.common;
+	opens jlogg.version to com.google.gson;
 
 	exports jlogg;
 	exports jlogg.ui.table;
