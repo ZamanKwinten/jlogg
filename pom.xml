@@ -22,13 +22,6 @@
 			<artifactId>javafx-controls</artifactId>
 			<version>17.0.11-ea+1</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.9.1</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<distributionManagement>
@@ -96,7 +89,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<excludeGroupIds>org.openjfx,org.junit.jupiter</excludeGroupIds>
+							<excludeGroupIds>org.openjfx</excludeGroupIds>
 							<outputDirectory>${build.modules.directory}</outputDirectory>
 						</configuration>
 					</execution>
