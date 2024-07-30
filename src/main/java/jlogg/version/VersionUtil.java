@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,13 +33,41 @@ public class VersionUtil {
 		try {
 			String latestVersion = getLatestVersion();
 
-			if (!Objects.equals(latestVersion, currentVersion)) {
+			if (isLaterJLoggVersion(latestVersion)) {
 				showNewVersionAvailablePopup();
 			}
 
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "VersionUtil::checkForUpdates", e);
 		}
+	}
+
+	public static boolean isLaterJLoggVersion(String newVersion) {
+		if (Objects.equals(currentVersion, "HEAD")) {
+			return false;
+		}
+		return isLaterVersion(currentVersion, newVersion);
+	}
+
+	public static boolean isLaterVersion(String versionToCheck, String newVersion) {
+
+		int[] toCheck = Arrays.stream(versionToCheck.split("\\.")).mapToInt(Integer::parseInt).toArray();
+		int[] newV = Arrays.stream(newVersion.split("\\.")).mapToInt(Integer::parseInt).toArray();
+
+		if (toCheck.length != newV.length) {
+			throw new RuntimeException("Versions do not have the same length");
+		}
+
+		for (int i = 0; i < toCheck.length; i++) {
+			int tc = toCheck[i];
+			int nv = newV[i];
+
+			if (tc != nv) {
+				return tc < nv;
+			}
+		}
+
+		return false;
 	}
 
 	private static String getLatestVersion() throws IOException, InterruptedException {

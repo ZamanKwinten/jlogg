@@ -14,6 +14,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import javafx.application.Platform;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 import jlogg.plugin.Theme;
@@ -162,10 +163,12 @@ public class ConstantMgr {
 	}
 
 	public void loadPlugins() {
-		for (File jarFile : jloggPluginDir.listFiles()) {
+		for (File jarFile : jloggPluginDir.listFiles((dir, name) -> name.endsWith(".jar"))) {
 			try {
 				PluginLoader loader = new PluginLoader(jarFile);
-				GlobalConstants.plugins.add(loader.getPlugin());
+				Platform.runLater(() -> {
+					GlobalConstants.plugins.add(loader.getPlugin());
+				});
 			} catch (Exception e) {
 				logger.log(Level.SEVERE, "Error while loading plugin: " + jarFile, e);
 			}

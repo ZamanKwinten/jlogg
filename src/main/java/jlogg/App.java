@@ -20,7 +20,9 @@ public class App extends Application {
 		// initialize the constant manager
 		ConstantMgr constantMGR = ConstantMgr.instance();
 		constantMGR.setupGlobalConstants();
-		constantMGR.loadPlugins();
+		var pluginLoaderThread = new Thread(constantMGR::loadPlugins, "plugin-loader-thread");
+		pluginLoaderThread.setDaemon(true);
+		pluginLoaderThread.start();
 		var updateCheckingThread = new Thread(VersionUtil::checkForUpdates, "check-for-updates-thread");
 		updateCheckingThread.setDaemon(true);
 		updateCheckingThread.start();
