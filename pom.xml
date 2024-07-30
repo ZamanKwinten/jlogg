@@ -168,7 +168,7 @@
 				</os>
 			</activation>
 			<properties>
-				<javafx.classifier>mac</javafx.classifier>
+				<javafx.classifier>mac-aarch64</javafx.classifier>
 			</properties>
 
 			<build>
