@@ -15,10 +15,7 @@ jobs:
         run: mvn --batch-mode versions:set -DnewVersion="${{ github.ref_name }}"
       - name: Maven Build
         run: mvn -B clean package
-      - name: Upload
-        uses: actions/upload-artifact@v2.2.2
-        with:
-          name: macos
-          path: target/jpackage/JLogg*.dmg
+      - name: pack
+        run: jpackage --dest /Users/runner/work/jlogg/jlogg/target/jpackage --type dmg --app-version 3.0.0 --name JLogg --module jlogg/jlogg.Launcher --module-path /Users/runner/work/jlogg/jlogg/target/modules/junit-platform-commons-1.9.1.jar:/Users/runner/work/jlogg/jlogg/target/modules/junit-platform-engine-1.9.1.jar:/Users/runner/work/jlogg/jlogg/target/modules/gson-2.10.1.jar:/Users/runner/work/jlogg/jlogg/target/modules/junit-jupiter-engine-5.9.1.jar:/Users/runner/work/jlogg/jlogg/target/modules/junit-jupiter-api-5.9.1.jar:/Users/runner/work/jlogg/jlogg/target/modules/jlogg-master.jar:/Users/runner/work/jlogg/jlogg/target/modules/apiguardian-api-1.1.2.jar:/Users/runner/work/jlogg/jlogg/target/modules/opentest4j-1.2.0.jar 
         
     
