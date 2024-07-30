@@ -198,6 +198,7 @@
 							<module>jlogg/jlogg.Launcher</module>
 							<fileassociations>${project.basedir}/log.properties</fileassociations>
 							<type>DMG</type>
+							<verbose>true</verbose>
 						</configuration>
 					</plugin>
 				</plugins>
