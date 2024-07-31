@@ -17,6 +17,7 @@ import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 
 public class VersionUtil {
@@ -43,13 +44,13 @@ public class VersionUtil {
 	}
 
 	public static boolean isLaterJLoggVersion(String newVersion) {
-		if (Objects.equals(currentVersion, "HEAD")) {
-			return false;
-		}
 		return isLaterVersion(currentVersion, newVersion);
 	}
 
 	public static boolean isLaterVersion(String versionToCheck, String newVersion) {
+		if (Objects.equals(versionToCheck, "HEAD")) {
+			return false;
+		}
 
 		int[] toCheck = Arrays.stream(versionToCheck.split("\\.")).mapToInt(Integer::parseInt).toArray();
 		int[] newV = Arrays.stream(newVersion.split("\\.")).mapToInt(Integer::parseInt).toArray();
@@ -92,7 +93,7 @@ public class VersionUtil {
 			alert.setHeaderText("A new version of JLogg is available for download");
 
 			ButtonType downloadButton = new ButtonType("Download Now");
-			ButtonType laterButton = new ButtonType("Later");
+			ButtonType laterButton = new ButtonType("Later", ButtonData.CANCEL_CLOSE);
 
 			alert.getButtonTypes().setAll(downloadButton, laterButton);
 
