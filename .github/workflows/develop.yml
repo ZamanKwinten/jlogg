@@ -3,7 +3,7 @@ on:
   workflow_dispatch
   
 jobs:
-  macos_build:
+  macos_aarch64_build:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2.3.4
@@ -12,6 +12,17 @@ jobs:
         with:
           distribution: adopt
           java-version: 17
-          
+      - name: Maven Build
+        run: mvn -B clean package
+        
+  macos_x64_build:
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Setup Java
+        uses: actions/setup-java@v2.1.0
+        with:
+          distribution: adopt
+          java-version: 17
       - name: Maven Build
         run: mvn -B clean package
