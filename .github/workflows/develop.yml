@@ -12,6 +12,8 @@ jobs:
         with:
           distribution: adopt
           java-version: 17
+      - name: Set Release Version
+        run: mvn --batch-mode versions:set -DnewVersion="3.0.3"
       - name: Maven Build
         run: mvn -B clean package
       - name: Upload
@@ -29,6 +31,8 @@ jobs:
         with:
           distribution: adopt
           java-version: 17
+      - name: Set Release Version
+        run: mvn --batch-mode versions:set -DnewVersion="3.0.3"
       - name: Maven Build
         run: mvn -B clean package
       - name: Upload
