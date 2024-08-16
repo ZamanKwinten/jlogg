@@ -17,6 +17,8 @@ jobs:
         run: mvn --batch-mode versions:set -DnewVersion="3.0.3"
       - name: Maven Build
         run: mvn -B clean package
+      - name: Rename output
+        run: mv target/jpackage/JLogg-3.0.3.dmg target/jpackage/JLogg-aarch64-3.0.3.dmg
       - name: Upload
         uses: actions/upload-artifact@v2.2.2
         with:
@@ -37,6 +39,8 @@ jobs:
         run: mvn --batch-mode versions:set -DnewVersion="3.0.3"
       - name: Maven Build
         run: mvn -B clean package
+      - name: Rename output
+        run: mv target/jpackage/JLogg-3.0.3.dmg target/jpackage/JLogg-x86_64-3.0.3.dmg
       - name: Upload
         uses: actions/upload-artifact@v2.2.2
         with:
