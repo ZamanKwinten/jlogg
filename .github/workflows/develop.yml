@@ -19,7 +19,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v2.2.2
         with:
-          name: macos
+          name: macos-aarch64
           path: target/jpackage/JLogg*.dmg
         
   macos_x64_build:
@@ -38,5 +38,5 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v2.2.2
         with:
-          name: macos
+          name: macos-x64
           path: target/jpackage/JLogg*.dmg
