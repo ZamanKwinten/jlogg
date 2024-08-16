@@ -227,7 +227,6 @@
 			<activation>
 				<os>
 					<family>mac</family>
-					<arch>x64</arch>
 				</os>
 			</activation>
 			<properties>
