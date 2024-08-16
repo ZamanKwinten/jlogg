@@ -184,7 +184,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<name>JLogg-${mac.installer.suffix}</name>
+							<name>JLogg</name>
 							<appversion>${project.version}</appversion>
 							<modulepath>
 								<filesets>
