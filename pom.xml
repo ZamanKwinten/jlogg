@@ -6,7 +6,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<build.modules.directory>${project.build.directory}/modules</build.modules.directory>
-		<mac.installer.suffix>seeProfiles</<mac.installer.suffix>
+		<mac.installer.suffix>seeProfiles</mac.installer.suffix>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
@@ -171,7 +171,7 @@
 			</activation>
 			<properties>
 				<javafx.classifier>mac-aarch64</javafx.classifier>
-				<mac.installer.suffix>aarch64</<mac.installer.suffix>
+				<mac.installer.suffix>aarch64</mac.installer.suffix>
 			</properties>
 		</profile>
 		<profile>
@@ -184,7 +184,7 @@
 			</activation>
 			<properties>
 				<javafx.classifier>mac</javafx.classifier>
-				<mac.installer.suffix>x64</<mac.installer.suffix>
+				<mac.installer.suffix>x64</mac.installer.suffix>
 			</properties>
 		</profile>
 		<profile>
