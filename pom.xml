@@ -167,10 +167,6 @@
 					<family>mac</family>
 				</os>
 			</activation>
-			<properties>
-				<javafx.classifier>mac-aarch64</javafx.classifier>
-			</properties>
-
 			<build>
 				<plugins>
 					<plugin>
@@ -211,6 +207,30 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+		<profile>
+			<id>mac-aarch64-profile</id>
+			<activation>
+				<os>
+					<family>mac</family>
+					<arch>aarch64</arch>
+				</os>
+			</activation>
+			<properties>
+				<javafx.classifier>mac-aarch64</javafx.classifier>
+			</properties>
+		</profile>
+		<profile>
+			<id>mac-x64-profile></id>
+			<activation>
+				<os>
+					<family>mac</family>
+					<arch>x86_64</arch>
+				</os>
+			</activation>
+			<properties>
+				<javafx.classifier>mac</javafx.classifier>
+			</properties>
 		</profile>
 	</profiles>
 </project>
