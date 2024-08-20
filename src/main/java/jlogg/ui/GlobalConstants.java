@@ -8,11 +8,12 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
-import jlogg.plugin.JLoggPlugin;
+import jlogg.PluginWithMetadata;
 import jlogg.plugin.LogLine;
 import jlogg.plugin.Theme;
 import jlogg.shared.Filter;
@@ -106,5 +107,9 @@ public class GlobalConstants {
 
 	public static Observable<Theme> theme = new Observable<>(Theme.LIGHT);
 
-	public static ObservableList<JLoggPlugin> plugins = FXCollections.observableArrayList();
+	public static ObservableList<PluginWithMetadata> plugins = FXCollections.observableArrayList();
+
+	public static SortedList<PluginWithMetadata> sortedPlugins() {
+		return plugins.sorted((a, b) -> a.name().compareTo(b.name()));
+	}
 }

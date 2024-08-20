@@ -8,6 +8,7 @@ import jlogg.plugin.loader.PluginManifestReader.JLoggPluginManifestAttributes;
 
 public class PluginManifestData {
 
+	private final String name;
 	private final String mainClass;
 	private final String serverURL;
 	private final String jloggVersion;
@@ -15,6 +16,7 @@ public class PluginManifestData {
 
 	PluginManifestData(JarFile jar) throws IOException {
 		var attributes = jar.getManifest().getMainAttributes();
+		name = attributes.getValue(JLoggPluginManifestAttributes.JLoggPluginName);
 		mainClass = attributes.getValue(JLoggPluginManifestAttributes.MainClass);
 		serverURL = attributes.getValue(JLoggPluginManifestAttributes.JLoggPluginServerURI);
 		jloggVersion = attributes.getValue(JLoggPluginManifestAttributes.JLoggVersion);
@@ -28,6 +30,10 @@ public class PluginManifestData {
 				throw new RuntimeException("Plugin has update url but no version management");
 			}
 		}
+	}
+
+	public String name() {
+		return name;
 	}
 
 	public String mainClass() {

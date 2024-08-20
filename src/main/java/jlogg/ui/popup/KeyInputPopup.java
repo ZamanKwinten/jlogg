@@ -16,11 +16,12 @@ public class KeyInputPopup extends PopupWithReturn<KeyCombination> {
 	private KeyCombination keyCombo;
 
 	public KeyInputPopup(ShortCut key) {
+		super("Update Key Combination");
 		keyCombo = key.observable().getValue();
 
 		VBox vbox = new VBox();
 
-		Label text = new Label("Please enter the preferred keycombination for " + key.uiName());
+		Label text = new Label("Please enter the preferred key combination for " + key.uiName());
 		current = new Label();
 		setCurrentLabel();
 

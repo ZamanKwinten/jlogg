@@ -9,7 +9,7 @@ public class GoToPopup extends PopupWithReturn<Integer> {
 	private Integer value;
 
 	public GoToPopup(int maxLine) {
-		setTitle("Go to Line");
+		super("Go to Line");
 
 		Label l = new Label("Enter line number(0.." + maxLine + ")");
 

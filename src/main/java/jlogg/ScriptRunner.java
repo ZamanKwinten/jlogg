@@ -46,10 +46,10 @@ public class ScriptRunner extends Application {
 	}
 
 	private static Optional<JLoggScriptablePlugin> loadScritablePlugin(String pluginClass) {
-		for (var plugin : GlobalConstants.plugins) {
+		for (var pluginWithMetadata : GlobalConstants.plugins) {
+			var plugin = pluginWithMetadata.plugin();
 			if (Objects.equals(plugin.getClass().getCanonicalName(), pluginClass)) {
 				System.out.println("Found a class!");
-
 				if (plugin instanceof JLoggScriptablePlugin) {
 					return Optional.of((JLoggScriptablePlugin) plugin);
 				} else {

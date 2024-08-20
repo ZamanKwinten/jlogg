@@ -19,7 +19,7 @@ public class PreferencesPopup extends PopupWithReturn<Preferences> {
 	private final PreferencesTab<ThemeSelector> themeSetup;
 
 	public PreferencesPopup() {
-		setTitle("Preferences");
+		super("Preferences");
 
 		themeSetup = new PreferencesTab<>("Theme", new ThemeSelector());
 		fontSetup = new PreferencesTab<>("Font", new FontSelector(this));

@@ -2,6 +2,7 @@ package jlogg.plugin.loader;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -10,6 +11,7 @@ import java.net.http.HttpResponse.BodyHandler;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +19,8 @@ import java.util.logging.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import jlogg.ConstantMgr;
+import jlogg.ui.GlobalConstants;
 import jlogg.version.VersionUtil;
 
 public class PluginUpdater {
@@ -63,6 +67,47 @@ public class PluginUpdater {
 
 	}
 
+	public static File tryDownload(String pluginServerURL) throws DownloadException, IOException {
+		var response = getLatestPluginData(pluginServerURL).orElseThrow(() -> new DownloadException(
+				"Could not access Plugin Update Server or the response from the Plugin Update Server was not expected."));
+		var manifest = response.manifest();
+
+		var name = manifest.name();
+
+		if (GlobalConstants.plugins.stream().anyMatch(p -> Objects.equals(name, p.name()))) {
+			throw new DownloadException(
+					"Plugin with name '" + name + "' already exists, the name of the plugin must be unique.");
+		}
+
+		if (VersionUtil.isLaterJLoggVersion(manifest.jloggVersion())) {
+			throw new DownloadException(
+					"Your current version of JLogg is not compatible with the version required by the plugin. Please update JLogg to the latest version");
+		}
+
+		var downloadStream = sendGETRequest(
+				PluginServerEndPoints.constructDownloadURI(pluginServerURL, response.filename()),
+				BodyHandlers.ofInputStream());
+
+		File pluginLocation = ConstantMgr.instance().findLocationForPlugin(response.filename());
+
+		if (downloadStream.statusCode() == 200) {
+			Files.copy(downloadStream.body(), pluginLocation.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		} else {
+			throw new DownloadException(
+					"Received unexpected status code during downloading of the plugin: " + downloadStream.statusCode());
+		}
+		updatePluginLock(pluginLocation);
+		return pluginLocation;
+	}
+
+	public static class DownloadException extends Exception {
+		private static final long serialVersionUID = 1L;
+
+		private DownloadException(String reason) {
+			super(reason);
+		}
+	}
+
 	private static boolean recentPluginUpdate(File pluginLocation) {
 		File lastSuccess = getPluginUpdateLock(pluginLocation);
 		return lastSuccess.exists() && System.currentTimeMillis() - lastSuccess.lastModified() < UPDATE_CHECK_DELTA;
@@ -82,7 +127,7 @@ public class PluginUpdater {
 	}
 
 	private static Optional<PluginServerLatestResponse> getLatestPluginData(String serverURL)
-			throws IOException, InterruptedException {
+			throws IOException, DownloadException {
 
 		var response = sendGETRequest(PluginServerEndPoints.constructLatestURI(serverURL), BodyHandlers.ofString());
 
@@ -98,10 +143,17 @@ public class PluginUpdater {
 	}
 
 	private static <T> HttpResponse<T> sendGETRequest(String uri, BodyHandler<T> bodyHandler)
-			throws IOException, InterruptedException {
+			throws DownloadException, IOException {
 		var client = HttpClient.newBuilder().build();
 		var getLatest = HttpRequest.newBuilder(URI.create(uri)).GET().build();
+		try {
+			return client.send(getLatest, bodyHandler);
+		} catch (InterruptedException e) {
+			// This should really never happen since we're not interrupting anyway.
+			throw new RuntimeException(e);
+		} catch (ConnectException e) {
+			throw new DownloadException("Could not connect to URL: " + uri);
+		}
 
-		return client.send(getLatest, bodyHandler);
 	}
 }

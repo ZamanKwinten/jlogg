@@ -8,6 +8,7 @@ import java.util.jar.JarFile;
 public class PluginManifestReader {
 
 	static final class JLoggPluginManifestAttributes {
+		static final Name JLoggPluginName = new Name("JLogg-Plugin-Name");
 		static final Name MainClass = Attributes.Name.MAIN_CLASS;
 		// URI pointing to the JLogg Plugin Server endpoint
 		static final Name JLoggPluginServerURI = new Name("JLogg-Plugin-Server-URI");

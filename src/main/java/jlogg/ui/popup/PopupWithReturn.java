@@ -19,7 +19,8 @@ abstract class PopupWithReturn<T> extends Stage {
 
 	protected boolean isCanceled = false;
 
-	public PopupWithReturn() {
+	protected PopupWithReturn(String title) {
+		setTitle(title);
 		content = new VBox(5.0);
 
 		content.setPadding(new Insets(15));
@@ -35,19 +36,19 @@ abstract class PopupWithReturn<T> extends Stage {
 	}
 
 	public class CancelableFooter extends HBox {
-		private final Button search;
+		private final Button primary;
 
-		public CancelableFooter(Button search, Button cancel) {
+		public CancelableFooter(Button... buttons) {
 			super(5.0);
 			setAlignment(Pos.CENTER_RIGHT);
-			this.search = search;
+			this.primary = buttons[0];
 
-			getChildren().addAll(search, cancel);
+			getChildren().addAll(buttons);
 		}
 
 		@Override
 		public void requestFocus() {
-			search.requestFocus();
+			primary.requestFocus();
 		}
 	}
 
@@ -77,6 +78,16 @@ abstract class PopupWithReturn<T> extends Stage {
 		});
 
 		return new CancelableFooter(search, cancel);
+	}
+
+	public CancelableFooter getCloseFooterBox() {
+
+		Button close = new Button("Close");
+		close.setOnAction(event -> {
+			super.close();
+		});
+
+		return new CancelableFooter(close);
 	}
 
 	public Optional<T> open() {

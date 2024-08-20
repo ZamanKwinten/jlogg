@@ -1,7 +1,10 @@
 package jlogg;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -14,9 +17,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import javafx.application.Platform;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
+import jlogg.PluginLoader.PluginLoadingException;
 import jlogg.plugin.Theme;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
@@ -53,6 +56,7 @@ public class ConstantMgr {
 	public final int searchServiceThreadCount;
 
 	private final File jloggConfig;
+	private final File jloggPluginCSSDir;
 	private final File jloggPluginDir;
 
 	private ConstantMgr() {
@@ -70,9 +74,14 @@ public class ConstantMgr {
 			}
 		}
 
-		jloggPluginDir = new File(jloggDir, "plugins");
+		jloggPluginDir = new File(jloggDir, "pluginmanager");
 		if (!jloggPluginDir.exists()) {
 			jloggPluginDir.mkdir();
+		}
+
+		jloggPluginCSSDir = new File(jloggDir, "plugincss");
+		if (!jloggPluginCSSDir.exists()) {
+			jloggPluginCSSDir.mkdir();
 		}
 
 		indexServiceThreadCount = 1;
@@ -165,14 +174,35 @@ public class ConstantMgr {
 	public void loadPlugins() {
 		for (File jarFile : jloggPluginDir.listFiles((dir, name) -> name.endsWith(".jar"))) {
 			try {
-				PluginLoader loader = new PluginLoader(jarFile);
-				Platform.runLater(() -> {
-					GlobalConstants.plugins.add(loader.getPlugin());
-				});
-			} catch (Exception e) {
-				logger.log(Level.SEVERE, "Error while loading plugin: " + jarFile, e);
+				PluginLoader.tryLoad(jarFile);
+			} catch (PluginLoadingException e) {
+				// ignore
 			}
 		}
 
+	}
+
+	public File findLocationForPlugin(String filename) {
+		if (!filename.endsWith(".jar")) {
+			filename = filename + ".jar";
+		}
+
+		return new File(jloggPluginDir, filename);
+	}
+
+	public File writePluginCSS(PluginWithMetadata plugin, InputStream is) throws FileNotFoundException, IOException {
+		var file = new File(jloggPluginCSSDir, plugin.name());
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+
+		try (FileOutputStream fos = new FileOutputStream(file)) {
+			byte[] buffer = new byte[1024];
+			for (int i = is.read(buffer); i > 0; i = is.read(buffer)) {
+				fos.write(buffer, 0, i);
+			}
+		}
+
+		return file;
 	}
 }

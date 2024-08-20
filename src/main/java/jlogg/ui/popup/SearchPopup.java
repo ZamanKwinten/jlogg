@@ -20,8 +20,7 @@ public class SearchPopup extends PopupWithReturn<List<File>> {
 	private final ObservableList<SearchFileWrapper> fileList;
 
 	public SearchPopup(List<File> files) {
-		super();
-		setTitle("Search configuration");
+		super("Search configuration");
 		Label info = new Label("Please specify the files and order in which has to be searched");
 
 		fileList = FXCollections
