@@ -37,7 +37,7 @@ jobs:
       - name: Maven Build
         run: mvn -B clean package
       - name: Upload
-        uses: actions/upload-artifact@v2.2.2
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: windows
           path: target/jpackage/JLogg*.msi
@@ -57,7 +57,7 @@ jobs:
       - name: Rename output
         run: mv target/jpackage/JLogg-${{ github.ref_name }}.dmg target/jpackage/JLogg-aarch64-${{ github.ref_name }}.dmg
       - name: Upload
-        uses: actions/upload-artifact@v2.2.2
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: macos-aarch64
           path: target/jpackage/JLogg*.dmg
@@ -77,7 +77,7 @@ jobs:
       - name: Rename output
         run: mv target/jpackage/JLogg-${{ github.ref_name }}.dmg target/jpackage/JLogg-x86_x64-${{ github.ref_name }}.dmg
       - name: Upload
-        uses: actions/upload-artifact@v2.2.2
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: macos-x64
           path: target/jpackage/JLogg*.dmg
@@ -86,7 +86,7 @@ jobs:
     needs: [windows_build,macos_aarch64_build,macos_x64_build,deploy_package]
     steps:
       - name: Download Builds
-        uses: actions/download-artifact@v2.0.8
+        uses: actions/download-artifact@v4.2.1
       - name: Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
