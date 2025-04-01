@@ -130,7 +130,17 @@ public class MainPane extends VBox {
 	}
 
 	public FileTab getCurrentSelectedTab() {
-		return (FileTab) tabPane.getSelectionModel().getSelectedItem();
+		var current = (FileTab) tabPane.getSelectionModel().getSelectedItem();
+
+		if (current == null) {
+			// Workaround to make it possible for a plugin to open without having to select
+			// a file first
+			var tab = new FileTab(this, new File("pluginDummy"), FXCollections.emptyObservableList(),
+					new SimpleDoubleProperty(1.0), rootItem);
+			tabPane.getTabs().add(tab);
+			return getCurrentSelectedTab();
+		}
+		return current;
 	}
 
 	public List<FileTab> getFileTabs() {

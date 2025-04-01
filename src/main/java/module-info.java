@@ -2,13 +2,16 @@ module jlogg {
 	requires java.base;
 	requires java.desktop;
 	requires java.logging;
-	requires jdk.unsupported;
-	requires transitive javafx.controls;
-	requires javafx.base;
-
-	requires javafx.graphics;
 	requires java.net.http;
+
 	requires jdk.crypto.ec;
+	requires jdk.unsupported;
+
+	requires javafx.base;
+	requires transitive javafx.controls;
+	requires javafx.graphics;
+	requires javafx.web;
+
 	requires transitive com.google.gson;
 
 	opens jlogg.os.windows to java.rmi;
