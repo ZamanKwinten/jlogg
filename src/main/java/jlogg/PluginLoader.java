@@ -10,7 +10,6 @@ import javafx.application.Platform;
 import jlogg.plugin.JLoggPlugin;
 import jlogg.plugin.loader.PluginManifestData;
 import jlogg.plugin.loader.PluginManifestReader;
-import jlogg.plugin.loader.PluginUpdater;
 import jlogg.ui.GlobalConstants;
 
 public class PluginLoader {
@@ -25,12 +24,13 @@ public class PluginLoader {
 
 	}
 
-	public static void tryLoad(File jarFile) throws PluginLoadingException {
+	public static PluginWithMetadata tryLoad(File jarFile) throws PluginLoadingException {
 		try {
 			PluginLoader loader = new PluginLoader(jarFile);
 			Platform.runLater(() -> {
 				GlobalConstants.plugins.add(loader.getPlugin());
 			});
+			return loader.getPlugin();
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Error while loading plugin: " + jarFile, e);
 			throw new PluginLoadingException(e);
@@ -47,10 +47,6 @@ public class PluginLoader {
 		this.pluginJAR = pluginJAR;
 		manifestData = PluginManifestReader.getManifestDataFromJar(pluginJAR);
 
-		manifestData.serverURL().ifPresent(str -> {
-			PluginUpdater.tryUpdate(manifestData, pluginJAR);
-		});
-
 		classLoader = new URLClassLoader(new URL[] { pluginJAR.toURI().toURL() }, this.getClass().getClassLoader());
 
 		Class<?> pluginClass = classLoader.loadClass(manifestData.mainClass());
@@ -66,4 +62,5 @@ public class PluginLoader {
 		return new PluginWithMetadata(plugin, manifestData.name(), manifestData.serverURL().orElse(null),
 				manifestData.jloggPluginVersion(), pluginJAR, classLoader);
 	}
+
 }

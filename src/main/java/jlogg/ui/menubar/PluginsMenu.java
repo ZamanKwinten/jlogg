@@ -45,12 +45,11 @@ public class PluginsMenu extends Menu implements InvalidationListener {
 		for (var pluginMetaData : GlobalConstants.sortedPlugins()) {
 			MenuItem pluginItem = new MenuItem(pluginMetaData.name());
 
-			var plugin = pluginMetaData.plugin();
 			pluginItem.setOnAction(event -> {
-				mainPane.getCurrentSelectedTab().openPlugin(plugin);
+				mainPane.getCurrentSelectedTab().openPlugin(pluginMetaData);
 			});
 
-			plugin.getCSSStylesheet().ifPresent(cssStream -> {
+			pluginMetaData.plugin().getCSSStylesheet().ifPresent(cssStream -> {
 				try (InputStream is = cssStream) {
 					mainPane.getStylesheets().add(ConstantMgr.instance().writePluginCSS(pluginMetaData, is)
 							.getAbsoluteFile().toURI().toURL().toExternalForm());

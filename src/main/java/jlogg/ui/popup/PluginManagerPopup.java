@@ -3,8 +3,13 @@ package jlogg.ui.popup;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
@@ -13,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -24,8 +30,19 @@ import jlogg.PluginWithMetadata;
 import jlogg.plugin.loader.PluginUpdater;
 import jlogg.plugin.loader.PluginUpdater.DownloadException;
 import jlogg.ui.GlobalConstants;
+import jlogg.version.VersionUtil;
 
 public class PluginManagerPopup extends PopupWithReturn<String> implements InvalidationListener {
+	public static final ExecutorService PLUGIN_SERVER_CALLS = Executors.newFixedThreadPool(8, new ThreadFactory() {
+		private static final AtomicInteger number = new AtomicInteger(0);
+
+		@Override
+		public Thread newThread(Runnable r) {
+			var thread = new Thread(r, "PluginManagerThread-" + number.getAndIncrement());
+			thread.setDaemon(true);
+			return thread;
+		}
+	});
 
 	private final ScrollPane pluginScroll;
 
@@ -102,17 +119,16 @@ public class PluginManagerPopup extends PopupWithReturn<String> implements Inval
 			var grid = new GridPane();
 
 			grid.setHgap(10);
+			grid.setVgap(5);
 			grid.setPadding(new Insets(5));
 			var hName = new Label("Name");
-			hName.setPadding(new Insets(0, 0, 5, 0));
-			var hVersion = new Label("Version");
-			hVersion.setPadding(new Insets(0, 0, 5, 0));
+			var hVersion = new Label("Installed Version");
 			var hURL = new Label("Url");
-			hURL.setPadding(new Insets(0, 0, 5, 0));
+			var latestVersion = new Label("Latest Version");
 
 			GridPane.setHgrow(hURL, Priority.ALWAYS);
 
-			grid.addRow(0, hName, hVersion, hURL);
+			grid.addRow(0, hName, hVersion, hURL, latestVersion);
 
 			int i = 1;
 			for (var plugin : GlobalConstants.sortedPlugins()) {
@@ -121,7 +137,7 @@ public class PluginManagerPopup extends PopupWithReturn<String> implements Inval
 			}
 
 			setPrefHeight(250);
-			setPrefWidth(450);
+			setPrefWidth(650);
 
 			getChildren().setAll(errorText, grid);
 
@@ -143,8 +159,46 @@ public class PluginManagerPopup extends PopupWithReturn<String> implements Inval
 				}
 			});
 
+			var updateButton = new Button("update");
+			updateButton.managedProperty().bind(updateButton.visibleProperty());
+			updateButton.setVisible(false);
+			updateButton.setOnMouseClicked((event) -> {
+				PluginUpdater.tryUpdate(plugin);
+			});
+
+			var latestVersion = new Label("loading...");
+			if (plugin.updateURL() != null) {
+
+				PLUGIN_SERVER_CALLS.submit(() -> {
+					try {
+						var manifest = PluginUpdater.getLatestPluginVersion(plugin.updateURL());
+						Platform.runLater(() -> latestVersion.setText(manifest.jloggPluginVersion()));
+
+						if (PluginUpdater.compatibleUpdate(plugin, manifest)) {
+							updateButton.setVisible(true);
+						} else if (VersionUtil.isLaterJLoggVersion(manifest.jloggVersion())
+								&& VersionUtil.isLaterVersion(plugin.pluginVersion(), manifest.jloggPluginVersion())) {
+							updateButton.setVisible(true);
+							updateButton.setDisable(true);
+							var tooltip = new Tooltip(
+									"Unable to update since your JLogg version does not support the latest version of the plugin");
+							tooltip.setShowDelay(Duration.millis(250));
+							latestVersion.setTooltip(tooltip);
+						}
+
+					} catch (Exception e) {
+						Platform.runLater(() -> {
+							latestVersion.setText("Error");
+							latestVersion.setTooltip(new Tooltip(
+									"Failed to connect to update server, please check your connection and make sure you're on VPN"));
+						});
+					}
+				});
+			}
+
 			grid.addRow(rowNumber, new Label(plugin.name()),
-					new Label(plugin.pluginVersion() == null ? "Unknown" : plugin.pluginVersion()), url, deleteButton);
+					new Label(plugin.pluginVersion() == null ? "Unknown" : plugin.pluginVersion()), url, latestVersion,
+					updateButton, deleteButton);
 		}
 	}
 

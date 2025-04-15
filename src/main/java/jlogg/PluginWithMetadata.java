@@ -7,15 +7,13 @@ import java.nio.file.Files;
 
 import jlogg.plugin.JLoggPlugin;
 import jlogg.ui.GlobalConstants;
-import jlogg.ui.MainStage;
 
 public record PluginWithMetadata(JLoggPlugin plugin, String name, String updateURL, String pluginVersion,
 		File pluginJAR, URLClassLoader classLoader) {
 
 	public void destroy() throws IOException {
 		plugin.getCSSStylesheet().ifPresent(cssPath -> {
-			var stylesheets = MainStage.getInstance().getMainPane().getStylesheets();
-			System.out.println(stylesheets);
+			// var stylesheets = MainStage.getInstance().getMainPane().getStylesheets();
 		});
 
 		classLoader.close();

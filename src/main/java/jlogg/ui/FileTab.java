@@ -10,7 +10,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import jlogg.plugin.JLoggPlugin;
+import jlogg.PluginWithMetadata;
 import jlogg.plugin.LogLine;
 import jlogg.plugin.PluginViewWrapper;
 import jlogg.ui.custom.MultiFileSearchView;
@@ -217,7 +217,7 @@ public class FileTab extends Tab {
 
 	}
 
-	public void openPlugin(JLoggPlugin plugin) {
+	public void openPlugin(PluginWithMetadata plugin) {
 		pluginViewWrapper.showPlugin(plugin);
 	}
 
