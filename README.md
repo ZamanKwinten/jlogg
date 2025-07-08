@@ -28,7 +28,7 @@ This pane allows you to add, reorder or remove filters. These filters are persis
 - Removing filters: remove a filter from the list
 
 ### Headless Mode
-To run JLogg in headless mode, you can simply start it with the NO_UI argument the expected command line is: 
+To run JLogg in headless mode, you can simply start it with the NO_UI argument the expected command line is:  
 `jlogg.exe NO_UI <plugin name> <plugin action> <output directory> <input files>`
 
 ## Installation 
