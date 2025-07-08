@@ -24,7 +24,7 @@ public class ScriptRunner extends Application {
 	public static void run(String[] args) {
 		if (args.length < 4) {
 			System.out.println(
-					"Unexpected amount of parameters expected: <plugin class> <plugin details> <output folder> <list of files>");
+					"Unexpected amount of parameters expected: <plugin name> <plugin action> <output folder> <list of files>");
 			System.exit(1);
 		}
 
@@ -45,24 +45,26 @@ public class ScriptRunner extends Application {
 		Application.launch(ScriptRunner.class);
 	}
 
-	private static Optional<JLoggScriptablePlugin> loadScritablePlugin(String pluginClass) {
+	private static Optional<JLoggScriptablePlugin> loadScritablePlugin(String pluginName) {
 		for (var pluginWithMetadata : GlobalConstants.plugins) {
 			var plugin = pluginWithMetadata.plugin();
-			if (Objects.equals(plugin.getClass().getCanonicalName(), pluginClass)) {
-				System.out.println("Found a class!");
-				if (plugin instanceof JLoggScriptablePlugin) {
-					return Optional.of((JLoggScriptablePlugin) plugin);
+			if (Objects.equals(pluginWithMetadata.name(), pluginName)) {
+				System.out.println("Found the plugin: \"%s\"".formatted(pluginName));
+				if (plugin instanceof JLoggScriptablePlugin scriptPlugin) {
+					return Optional.of(scriptPlugin);
 				} else {
 					System.out.println(String.format(
-							"Found a matching plugin class, but the plugin {%s} is not scriptable. Please contact the plugin maintainer",
-							pluginClass));
+							"Found a matching plugin class, but the plugin \"%s\" is not scriptable. Please contact the plugin maintainer",
+							pluginName));
 
 					return Optional.empty();
 				}
 			}
 		}
 
-		System.out.println(String.format("Could not find any plugin matching the Plugin Class {%s}", pluginClass));
+		System.out.println(String.format("Could not find any plugin matching the Plugin Name \"%s\"", pluginName));
+		System.out.println("The names of the plugins installed in this JLogg instance are:");
+		GlobalConstants.plugins.stream().forEach(plugin -> System.out.println("\t- " + plugin.name()));
 		return Optional.empty();
 	}
 

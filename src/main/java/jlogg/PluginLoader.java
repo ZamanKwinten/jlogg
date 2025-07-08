@@ -27,9 +27,7 @@ public class PluginLoader {
 	public static PluginWithMetadata tryLoad(File jarFile) throws PluginLoadingException {
 		try {
 			PluginLoader loader = new PluginLoader(jarFile);
-			Platform.runLater(() -> {
-				GlobalConstants.plugins.add(loader.getPlugin());
-			});
+			GlobalConstants.plugins.add(loader.getPlugin());
 			return loader.getPlugin();
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Error while loading plugin: " + jarFile, e);
