@@ -7,6 +7,7 @@ In essence it's a log file searching tool made for searching in large log files.
 - [x] Searching in the log files (using ctrl/command+F) 
 - [x] Highlighting lines in the log file using regular expressions (using ctrl/command+H) 
 - [x] Make it possible to have custom plugins to make it easier to investigate your log files
+- [x] Make it possible to run custom plugin logic directly from command line (headless mode) 
 
 ### Searching 
 Searches can be performed by pressing ctrl/command+F (search in a single file) or by pressing shift+ctrl/command+f (search in multiple files)
@@ -25,6 +26,10 @@ This pane allows you to add, reorder or remove filters. These filters are persis
 	- Fore/Background Color: the styling to apply onto a highlighted line 
 - Reordering filters: Filters will be applied from top to bottom. If a line is matched by multiple filters the first filter styling will be applied 
 - Removing filters: remove a filter from the list
+
+### Headless Mode
+To run JLogg in headless mode, you can simply start it with the NO_UI argument the expected command line is: 
+`jlogg.exe NO_UI <plugin name> <plugin action> <output directory> <input files>`
 
 ## Installation 
 ### Windows
