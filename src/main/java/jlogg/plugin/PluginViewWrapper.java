@@ -12,6 +12,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import jlogg.PluginWithMetadata;
 import jlogg.plugin.loader.PluginUpdater;
+import jlogg.ui.GlobalConstants;
 import jlogg.ui.custom.ResizableView;
 import jlogg.ui.popup.PluginManagerPopup;
 
