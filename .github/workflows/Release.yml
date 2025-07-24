@@ -1,9 +1,24 @@
 name: Release JLogg
 
 on:
-  push:
-    tags:
-      - "[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
+    inputs:
+      majorVersion:
+        description: "Major Version Number"
+        required: true
+        type: number
+      minorVersion:
+        description: "Minor Version Number"
+        required: true
+        type: number
+      bugfixVersion:
+        description: "Bugfix Version"
+        required: true
+        type: number
+
+env:
+  JAVA_VERSION: 17
+  VERSION: "${{ inputs.majorVersion }}.${{ inputs.minorVersion }}.${{ inputs.bugfixVersion }}"
 
 jobs:
   deploy_package:
@@ -16,9 +31,9 @@ jobs:
       - uses: actions/setup-java@v4.1.0
         with:
           distribution: temurin
-          java-version: 17
+          java-version: ${{ env.JAVA_VERSION }}
       - name: Set Release Version
-        run: mvn --batch-mode versions:set -DnewVersion="${{ github.ref_name }}"
+        run: mvn --batch-mode versions:set -DnewVersion="${{ env.VERSION }}"
       - name: Publish package
         run: mvn --batch-mode deploy
         env:
@@ -31,9 +46,9 @@ jobs:
       - uses: actions/setup-java@v4.1.0
         with:
           distribution: temurin
-          java-version: 17
+          java-version: ${{ env.JAVA_VERSION }}
       - name: Set Release Version
-        run: mvn --batch-mode versions:set -DnewVersion="${{ github.ref_name }}"
+        run: mvn --batch-mode versions:set -DnewVersion="${{ env.VERSION }}"
       - name: Maven Build
         run: mvn -B clean package
       - name: Upload
@@ -49,13 +64,13 @@ jobs:
       - uses: actions/setup-java@v4.1.0
         with:
           distribution: temurin
-          java-version: 17
+          java-version: ${{ env.JAVA_VERSION }}
       - name: Set Release Version
-        run: mvn --batch-mode versions:set -DnewVersion="${{ github.ref_name }}"
+        run: mvn --batch-mode versions:set -DnewVersion="${{ env.VERSION }}"
       - name: Maven Build
         run: mvn -B clean package
       - name: Rename output
-        run: mv target/jpackage/JLogg-${{ github.ref_name }}.dmg target/jpackage/JLogg-aarch64-${{ github.ref_name }}.dmg
+        run: mv target/jpackage/JLogg-${{ env.VERSION }}.dmg target/jpackage/JLogg-aarch64-${{ env.VERSION }}.dmg
       - name: Upload
         uses: actions/upload-artifact@v4.6.2
         with:
@@ -69,13 +84,13 @@ jobs:
       - uses: actions/setup-java@v4.1.0
         with:
           distribution: temurin
-          java-version: 17
+          java-version: ${{ env.JAVA_VERSION }}
       - name: Set Release Version
-        run: mvn --batch-mode versions:set -DnewVersion="${{ github.ref_name }}"
+        run: mvn --batch-mode versions:set -DnewVersion="${{ env.VERSION }}"
       - name: Maven Build
         run: mvn -B clean package
       - name: Rename output
-        run: mv target/jpackage/JLogg-${{ github.ref_name }}.dmg target/jpackage/JLogg-x86_x64-${{ github.ref_name }}.dmg
+        run: mv target/jpackage/JLogg-${{ env.VERSION }}.dmg target/jpackage/JLogg-x86_x64-${{ env.VERSION }}.dmg
       - name: Upload
         uses: actions/upload-artifact@v4.6.2
         with:
@@ -91,6 +106,7 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN}}"
+          automatic_release_tag: "${{ env.VERSION}}"
           prerelease: false
           files: |
             ./windows/*
