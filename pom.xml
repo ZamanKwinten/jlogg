@@ -66,7 +66,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.0</version>
 				<configuration>
-					<release>17</release>
+					<release>21</release>
 				</configuration>
 			</plugin>
 
@@ -160,7 +160,6 @@
 							<module>jlogg/jlogg.Launcher</module>
 							<fileassociations>${project.basedir}/log.properties</fileassociations>
 							<winupgradeuuid>4a449f1b-bf9a-428c-9950-d1cb5fd42285</winupgradeuuid>
-							<winconsole>true</winconsole>
 							<type>MSI</type>
 							<verbose>true</verbose>
 						</configuration>
