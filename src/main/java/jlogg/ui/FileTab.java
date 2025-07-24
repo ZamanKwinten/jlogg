@@ -218,7 +218,7 @@ public class FileTab extends Tab {
 	}
 
 	public void openPlugin(PluginWithMetadata plugin) {
-		pluginViewWrapper.showPlugin(plugin);
+		pluginViewWrapper.showPluginWithMetadata(plugin);
 	}
 
 	public PluginViewWrapper getPluginViewWrapper() {

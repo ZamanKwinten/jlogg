@@ -37,7 +37,19 @@ public class PluginViewWrapper extends ResizableView {
 		currentView = pluginView;
 	}
 
-	public Node showPlugin(PluginWithMetadata pluginWithMetadata) {
+	public Node showPlugin(Class<? extends JLoggPlugin> pluginClazz) {
+
+		for (var plugin : GlobalConstants.plugins) {
+			if (plugin.plugin().getClass() == pluginClazz) {
+				// Intended to have a real address comparison here
+				return showPluginWithMetadata(plugin);
+			}
+		}
+
+		throw new RuntimeException("Unable to Show plugin for class: " + pluginClazz);
+	}
+
+	public Node showPluginWithMetadata(PluginWithMetadata pluginWithMetadata) {
 		updateAvailableLocation.getChildren().clear();
 		var plugin = pluginWithMetadata.plugin();
 		PluginView pluginMain = map.computeIfAbsent(plugin.getClass(), key -> plugin.getMainView());
@@ -59,7 +71,7 @@ public class PluginViewWrapper extends ResizableView {
 								updateLabel.setOnMouseClicked(event -> {
 									PluginUpdater.tryUpdate(pluginWithMetadata).ifPresent(newPlugin -> {
 										hide();
-										showPlugin(newPlugin);
+										showPluginWithMetadata(newPlugin);
 									});
 								});
 
