@@ -128,9 +128,9 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>com.github.akman</groupId>
+						<groupId>org.panteleyev</groupId>
 						<artifactId>jpackage-maven-plugin</artifactId>
-						<version>0.1.5</version>
+						<version>1.6.6</version>
 						<executions>
 							<execution>
 								<id>jpackage-installer</id>
@@ -142,24 +142,14 @@
 						</executions>
 						<configuration>
 							<name>JLogg</name>
-							<appversion>${project.version}</appversion>
-							<modulepath>
-								<filesets>
-									<fileset>
-										<directory>${project.build.directory}/modules</directory>
-										<includes>
-											<include>**/*</include>
-										</includes>
-										<excludes>
-											<exclude>**/*Empty.jar</exclude>
-										</excludes>
-										<followSymlinks>false</followSymlinks>
-									</fileset>
-								</filesets>
-							</modulepath>
+							<appVersion>${project.version}</appVersion>
+							<destination>${project.build.directory}</destination>
+							<modulePaths>
+								<modulePath>${project.build.directory}/modules</modulePath>
+							</modulePaths>
 							<module>jlogg/jlogg.Launcher</module>
-							<fileassociations>${project.basedir}/log.properties</fileassociations>
-							<winupgradeuuid>4a449f1b-bf9a-428c-9950-d1cb5fd42285</winupgradeuuid>
+							<fileAssociations>${project.basedir}/log.properties</fileAssociations>
+							<winUpgradeUuid>4a449f1b-bf9a-428c-9950-d1cb5fd42285</winUpgradeUuid>
 							<type>MSI</type>
 							<verbose>true</verbose>
 						</configuration>
@@ -174,12 +164,13 @@
 					<family>mac</family>
 				</os>
 			</activation>
+			
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>com.github.akman</groupId>
+						<groupId>org.panteleyev</groupId>
 						<artifactId>jpackage-maven-plugin</artifactId>
-						<version>0.1.5</version>
+						<version>1.6.6</version>
 						<executions>
 							<execution>
 								<id>jpackage-installer</id>
@@ -191,23 +182,13 @@
 						</executions>
 						<configuration>
 							<name>JLogg</name>
-							<appversion>${project.version}</appversion>
-							<modulepath>
-								<filesets>
-									<fileset>
-										<directory>${project.build.directory}/modules</directory>
-										<includes>
-											<include>**/*</include>
-										</includes>
-										<excludes>
-											<exclude>**/*Empty.jar</exclude>
-										</excludes>
-										<followSymlinks>false</followSymlinks>
-									</fileset>
-								</filesets>
-							</modulepath>
+							<appVersion>${project.version}</appVersion>
+							<destination>${project.build.directory}</destination>
+							<modulePaths>
+								<modulePath>${project.build.directory}/modules</modulePath>
+							</modulePaths>
 							<module>jlogg/jlogg.Launcher</module>
-							<fileassociations>${project.basedir}/log.properties</fileassociations>
+							<fileAssociations>${project.basedir}/log.properties</fileAssociations>
 							<type>DMG</type>
 							<verbose>true</verbose>
 						</configuration>
