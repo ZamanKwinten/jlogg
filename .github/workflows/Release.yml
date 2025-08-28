@@ -56,7 +56,27 @@ jobs:
         with:
           name: windows
           path: target/JLogg*.msi
-
+          
+  windows_portable_build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4.1.0
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+      - name: Set Release Version
+        run: mvn --batch-mode versions:set -DnewVersion="${{ env.VERSION }}"
+      - name: Maven Build
+        run: mvn -B "-Dbuild.isportable=true" clean package
+      - name: Create Portable Zip
+        run: Compress-Archive -Path target/JLogg/* -Destination target/JLogg-${{ env.VERSION }}-portable-win.zip
+      - name: Upload
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: windows-portable
+          path: target/JLogg*.zip
+  
   macos_aarch64_build:
     runs-on: macos-latest
     steps:
@@ -98,7 +118,7 @@ jobs:
           path: target/JLogg*.dmg
   release:
     runs-on: ubuntu-latest
-    needs: [windows_build,macos_aarch64_build,macos_x64_build,deploy_package]
+    needs: [windows_build,windows_portable_build,macos_aarch64_build,macos_x64_build,deploy_package]
     steps:
       - name: Download Builds
         uses: actions/download-artifact@v4.2.1
@@ -110,6 +130,7 @@ jobs:
           prerelease: false
           files: |
             ./windows/*
+            ./windows-portable/*
             ./macos-aarch64/*
             ./macos-x64/*
   
