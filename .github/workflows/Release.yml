@@ -50,7 +50,7 @@ jobs:
       - name: Set Release Version
         run: mvn --batch-mode versions:set -DnewVersion="${{ env.VERSION }}"
       - name: Maven Build
-        run: mvn -B -Dbuild.isportable=false clean package
+        run: mvn -B "-Dbuild.isportable=false" clean package
       - name: Upload
         uses: actions/upload-artifact@v4.6.2
         with:
