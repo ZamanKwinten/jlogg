@@ -1,6 +1,23 @@
 name: Test Build
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      majorVersion:
+        description: "Major Version Number"
+        required: true
+        type: number
+      minorVersion:
+        description: "Minor Version Number"
+        required: true
+        type: number
+      bugfixVersion:
+        description: "Bugfix Version"
+        required: true
+        type: number
+
+env:
+  JAVA_VERSION: 21
+  VERSION: "${{ inputs.majorVersion }}.${{ inputs.minorVersion }}.${{ inputs.bugfixVersion }}"
   
 jobs:
   windows_portable_build:
