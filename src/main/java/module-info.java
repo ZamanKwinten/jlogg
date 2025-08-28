@@ -16,7 +16,7 @@ module jlogg {
 
 	opens jlogg.os.windows to java.rmi;
 	opens jlogg.eventbus to com.google.common;
-	opens jlogg.version to com.google.gson;
+	opens jlogg.build to com.google.gson;
 	opens jlogg.plugin.loader to com.google.gson;
 
 	exports jlogg;

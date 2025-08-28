@@ -109,13 +109,38 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
+			<plugin>
+				<groupId>org.panteleyev</groupId>
+				<artifactId>jpackage-maven-plugin</artifactId>
+				<version>1.6.6</version>
+				<executions>
+					<execution>
+						<id>jpackage-installer</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jpackage</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<name>JLogg</name>
+					<appVersion>${project.version}</appVersion>
+					<destination>${project.build.directory}</destination>
+					<modulePaths>
+						<modulePath>${project.build.directory}/modules</modulePath>
+					</modulePaths>
+					<module>jlogg/jlogg.Launcher</module>
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
-	<profiles>
+	<profiles>	
+		<!--JavaFX related profiles-->
 		<profile>
-			<id>windows-profile</id>
+			<id>windows-javafx-settings</id>
 			<activation>
 				<os>
 					<family>windows</family>
@@ -124,80 +149,10 @@
 			<properties>
 				<javafx.classifier>win</javafx.classifier>
 			</properties>
-
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.panteleyev</groupId>
-						<artifactId>jpackage-maven-plugin</artifactId>
-						<version>1.6.6</version>
-						<executions>
-							<execution>
-								<id>jpackage-installer</id>
-								<phase>package</phase>
-								<goals>
-									<goal>jpackage</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<name>JLogg</name>
-							<appVersion>${project.version}</appVersion>
-							<destination>${project.build.directory}</destination>
-							<modulePaths>
-								<modulePath>${project.build.directory}/modules</modulePath>
-							</modulePaths>
-							<module>jlogg/jlogg.Launcher</module>
-							<fileAssociations>${project.basedir}/log.properties</fileAssociations>
-							<winUpgradeUuid>4a449f1b-bf9a-428c-9950-d1cb5fd42285</winUpgradeUuid>
-							<type>MSI</type>
-							<verbose>true</verbose>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
 		</profile>
+		
 		<profile>
-			<id>mac-profile</id>
-			<activation>
-				<os>
-					<family>mac</family>
-				</os>
-			</activation>
-			
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.panteleyev</groupId>
-						<artifactId>jpackage-maven-plugin</artifactId>
-						<version>1.6.6</version>
-						<executions>
-							<execution>
-								<id>jpackage-installer</id>
-								<phase>package</phase>
-								<goals>
-									<goal>jpackage</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<name>JLogg</name>
-							<appVersion>${project.version}</appVersion>
-							<destination>${project.build.directory}</destination>
-							<modulePaths>
-								<modulePath>${project.build.directory}/modules</modulePath>
-							</modulePaths>
-							<module>jlogg/jlogg.Launcher</module>
-							<fileAssociations>${project.basedir}/log.properties</fileAssociations>
-							<type>DMG</type>
-							<verbose>true</verbose>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>mac-aarch64-profile</id>
+			<id>mac-aarch64-javafx-settings</id>
 			<activation>
 				<os>
 					<family>mac</family>
@@ -208,8 +163,9 @@
 				<javafx.classifier>mac-aarch64</javafx.classifier>
 			</properties>
 		</profile>
+		
 		<profile>
-			<id>mac-x64-profile></id>
+			<id>mac-x64-javafx-settings</id>
 			<activation>
 				<os>
 					<family>mac</family>
@@ -220,5 +176,83 @@
 				<javafx.classifier>mac</javafx.classifier>
 			</properties>
 		</profile>
+		
+		<!-- Installer Profiles -->
+		<profile>
+			<id>windows-installer-settings</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+				<property>
+					<name>build.isportable</name>
+					<value>false</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.panteleyev</groupId>
+						<artifactId>jpackage-maven-plugin</artifactId>
+						<version>1.6.6</version>
+						<configuration>
+							<fileAssociations>${project.basedir}/log.properties</fileAssociations>
+							<winUpgradeUuid>4a449f1b-bf9a-428c-9950-d1cb5fd42285</winUpgradeUuid>
+							<type>MSI</type>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>mac-installer-settings</id>
+			<activation>
+				<os>
+					<family>mac</family>
+				</os>
+				<property>
+					<name>build.isportable</name>
+					<value>false</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.panteleyev</groupId>
+						<artifactId>jpackage-maven-plugin</artifactId>
+						<configuration>
+							<fileAssociations>${project.basedir}/log.properties</fileAssociations>
+							<type>DMG</type>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
+		<profile>
+			<id>portable-settings</id>
+			<activation>
+				<property>
+					<name>build.isportable</name>
+					<value>true</value>
+				</property>
+			</activation>
+			
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.panteleyev</groupId>
+						<artifactId>jpackage-maven-plugin</artifactId>
+						<version>1.6.6</version>
+						<configuration>
+							<type>APP_IMAGE</type>
+							<javaOptions>-Dportable.config.dir=true</javaOptions>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
 	</profiles>
 </project>

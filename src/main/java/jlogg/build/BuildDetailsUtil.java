@@ -1,4 +1,4 @@
-package jlogg.version;
+package jlogg.build;
 
 import java.awt.Desktop;
 import java.io.IOException;
@@ -20,14 +20,18 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 
-public class VersionUtil {
-	private static final Logger logger = Logger.getLogger(VersionUtil.class.getName());
+public class BuildDetailsUtil {
+	private static final Logger logger = Logger.getLogger(BuildDetailsUtil.class.getName());
 
-	private static final String currentVersion = Version.version;
+	private static final String currentVersion = BuildDetails.version;
 	private static final Gson gson = new GsonBuilder().create();
 
 	private record ReleaseLatestResponse(String tag_name) {
 
+	}
+
+	public static boolean isPortable() {
+		return BuildDetails.isPortable;
 	}
 
 	public static void checkForUpdates() {

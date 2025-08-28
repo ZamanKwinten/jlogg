@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.text.Font;
 import jlogg.PluginLoader.PluginLoadingException;
+import jlogg.build.BuildDetailsUtil;
 import jlogg.plugin.Theme;
 import jlogg.shared.Filter;
 import jlogg.ui.GlobalConstants;
@@ -35,7 +36,11 @@ import jlogg.ui.GlobalConstants.ShortCut;
 public class ConstantMgr {
 	public static final File JLoggConfigDir;
 	static {
-		JLoggConfigDir = new File(System.getProperty("user.home"), ".jlogg");
+		if (BuildDetailsUtil.isPortable()) {
+			JLoggConfigDir = new File(new File(System.getProperty("java.home")).getParentFile(), ".jlogg");
+		} else {
+			JLoggConfigDir = new File(System.getProperty("user.home"), ".jlogg");
+		}
 		JLoggConfigDir.mkdirs();
 	}
 

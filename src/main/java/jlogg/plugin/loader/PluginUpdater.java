@@ -22,9 +22,9 @@ import com.google.gson.GsonBuilder;
 import jlogg.ConstantMgr;
 import jlogg.PluginLoader;
 import jlogg.PluginLoader.PluginLoadingException;
+import jlogg.build.BuildDetailsUtil;
 import jlogg.PluginWithMetadata;
 import jlogg.ui.GlobalConstants;
-import jlogg.version.VersionUtil;
 
 public class PluginUpdater {
 	private static final Logger logger = Logger.getLogger(PluginUpdater.class.getName());
@@ -47,8 +47,8 @@ public class PluginUpdater {
 	}
 
 	public static boolean compatibleUpdate(PluginWithMetadata installedVersion, PluginManifestData remoteManifest) {
-		return !VersionUtil.isLaterJLoggVersion(remoteManifest.jloggVersion())
-				&& VersionUtil.isLaterVersion(installedVersion.pluginVersion(), remoteManifest.jloggPluginVersion());
+		return !BuildDetailsUtil.isLaterJLoggVersion(remoteManifest.jloggVersion())
+				&& BuildDetailsUtil.isLaterVersion(installedVersion.pluginVersion(), remoteManifest.jloggPluginVersion());
 	}
 
 	public static File tryDownload(String pluginServerURL) throws DownloadException, IOException {
@@ -62,7 +62,7 @@ public class PluginUpdater {
 					"Plugin with name '" + name + "' already exists, the name of the plugin must be unique.");
 		}
 
-		if (VersionUtil.isLaterJLoggVersion(manifest.jloggVersion())) {
+		if (BuildDetailsUtil.isLaterJLoggVersion(manifest.jloggVersion())) {
 			throw new DownloadException(
 					"Your current version of JLogg is not compatible with the version required by the plugin. Please update JLogg to the latest version");
 		}

@@ -5,12 +5,12 @@ import java.awt.desktop.OpenFilesHandler;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import jlogg.build.BuildDetailsUtil;
 import jlogg.datahandlers.ThreadGroups;
 import jlogg.os.FileOpenHandler;
 import jlogg.os.mac.MacFileOpenHandler;
 import jlogg.os.windows.WindowsFileOpenHandler;
 import jlogg.ui.MainStage;
-import jlogg.version.VersionUtil;
 
 public class App extends Application {
 	private FileOpenHandler handler;
@@ -23,7 +23,7 @@ public class App extends Application {
 		var pluginLoaderThread = new Thread(constantMGR::loadPlugins, "plugin-loader-thread");
 		pluginLoaderThread.setDaemon(true);
 		pluginLoaderThread.start();
-		var updateCheckingThread = new Thread(VersionUtil::checkForUpdates, "check-for-updates-thread");
+		var updateCheckingThread = new Thread(BuildDetailsUtil::checkForUpdates, "check-for-updates-thread");
 		updateCheckingThread.setDaemon(true);
 		updateCheckingThread.start();
 

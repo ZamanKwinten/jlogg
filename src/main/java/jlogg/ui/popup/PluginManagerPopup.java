@@ -26,11 +26,11 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import jlogg.PluginLoader;
 import jlogg.PluginLoader.PluginLoadingException;
+import jlogg.build.BuildDetailsUtil;
 import jlogg.PluginWithMetadata;
 import jlogg.plugin.loader.PluginUpdater;
 import jlogg.plugin.loader.PluginUpdater.DownloadException;
 import jlogg.ui.GlobalConstants;
-import jlogg.version.VersionUtil;
 
 public class PluginManagerPopup extends PopupWithReturn<String> implements InvalidationListener {
 	public static final ExecutorService PLUGIN_SERVER_CALLS = Executors.newFixedThreadPool(8, new ThreadFactory() {
@@ -176,8 +176,8 @@ public class PluginManagerPopup extends PopupWithReturn<String> implements Inval
 
 						if (PluginUpdater.compatibleUpdate(plugin, manifest)) {
 							updateButton.setVisible(true);
-						} else if (VersionUtil.isLaterJLoggVersion(manifest.jloggVersion())
-								&& VersionUtil.isLaterVersion(plugin.pluginVersion(), manifest.jloggPluginVersion())) {
+						} else if (BuildDetailsUtil.isLaterJLoggVersion(manifest.jloggVersion())
+								&& BuildDetailsUtil.isLaterVersion(plugin.pluginVersion(), manifest.jloggPluginVersion())) {
 							updateButton.setVisible(true);
 							updateButton.setDisable(true);
 							var tooltip = new Tooltip(
