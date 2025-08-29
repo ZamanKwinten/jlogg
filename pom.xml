@@ -138,9 +138,9 @@
 	</build>
 
 	<profiles>	
-		<!--JavaFX related profiles-->
+		<!--OS related profiles-->
 		<profile>
-			<id>windows-javafx-settings</id>
+			<id>windows-settings</id>
 			<activation>
 				<os>
 					<family>windows</family>
@@ -149,10 +149,27 @@
 			<properties>
 				<javafx.classifier>win</javafx.classifier>
 			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.panteleyev</groupId>
+						<artifactId>jpackage-maven-plugin</artifactId>
+						<version>1.6.6</version>
+						<configuration>
+							<launchers>
+								<launcher>
+									<name>JLoggCMD</name>
+									<file>${project.basedir}/launchers/headless_windows.properties</file>
+								</launcher>
+							</launchers>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		
 		<profile>
-			<id>mac-aarch64-javafx-settings</id>
+			<id>mac-aarch64-settings</id>
 			<activation>
 				<os>
 					<family>mac</family>
@@ -165,7 +182,7 @@
 		</profile>
 		
 		<profile>
-			<id>mac-x64-javafx-settings</id>
+			<id>mac-x64-settings</id>
 			<activation>
 				<os>
 					<family>mac</family>
@@ -247,7 +264,6 @@
 						<version>1.6.6</version>
 						<configuration>
 							<type>APP_IMAGE</type>
-							<javaOptions>-Dportable.config.dir=true</javaOptions>
 						</configuration>
 					</plugin>
 				</plugins>

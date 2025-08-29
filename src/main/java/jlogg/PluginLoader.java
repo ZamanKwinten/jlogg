@@ -6,7 +6,6 @@ import java.net.URLClassLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javafx.application.Platform;
 import jlogg.plugin.JLoggPlugin;
 import jlogg.plugin.loader.PluginManifestData;
 import jlogg.plugin.loader.PluginManifestReader;

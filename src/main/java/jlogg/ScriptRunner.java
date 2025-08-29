@@ -21,7 +21,7 @@ public class ScriptRunner extends Application {
 	static File outputFolder;
 	static List<File> files;
 
-	public static void run(String[] args) {
+	public static void main(String[] args) {
 		if (args.length < 4) {
 			System.out.println(
 					"Unexpected amount of parameters expected: <plugin name> <plugin action> <output folder> <list of files>");
