@@ -11,8 +11,10 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import jlogg.ConstantMgr;
 import jlogg.datahandlers.FileLineReader;
 import jlogg.ui.FileTab;
+import jlogg.ui.GlobalConstants;
 import jlogg.ui.MainPane;
 import jlogg.ui.MainStage;
 
@@ -23,6 +25,17 @@ public class JLogg {
 	}
 
 	public static jlogg.type.JLogg JLOGG = new jlogg.type.JLogg();
+
+	public static File getPluginResourceDirectory(Class<? extends JLoggPlugin> pluginClass) {
+		for (var plugin : GlobalConstants.plugins) {
+			if (plugin.plugin().getClass() == pluginClass) {
+				// Intended to have a real address comparison here
+				return ConstantMgr.instance().getPluginResourceDir(plugin);
+			}
+		}
+
+		throw new RuntimeException("Plugin not found, unable to load plugin resource for class: " + pluginClass);
+	}
 
 	public static void doItOnCurrentFile(PluginAction action) {
 		JLOGG.doItOnCurrentFile(action);

@@ -63,6 +63,7 @@ public class ConstantMgr {
 	private final File jloggConfig;
 	private final File jloggPluginCSSDir;
 	private final File jloggPluginDir;
+	private final File jloggPluginResourceDir;
 
 	private ConstantMgr() {
 		File jloggDir = JLoggConfigDir;
@@ -87,6 +88,11 @@ public class ConstantMgr {
 		jloggPluginCSSDir = new File(jloggDir, "plugincss");
 		if (!jloggPluginCSSDir.exists()) {
 			jloggPluginCSSDir.mkdir();
+		}
+
+		jloggPluginResourceDir = new File(jloggDir, "pluginresources");
+		if (!jloggPluginResourceDir.exists()) {
+			jloggPluginResourceDir.mkdir();
 		}
 
 		indexServiceThreadCount = 1;
@@ -209,5 +215,13 @@ public class ConstantMgr {
 		}
 
 		return file;
+	}
+
+	public File getPluginResourceDir(PluginWithMetadata plugin) {
+		var result = new File(jloggPluginResourceDir, plugin.name());
+		if (!result.exists()) {
+			result.mkdir();
+		}
+		return result;
 	}
 }

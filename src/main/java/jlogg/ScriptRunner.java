@@ -22,9 +22,36 @@ public class ScriptRunner extends Application {
 	static List<File> files;
 
 	public static void main(String[] args) {
+
 		if (args.length < 4) {
-			System.out.println(
-					"Unexpected amount of parameters expected: <plugin name> <plugin action> <output folder> <list of files>");
+			System.out
+					.println("Usage: JLoggCMD <sriptable plugin name> <plugin action> <output folder> <list of files>");
+			if (args.length == 1 && ("--help".equals(args[0]) || "-h".equals(args[0]))) {
+				System.out.println("The names of the scriptable plugins installed in this JLogg instance are:");
+				ConstantMgr constantMGR = ConstantMgr.instance();
+				constantMGR.setupGlobalConstants();
+				constantMGR.loadPlugins();
+
+				GlobalConstants.plugins.stream().forEach(plugin -> {
+					if (plugin.plugin() instanceof JLoggScriptablePlugin scriptPlugin) {
+						System.out.println("\t- " + plugin.name());
+						var actions = scriptPlugin.possibleActions();
+						if (actions.isEmpty()) {
+							System.out.println(
+									"\t\t This plugin does not have actions configured, use \"\" as value for the <plugin action> parameter");
+						} else {
+							System.out.println("\tThis plugin does have the following possible actions:");
+							actions.forEach(action -> {
+								System.out.println("\t\t" + action);
+							});
+						}
+					}
+				});
+			} else {
+
+				System.out.println("Use JLoggCMD --help (or -h) for a list of installed plugins and actions");
+			}
+
 			System.exit(1);
 		}
 
