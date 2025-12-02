@@ -1,10 +1,22 @@
 package jlogg.plugin;
 
+import java.io.File;
+import java.io.PrintStream;
 import java.util.List;
 
-public interface JLoggScriptablePlugin {
+import jlogg.plugin.JLoggScriptablePlugin.IScriptablePluginOptions;
 
-	public List<String> possibleActions();
+public interface JLoggScriptablePlugin<T extends IScriptablePluginOptions> {
 
-	public void run(String details);
+	public interface IScriptablePluginOptions {
+		File outputFolder();
+
+		List<File> inputFiles();
+	}
+
+	public void writePluginHelp(PrintStream out);
+
+	public void run(T details);
+
+	public T parseArguments(String[] args);
 }

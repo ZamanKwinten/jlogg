@@ -1,8 +1,7 @@
 package jlogg;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -10,69 +9,53 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import jlogg.plugin.JLogg;
 import jlogg.plugin.JLoggScriptablePlugin;
+import jlogg.plugin.JLoggScriptablePlugin.IScriptablePluginOptions;
 import jlogg.type.JLoggHeadless;
 import jlogg.ui.GlobalConstants;
 import jlogg.ui.MainStage;
 
 public class ScriptRunner extends Application {
 
-	static String pluginClass;
-	static String pluginDetails;
-	static File outputFolder;
-	static List<File> files;
+	static String plugin;
+	static String[] args;
 
-	public static void main(String[] args) {
-
-		if (args.length < 4) {
-			System.out
-					.println("Usage: JLoggCMD <sriptable plugin name> <plugin action> <output folder> <list of files>");
-			if (args.length == 1 && ("--help".equals(args[0]) || "-h".equals(args[0]))) {
-				System.out.println("The names of the scriptable plugins installed in this JLogg instance are:");
-				ConstantMgr constantMGR = ConstantMgr.instance();
-				constantMGR.setupGlobalConstants();
-				constantMGR.loadPlugins();
-
-				GlobalConstants.plugins.stream().forEach(plugin -> {
-					if (plugin.plugin() instanceof JLoggScriptablePlugin scriptPlugin) {
-						System.out.println("\t- " + plugin.name());
-						var actions = scriptPlugin.possibleActions();
-						if (actions.isEmpty()) {
-							System.out.println(
-									"\t\t This plugin does not have actions configured, use \"\" as value for the <plugin action> parameter");
-						} else {
-							System.out.println("\tThis plugin does have the following possible actions:");
-							actions.forEach(action -> {
-								System.out.println("\t\t" + action);
-							});
-						}
-					}
-				});
-			} else {
-
-				System.out.println("Use JLoggCMD --help (or -h) for a list of installed plugins and actions");
-			}
-
+	public static void main(String[] inputArgs) {
+		if (inputArgs.length == 0) {
+			writeHelpMessage(System.out);
 			System.exit(1);
 		}
 
-		pluginClass = args[0];
-		pluginDetails = args[1];
-		outputFolder = new File(args[2]);
-		outputFolder.mkdirs();
-		if (!outputFolder.exists()) {
-			System.out.println("Output folder does not exist and cannot be created");
-			System.exit(1);
+		if (inputArgs.length == 1 && ("--help".equals(inputArgs[0]) || "-h".equals(inputArgs[0]))) {
+			writeHelpMessage(System.out);
+			System.exit(0);
 		}
 
-		files = new ArrayList<>();
-		for (int i = 3; i < args.length; i++) {
-			files.add(new File(args[i]));
-		}
+		plugin = inputArgs[0];
+		args = Arrays.copyOfRange(inputArgs, 1, inputArgs.length);
 
 		Application.launch(ScriptRunner.class);
 	}
 
-	private static Optional<JLoggScriptablePlugin> loadScritablePlugin(String pluginName) {
+	private static void writeHelpMessage(PrintStream out) {
+		out.println("Usage: JLoggCMD <scriptable plugin name> [plugin options]");
+
+		System.out.println("The names of the scriptable plugins installed in this JLogg instance are:");
+		ConstantMgr constantMGR = ConstantMgr.instance();
+		constantMGR.setupGlobalConstants();
+		constantMGR.loadPlugins();
+
+		GlobalConstants.plugins.stream().forEach(plugin -> {
+			if (plugin.plugin() instanceof JLoggScriptablePlugin scriptPlugin) {
+				System.out.println("\t- " + plugin.name());
+				scriptPlugin.writePluginHelp(System.out);
+			}
+		});
+
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <T extends IScriptablePluginOptions> Optional<JLoggScriptablePlugin<T>> loadScritablePlugin(
+			String pluginName) {
 		for (var pluginWithMetadata : GlobalConstants.plugins) {
 			var plugin = pluginWithMetadata.plugin();
 			if (Objects.equals(pluginWithMetadata.name(), pluginName)) {
@@ -101,13 +84,30 @@ public class ScriptRunner extends Application {
 		constantMGR.setupGlobalConstants();
 		constantMGR.loadPlugins();
 
-		JLogg.JLOGG = new JLoggHeadless(outputFolder);
-
-		loadScritablePlugin(pluginClass).ifPresentOrElse(plugin -> {
+		loadScritablePlugin(plugin).ifPresentOrElse(plugin -> {
 			MainStage mainStage = MainStage.getInstance();
-			mainStage.getMainPane().openTabs(files);
+			var pluginOptions = plugin.parseArguments(args);
 
-			plugin.run(pluginDetails);
+			var output = pluginOptions.outputFolder();
+			if (!output.exists()) {
+				if (!output.mkdirs()) {
+					System.out.println("Unable to create the output folder");
+					System.exit(1);
+				}
+			}
+
+			pluginOptions.inputFiles().forEach(file -> {
+				if (!file.exists()) {
+					System.out.println("Unable to open file: " + file.getAbsolutePath());
+					System.exit(1);
+				}
+			});
+
+			JLogg.JLOGG = new JLoggHeadless(output, primaryStage);
+
+			mainStage.getMainPane().openTabs(pluginOptions.inputFiles());
+
+			plugin.run(pluginOptions);
 		}, () -> System.exit(1));
 
 		System.exit(0);

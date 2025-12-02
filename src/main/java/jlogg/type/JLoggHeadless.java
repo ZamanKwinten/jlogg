@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import javafx.stage.Stage;
 import jlogg.datahandlers.PluginFileIterator;
 import jlogg.plugin.JLogg.FileWriterCallback;
 import jlogg.plugin.PluginAction;
@@ -20,9 +21,11 @@ public class JLoggHeadless extends JLogg {
 	private static final Logger logger = Logger.getLogger(JLoggHeadless.class.getName());
 
 	private final File outputFolder;
+	private final Stage primaryStage;
 
-	public JLoggHeadless(File outputFolder) {
+	public JLoggHeadless(File outputFolder, Stage primaryStage) {
 		this.outputFolder = outputFolder;
+		this.primaryStage = primaryStage;
 	}
 
 	@Override
