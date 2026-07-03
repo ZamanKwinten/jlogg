@@ -38,7 +38,13 @@ public class ResizableView extends VBox {
 	}
 
 	private void setVisibility(Node n, boolean isVisible) {
-		n.setManaged(isVisible);
-		n.setVisible(isVisible);
+		// make sure to only update if not bound together, it's not uncommon for
+		// components to bind managed & visible properties
+		if (!n.managedProperty().isBound()) {
+			n.setManaged(isVisible);
+		}
+		if (!n.visibleProperty().isBound()) {
+			n.setVisible(isVisible);
+		}
 	}
 }

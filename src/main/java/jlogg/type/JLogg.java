@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javafx.stage.FileChooser;
 import jlogg.datahandlers.PluginFileIterator;
@@ -32,15 +31,22 @@ public class JLogg {
 		iterator.doIt();
 	}
 
+	public void doItOnSelectedFiles(PluginAction action, List<File> files) {
+		if (iterator != null) {
+			iterator.stop();
+		}
+
+		iterator = new PluginFileIterator(files, action);
+		iterator.doIt();
+	}
+
 	public void doItOnAllFiles(PluginAction action) {
 
-		MainPane mainPane = MainStage.getInstance().getMainPane();
-		List<FileTab> fileTabs = mainPane.getFileTabs();
-		if (fileTabs.size() == 1) {
+		var files = getCurrentOpenFiles();
+		if (files.size() == 1) {
 			doItOnCurrentFile(action);
-		} else if (fileTabs.size() > 1) {
-			SearchPopup popup = new SearchPopup(
-					fileTabs.stream().map(fileTab -> fileTab.getFile()).collect(Collectors.toList()));
+		} else if (files.size() > 1) {
+			SearchPopup popup = new SearchPopup(files);
 			Optional<List<File>> result = popup.open();
 
 			if (result.isPresent()) {
@@ -52,6 +58,11 @@ public class JLogg {
 				iterator.doIt();
 			}
 		}
+	}
+
+	public List<File> getCurrentOpenFiles() {
+		MainPane mainPane = MainStage.getInstance().getMainPane();
+		return mainPane.getFileTabs().stream().map(FileTab::getFile).toList();
 	}
 
 	public Optional<File> saveToFile(String fileName, FileWriterCallback callback) {

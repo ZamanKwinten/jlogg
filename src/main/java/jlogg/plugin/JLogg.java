@@ -41,8 +41,16 @@ public class JLogg {
 		JLOGG.doItOnCurrentFile(action);
 	}
 
+	public static void doItOnSelectedFiles(PluginAction action, List<File> files) {
+		JLOGG.doItOnSelectedFiles(action, files);
+	}
+
 	public static void doItOnAllFiles(PluginAction action) {
 		JLOGG.doItOnAllFiles(action);
+	}
+
+	public static List<File> getCurrentOpenFiles() {
+		return JLOGG.getCurrentOpenFiles();
 	}
 
 	public static String readLine(LogLine line) {
