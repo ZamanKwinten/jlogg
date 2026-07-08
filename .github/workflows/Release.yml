@@ -98,7 +98,7 @@ jobs:
           path: target/JLogg*.dmg
           
   macos_x64_build:
-    runs-on: macos-13
+    runs-on: macos-15-intel
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4.1.0
