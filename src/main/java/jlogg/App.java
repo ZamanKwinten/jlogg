@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.awt.desktop.OpenFilesHandler;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import jlogg.build.BuildDetailsUtil;
 import jlogg.datahandlers.ThreadGroups;
@@ -37,6 +38,10 @@ public class App extends Application {
 		}
 		mainStage.show();
 		mainStage.getMainPane().openTabs(FileOpenHandler.initialFiles);
+
+		mainStage.setOnCloseRequest(event -> {
+			Platform.exit();
+		});
 	}
 
 	@Override
